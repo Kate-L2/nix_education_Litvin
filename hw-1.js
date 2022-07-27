@@ -1,4 +1,5 @@
 // Task 1
+console.log("Task 1")
 for (i = 1; i < 10; i++) {
   if (i % 3 === 0) {
     console.log("FizBuz");
@@ -15,6 +16,7 @@ for (i = 1; i < 10; i++) {
 }
 
 // Task 2
+console.log("Task 2")
 function factorial(n) {
   let answer = 1;
   if (n == 0 || n == 1) {
@@ -29,6 +31,7 @@ function factorial(n) {
 console.log(factorial(10));
 
 // Task 3
+console.log("Task 3")
 const sheetsInReamPaper = 500;
 const consumptionPerWeek = 1200;
 const weeksAmount = 8;
@@ -38,19 +41,22 @@ let result = consumptionPerWeeks / sheetsInReamPaper;
 console.log(result);
 
 // Task 4
-// const roomsOnFloor = 3;
-// const floors = 9;
-// const roomNumber = 456;
+console.log("Task 4")
+const roomsOnFloor = 3;
+const floors = 9;
+const roomNumber = 456;
+let roomsInPorch, porch, floor;
 
-// const porch = 0;
-// const floor = 0;
-
-// function find() {
-//     roomsInPorch = roomsOnFloor * floors;
-//     porch = (roomNumber - 1) / (roomsInPorch + 1);
-// }
+function find() {
+    roomsInPorch = roomsOnFloor * floors;
+    porch = (roomNumber - 1) / (roomsInPorch + 1);
+    floor = (roomNumber - 1) % (roomsInPorch) / roomsOnFloor + 1;
+    console.log(`Porch: ${porch}\nFloor: ${floor}`)
+}
+find();
 
 // Task 5
+console.log("Task 5")
 let n = 8;
 let string = "";
 for (let i = 1; i <= n; i++) {
