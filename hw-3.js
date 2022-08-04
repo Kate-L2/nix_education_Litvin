@@ -34,16 +34,49 @@ function Task2() {
 Task2();
 console.log("--------------------------------------");
 
+// Task 3
 function Task3() {
-  let obj;
   let createEmployesFromArr = (array) => {
-    array.map((item) => {
-      obj.push(new Employee(item));
-    });
-
-    return employeeObjArr;
+    return array.map((item) => new Employee(item));
   };
   const emplyeeConstructArr = createEmployesFromArr(emplyeeArr);
   console.log(emplyeeConstructArr);
 }
 Task3();
+
+// Task 4
+function Task4() {
+  let fullNameArr = [];
+    
+  const getFullNamesFromArr = () => {
+      Employee.prototype.getFullName = function() {
+          return this.surname + ' ' + this.name;
+      }
+      
+      emplyeeArr.map((item) => {
+          let obj = new Employee(item);
+          fullNameArr.push(obj.getFullName());
+      });
+
+      return fullNameArr;
+  }
+      
+  console.log(getFullNamesFromArr(emplyeeArr));
+}
+Task4();
+
+// Task 5
+function Task5() {
+    let sum = 0;
+    let MiddleSalary;
+
+    emplyeeArr.map((item) => {
+        sum += new Employee(item).salary;
+    });
+
+    MiddleSalary = Math.round(sum / emplyeeArr.length)
+    console.log(MiddleSalary);
+}
+Task5();
+
+
