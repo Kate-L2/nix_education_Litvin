@@ -121,15 +121,6 @@ condidate.state();
 condidate1.state();
 
 // Task 6
-// function getCompanyNames(arr, field) {
-//   let newArr = [];
-//   for (let i = 0; i < arr.length; i++) {
-//     newArr.push(arr[i][field]);
-//   }
-//   return console.log(newArr);
-// }
-// getCompanyNames(condidateArr, "company");
-
 function getCompanyNames(arr) {
   let newArr = arr.map((el) => el.company);
   let uniqueArr = newArr.filter((element, index) => {
@@ -141,9 +132,44 @@ function getCompanyNames(arr) {
 getCompanyNames(condidateArr);
 
 // Task 7
-function getUsersByYear(arr) {
-  let newArr = arr.map((el) => el.registered);
-  let strDate = newArr.map((el) => new Date(el));
+function getUsersByYear(year) {
+  let candidates = [];
+  let newArr = condidateArr.map((el) => el.registered);
+  let fullYear = newArr.map((el) => new Date(el).getFullYear());
+  for (let i = 0; i < condidateArr.length; i++) {
+    if (fullYear[i] === year) {
+      candidates.push(condidateArr[i]._id);
+    }
+  }
+  return console.log(candidates);
 }
 
-getUsersByYear(condidateArr);
+getUsersByYear(2015);
+
+// Task 8
+function getCondidatesByUnreadMsg(unread) {
+  let newArr = [];
+  let result = [];
+  newArr = condidateArr.map((el) => el.greeting);
+  for (let i = 0; i < condidateArr.length; i++) {
+    if (parseInt(newArr[i].match(/\d+/)) === unread) {
+      result.push(condidateArr[i]);
+    }
+  }
+  return console.log(result);
+}
+
+getCondidatesByUnreadMsg(8);
+
+// Task 9
+function getCondidatesByGender(gender) {
+  let result = [];
+  for (let i = 0; i < condidateArr.length; i++) {
+    if (condidateArr[i].gender === gender) {
+      result.push(condidateArr[i]);
+    }
+  }
+  return console.log(result);
+}
+
+getCondidatesByGender("female");
