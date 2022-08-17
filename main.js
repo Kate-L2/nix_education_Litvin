@@ -19,14 +19,6 @@ searchCandidatesByPhoneNumber("43");
 /// [Candidate, Candidate, Candidate ...]
 
 // Task 2
-// const getCandidateById = id => {
-//   for(let i = 0; i < condidateArr.length; i++) {
-//     if(condidateArr[i]._id === id) {
-//       condidateArr[i].registered = new Date()
-//     }
-//   }
-
-// }
 const getCandidateById = (id) => {
   let foundUser = condidateArr.find((el) => el._id === id);
   foundUser.registered = new Date(foundUser.registered);
@@ -39,7 +31,6 @@ const getCandidateById = (id) => {
 };
 
 getCandidateById("5e216bc9f51c08c39c3ed006");
-// {
 
 // Task 3
 const sortCandidatesArr = (sortBy) => {
@@ -52,22 +43,19 @@ const sortCandidatesArr = (sortBy) => {
   });
   if (sortBy === "asc") {
     onlyNum.sort(function (a, b) {
-      return Number(a) - Number(b);
+      return parseInt(a) - parseInt(b);
     });
   } else if (sortBy === "desc") {
     onlyNum.sort(function (a, b) {
-      return Number(b) - Number(a);
+      return parseInt(b) - parseInt(a);
     });
   } else {
     return onlyNum;
   }
-
   console.log(onlyNum);
 };
-
-console.log(sortCandidatesArr("asc"));
-console.log(sortCandidatesArr("desc"));
-console.log(sortCandidatesArr());
+sortCandidatesArr("asc");
+sortCandidatesArr("desc");
 
 // const sortCandidatesArr = (sortBy) => {
 //   const copy = [...condidateArr];
