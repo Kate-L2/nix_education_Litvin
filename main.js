@@ -56,7 +56,9 @@ const sortCandidatesArr = (sortBy) => {
 };
 sortCandidatesArr("asc");
 sortCandidatesArr("desc");
+sortCandidatesArr();
 
+// SECOND VARIAN
 // const sortCandidatesArr = (sortBy) => {
 //   const copy = [...condidateArr];
 //   for (let obj of copy) {
@@ -64,11 +66,11 @@ sortCandidatesArr("desc");
 //   }
 //   if (sortBy === "asc") {
 //     copy.sort((a, b) => {
-//       return Number(a.balance) - Number(b.balance);
+//       return parseInt(a.balance) - parseInt(b.balance);
 //     });
 //   } else if (sortBy === "desc") {
 //     copy.sort((a, b) => {
-//       return Number(b.balance) - Number(a.balance);
+//       return parseInt(b.balance) - parseInt(a.balance);
 //     });
 //   } else {
 //     return copy;
