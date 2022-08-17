@@ -18,6 +18,29 @@ console.log(searchCandidatesByPhoneNumber("+1 (869) 40"));
 searchCandidatesByPhoneNumber("43");
 /// [Candidate, Candidate, Candidate ...]
 
+// Task 2
+// const getCandidateById = id => {
+//   for(let i = 0; i < condidateArr.length; i++) {
+//     if(condidateArr[i]._id === id) {
+//       condidateArr[i].registered = new Date()
+//     }
+//   }
+
+// }
+const getCandidateById = (id) => {
+  let foundUser = condidateArr.find((el) => el._id === id);
+  foundUser.registered = new Date(foundUser.registered);
+  foundUser.registered = [
+    foundUser.registered.getDate(),
+    foundUser.registered.getMonth() + 1,
+    foundUser.registered.getFullYear(),
+  ].join("/");
+  console.log(foundUser);
+};
+
+getCandidateById("5e216bc9f51c08c39c3ed006");
+// {
+
 // Task 3
 const sortCandidatesArr = (sortBy) => {
   let balanceArr = [];
