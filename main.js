@@ -35,19 +35,20 @@ getCandidateById("5e216bc9f51c08c39c3ed006");
 // Task 3
 const sortCandidatesArr = (sortBy) => {
   let balanceArr = [];
-  condidateArr.forEach((el) => {
+  let arr = [...condidateArr];
+  arr.forEach((el) => {
     balanceArr.push(el.balance);
   });
   const onlyNum = balanceArr.map((el) => {
-    return el.substring(1);
+    return el.substring(1).replace(",", "");
   });
   if (sortBy === "asc") {
     onlyNum.sort(function (a, b) {
-      return parseInt(a) - parseInt(b);
+      return parseFloat(a) - parseFloat(b);
     });
   } else if (sortBy === "desc") {
     onlyNum.sort(function (a, b) {
-      return parseInt(b) - parseInt(a);
+      return parseFloat(b) - parseFloat(a);
     });
   } else {
     return onlyNum;
@@ -56,6 +57,7 @@ const sortCandidatesArr = (sortBy) => {
 };
 sortCandidatesArr("asc");
 sortCandidatesArr("desc");
+sortCandidatesArr();
 sortCandidatesArr();
 
 // SECOND VARIAN
