@@ -32,30 +32,58 @@
             </div>
           </div>
         </section>
-        <div class="search-bar">
-          <div class="search-bar__container">
-            <form class="search-bar__form" tabindex="0">
-              <div class="search-bar__left">
-                <a class="search-bar__search-icon" href="#"
-                  ><i class="icon-search"></i
+        <section class="cards">
+          <div class="cards__container">
+            <div class="search-bar">
+              <form class="search-bar__form" tabindex="0">
+                <div class="search-bar__left">
+                  <a class="search-bar__search-icon" href="#"
+                    ><i class="icon-search"></i
+                  ></a>
+                  <input
+                    class="search-bar__input"
+                    type="text"
+                    placeholder="Enter device name..."
+                  />
+                </div>
+                <div class="search-bar__right">
+                  <a class="search-bar__filter-icon" href="#"
+                    ><i class="icon-filter"></i
+                  ></a>
+                  <a class="search-bar__settings-icon" href="#"
+                    ><i class="icon-settings"></i
+                  ></a>
+                </div>
+              </form>
+            </div>
+            <div class="cards__item item">
+              <div class="item__header">
+                <a class="item__icon-like_empty" href="#"
+                  ><i class="icon-like_empty"></i
                 ></a>
-                <input
-                  class="search-bar__input"
-                  type="text"
-                  placeholder="Enter device name..."
-                />
+                <a class="item__img" href="#"
+                  ><img width="200px" height="200px" src="" alt=""
+                /></a>
+                <a class="item__name" href="#">Apple TV Gen. 4</a>
+                <div class="item__left-in-stock">
+                  <i></i><span> left in stock</span>
+                </div>
+                <div class="item__price"><span>Price:</span></div>
+                <a class="item__btn btn" href="#">Add to cart</a>
               </div>
-              <div class="search-bar__right">
-                <a class="search-bar__filter-icon" href="#"
-                  ><i class="icon-filter"></i
-                ></a>
-                <a class="search-bar__settings-icon" href="#"
-                  ><i class="icon-settings"></i
-                ></a>
-              </div>
-            </form>
+              <footer class="item__footer footer-item">
+                <div class="footer-item__percent">
+                  <p>77% Positive reviews</p>
+                  <p>Above avarage</p>
+                </div>
+                <div class="footer-item__orders">
+                  <p></p>
+                  <p>orders</p>
+                </div>
+              </footer>
+            </div>
           </div>
-        </div>
+        </section>
       </main>
     </div>
     <script src="script/items.js"></script>
