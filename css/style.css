@@ -256,11 +256,20 @@ form:focus-within {
 }
 
 /*-----------CARD---------- */
-.cards__item {
+#cards__wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 -10px;
+}
+.card {
+  padding: 0 10px;
+  margin-bottom: 20px;
 }
 .item {
+  flex: 0 1 33.333%;
   display: inline-block;
-  margin-bottom: 100px;
   position: relative;
   border-radius: 10px;
   overflow: hidden;
@@ -277,22 +286,32 @@ form:focus-within {
   top: 15px;
   right: 15px;
 }
-.icon-like_empty {
-}
 .item__img {
+  width: 200px;
   margin-bottom: 25px;
 }
+.item__img img {
+  object-fit: contain;
+}
 .item__name {
+  max-width: 200px;
   margin-bottom: 10px;
-  font-weight: 700;
   font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
   color: var(--black);
 }
 .item__left-in-stock {
   margin-bottom: 10px;
 }
+.item__left-in-stock span {
+  font-weight: 700;
+}
 .item__price {
   margin-bottom: 10px;
+}
+.item__price span {
+  font-weight: 700;
 }
 .item__footer {
   padding: 20px 20px 30px 20px;
@@ -320,6 +339,9 @@ form:focus-within {
 .footer-item__percent > *:not(:last-child) {
   margin-bottom: 6px;
 }
+.footer-item__percent span {
+  font-weight: 700;
+}
 .footer-item__orders {
 }
 .footer-item__orders > *:not(:last-child) {
@@ -327,4 +349,7 @@ form:focus-within {
 }
 .footer-item__orders:last-child {
   align-self: end;
+}
+.footer-item__orders > *:not(:last-child) {
+  font-weight: 700;
 }
