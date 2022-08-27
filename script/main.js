@@ -28,9 +28,7 @@ items.forEach((el) => {
                           ><i class="icon-like_empty"></i
                         ></a>
                         <a class="item__img" href="#"
-                          ><img height="200px" src="${
-                            el.imgUrl
-                          }" alt=""
+                          ><img height="200px" src="${el.imgUrl}" alt=""
                         /></a>
                         <a id="item-name" class="item__name" href="#">${
                           el.name
@@ -47,7 +45,9 @@ items.forEach((el) => {
                       </div>
                       <footer class="item__footer footer-item">
                         <div class="footer-item__percent">
-                          <p><span>${el.orderInfo.reviews}%</span> Positive reviews</p>
+                          <p><span>${
+                            el.orderInfo.reviews
+                          }%</span> Positive reviews</p>
                           <p>Above avarage</p>
                         </div>
                         <div class="footer-item__orders">
@@ -59,4 +59,31 @@ items.forEach((el) => {
                 </div>
     `;
   cardsContainer.innerHTML += content;
+});
+
+// Acordion
+const item = document.getElementsByClassName("item-filter__header");
+
+for (let i = 0; i < item.length; i++) {
+  item[i].addEventListener("click", function () {
+    this.classList.toggle("active");
+    let panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+
+// Display filter
+let displayFliter = document.getElementById("filter-icon");
+let filter = document.getElementById("filter");
+
+displayFliter.addEventListener("click", (event) => {
+  event.preventDefault();
+  filter.classList.toggle("active");
+  cardsContainer.classList.toggle("active");
+  // filter.style.display =
+  //   getComputedStyle(filter).display == "block" ? "none" : "block";
 });

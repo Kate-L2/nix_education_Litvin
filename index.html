@@ -33,33 +33,83 @@
           </div>
         </section>
         <div class="search-bar">
-            <div class="search-bar__container">
-                <form class="search-bar__form" tabindex="0">
-                  <div class="search-bar__left">
-                    <a class="search-bar__search-icon" href="#"
-                      ><i class="icon-search"></i
-                    ></a>
-                    <input
-                      class="search-bar__input"
-                      type="text"
-                      placeholder="Enter device name..."
-                    />
-                  </div>
-                  <div class="search-bar__right">
-                    <a class="search-bar__filter-icon" href="#"
-                      ><i class="icon-filter"></i
-                    ></a>
-                    <a class="search-bar__settings-icon" href="#"
-                      ><i class="icon-settings"></i
-                    ></a>
-                  </div>
-                </form>
-            </div>
+          <div class="search-bar__container">
+            <form class="search-bar__form" tabindex="0">
+              <a class="search-bar__search-icon" href="#"
+                ><i class="icon-search"></i
+              ></a>
+              <input
+                class="search-bar__input"
+                type="text"
+                placeholder="Enter device name..."
+              />
+              <div class="search-bar__right">
+                <a id="filter-icon" class="search-bar__filter-icon" href="#"
+                  ><i class="icon-filter"></i
+                ></a>
+                <a class="search-bar__settings-icon" href="#"
+                  ><i class="icon-settings"></i
+                ></a>
+              </div>
+            </form>
           </div>
-        <section id = "cards" class="cards">
+        </div>
+        <section id="cards" class="cards">
           <div class="cards__container">
+            <div id="filter" class="cards__filter filter">
+              <div class="filter__wrapper">
+                <div class="filter__item item-filter">
+                  <div class="item-filter__header">
+                    <h5 class="item-filter__name">Price</h5>
+                  </div>
+                  <div class="item-filter__body">
+                    <div class="item-filter__input-block">
+                      <label class="item-filter__field-name" for="price-field"
+                        >From</label
+                      >
+                      <input
+                        id="price-field"
+                        class="item-filter__price"
+                        type="text"
+                        placeholder="100"
+                      />
+                    </div>
+                    <div class="item-filter__input-block">
+                      <label class="item-filter__field-name" for="price-field"
+                        >To</label
+                      >
+                      <input
+                        id="price-field"
+                        class="item-filter__price"
+                        type="text"
+                        placeholder="1000"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="filter__item item-filter">
+                  <div class="item-filter__header">
+                    <h5 class="item-filter__name">Color</h5>
+                  </div>
+                  <div class="item-filter__body">
+                    <div class="item-filter__checkbox-line">
+                      <div class="item-filter__checkbox-item">
+                        <input
+                          id="check"
+                          class="item-filter__check"
+                          type="checkbox"
+                        />
+                        <label class="item-filter__check-name" for="check"
+                          >Red</label
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div id="cards__wrapper">
-                <!-- <div id="itemId" class="cards__card card">
+              <!-- <div id="itemId" class="cards__card card">
                     <div class="card__item item">
                       <div class="item__header">
                         <a class="item__icon-like_empty" href="#"
