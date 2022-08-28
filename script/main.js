@@ -79,11 +79,10 @@ for (let i = 0; i < item.length; i++) {
 // Display filter
 let displayFliter = document.getElementById("filter-icon");
 let filter = document.getElementById("filter");
+let filterCards = document.getElementById("filterCards");
 
 displayFliter.addEventListener("click", (event) => {
   event.preventDefault();
   filter.classList.toggle("active");
-  cardsContainer.classList.toggle("active");
-  // filter.style.display =
-  //   getComputedStyle(filter).display == "block" ? "none" : "block";
+  filterCards.classList.toggle("active");
 });

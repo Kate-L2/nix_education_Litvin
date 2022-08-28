@@ -259,16 +259,9 @@ form:focus-within {
   }
 }
 /* -----CARDS-CONTAINER----- */
-.cards__container {
+#filterCards {
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-@media (min-width: 480px) {
-  .cards__container {
-    flex-direction: row;
-    align-items: flex-start;
-  }
 }
 /* ---------FILTER---------- */
 .filter {
@@ -280,26 +273,6 @@ form:focus-within {
   flex: 0 1 100%;
   width: 100%;
 }
-@media(min-width:480px) {
-  #cards__wrapper{
-    flex: 0 1 60%;
-    width: 60%;
-  }
-  #cards__wrapper.active {
-    flex: 0 1 60%;
-    width: 60%;
-  }
-  .filter {
-    flex: 0 1 40%;
-    width: 40%;
-  }
-  .filter.active {
-    margin: 0 20px 30px 0;
-    flex: 0 1 40%;
-    width: 40%;
-  }
-}
-
 .filter__wrapper {
   border: 1px solid var(--light-grey);
   border-radius: 5px;
@@ -415,15 +388,15 @@ form:focus-within {
 #cards__wrapper {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
-  justify-content: flex-end;
   margin: 0 -10px;
 }
 .card {
   padding: 0 10px;
   margin-bottom: 20px;
-  flex: 0 1 100%;
-  width: 100%;
+  /* flex: 0 1 33.333%; */
 }
 .item {
   display: inline-block;
@@ -432,42 +405,11 @@ form:focus-within {
   overflow: hidden;
   box-shadow: 2px 2px 20px var(--light-grey);
 }
-
 .item__header {
   padding: 14px 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-@media (min-width: 480px) {
-  #cards__wrapper.active .item__header {
-    padding: 10px;
-  }
-}
-@media (min-width: 768px) {
-  #cards__wrapper{
-    flex-direction: row;
-    justify-content: space-between;
-    flex: 0 1 70%;
-    width: 70%;
-  }
-  #cards__wrapper.active {
-    flex: 0 1 70%;
-    width: 70%;
-  }
-  .card {
-    flex: 0 1 33.333%;
-    width: 33.333%;
-  }
-  .filter {
-    flex: 0 1 30%;
-    width: 30%;
-  }
-  .filter.active {
-    margin: 0 20px 30px 0;
-    flex: 0 1 30%;
-    width: 30%;
-  }
 }
 .item__icon-like_empty {
   position: absolute;
@@ -540,4 +482,31 @@ form:focus-within {
 }
 .footer-item__orders > *:not(:last-child) {
   font-weight: 700;
+}
+
+@media (min-width: 480px) {
+  #filterCards {
+    flex-direction: row;
+  }
+  #filterCards.active #cards__wrapper {
+    flex: 0 1 50%;
+    justify-content: center;
+  }
+  #cards__wrapper {
+    flex-direction: row;
+    justify-content: center;
+  }
+  .filter.active {
+    margin: 0 5% 30px 0;
+    flex: 0 1 50%;
+  }
+}
+@media (min-width: 980px) {
+  #filterCards.active #cards__wrapper {
+    justify-content: flex-end;
+    flex: 0 1 70%;
+  }
+  .filter.active {
+    flex: 0 1 30%;
+  }
 }
