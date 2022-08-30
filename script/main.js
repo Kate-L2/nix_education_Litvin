@@ -86,3 +86,54 @@ displayFliter.addEventListener("click", (event) => {
   filter.classList.toggle("active");
   filterCards.classList.toggle("active");
 });
+
+// Filling filter dynamicely
+// Color
+const copyItems = items;
+const colorItems = {};
+copyItems.map((el) => {
+  for (let i = 0; i < el.color.length; i++) {
+    if (!colorItems[el.color[i]]) {
+      colorItems[el.color[i]] = [el];
+    } else {
+      colorItems[el.color[i]].push(el);
+    }
+  }
+});
+console.log(colorItems);
+
+let colorFilter = document.getElementById("filter-color");
+let colorItem = document.getElementById("filter-color-item");
+for (key in colorItems) {
+  let colorLines = document.createElement("div");
+  colorLines.innerHTML = colorItem.innerHTML;
+  colorLines.className = "item-filter__checkbox-item";
+  let colorName = colorLines.getElementsByClassName("item-filter__check-name");
+  colorName[0].textContent = key;
+  colorFilter.appendChild(colorLines);
+}
+colorItem.classList.add("hidden");
+
+// Memory
+const memoryItems = {};
+const noMemory = [];
+copyItems.forEach((el) => {
+  if (!memoryItems[el.storage]) {
+    memoryItems[el.storage] = [el];
+  } else {
+    memoryItems[el.storage].push(el);
+  }
+});
+
+let memoryFilter = document.getElementById("filter-memory");
+let memoryItem = document.getElementById("filter-memory-item");
+for (key in memoryItems) {
+  let memoryLines = document.createElement("div");
+  memoryLines.innerHTML = memoryItem.innerHTML;
+  memoryLines.className = "item-filter__checkbox-item";
+  let memoryName = memoryLines.getElementsByClassName("memory");
+  memoryName[0].textContent = key;
+  memoryFilter.appendChild(memoryLines);
+}
+console.log(memoryItems);
+memoryItem.classList.add("hidden");
