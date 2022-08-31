@@ -68,7 +68,7 @@
                         >From</label
                       >
                       <input
-                        id="price-field"
+                        id="price-field-start"
                         class="item-filter__price"
                         type="text"
                         placeholder="100"
@@ -79,7 +79,7 @@
                         >To</label
                       >
                       <input
-                        id="price-field"
+                        id="price-field-end"
                         class="item-filter__price"
                         type="text"
                         placeholder="1000"
@@ -132,15 +132,15 @@
                     <h5 class="item-filter__name">OS</h5>
                   </div>
                   <div class="item-filter__body">
-                    <div id="filter-color" class="item-filter__checkbox-flex">
-                      <div id="filter-color-item" class="item-filter__checkbox-item">
+                    <div id="filter-os" class="item-filter__checkbox-flex">
+                      <div id="filter-os-item" class="item-filter__checkbox-item">
                         <input
                           id="check"
                           class="item-filter__check"
                           type="checkbox"
                         />
                         <label
-                          class="item-filter__check-name"
+                          class="item-filter__check-name os"
                           for="check"
                         ></label>
                       </div>
@@ -152,15 +152,15 @@
                     <h5 class="item-filter__name">Display</h5>
                   </div>
                   <div class="item-filter__body">
-                    <div id="filter-color" class="item-filter__checkbox-flex">
-                      <div id="filter-color-item" class="item-filter__checkbox-item">
+                    <div id="filter-display" class="item-filter__checkbox-flex">
+                      <div id="filter-display-item" class="item-filter__checkbox-item">
                         <input
                           id="check"
                           class="item-filter__check"
                           type="checkbox"
                         />
                         <label
-                          class="item-filter__check-name"
+                          class="item-filter__check-name display"
                           for="check"
                         ></label>
                       </div>
@@ -198,6 +198,13 @@
                       </footer>
                     </div>
                 </div> -->
+                <div id="modal" class="cards__modal modal">
+                  <div class="modal__wrapper">
+                    <div class="modal__img">
+                      <img src="./img/items/airpods-max.jpg" alt="Item">
+                    </div>
+                  </div>
+                </div>
             </div>
           </div>
         </section>

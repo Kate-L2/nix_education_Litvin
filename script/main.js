@@ -86,6 +86,12 @@ displayFliter.addEventListener("click", (event) => {
   filter.classList.toggle("active");
   filterCards.classList.toggle("active");
 });
+// Price
+// const startPrice = document.getElementById("price-field-start");
+// const endPrice = document.getElementById("price-field-end");
+// startPrice.addEventListener("blur", (event) => );
+// if (startPrice < endPrice) {
+// }
 
 // Filling filter dynamicely
 // Color
@@ -116,10 +122,17 @@ colorItem.classList.add("hidden");
 
 // Memory
 const memoryItems = {};
-const noMemory = [];
 copyItems.forEach((el) => {
   if (!memoryItems[el.storage]) {
-    memoryItems[el.storage] = [el];
+    if (
+      el.storage === null ||
+      Math.round(el.storage) !== el.storage ||
+      typeof el.storage === "undefined"
+    ) {
+      delete el.storage;
+    } else {
+      memoryItems[el.storage] = [el];
+    }
   } else {
     memoryItems[el.storage].push(el);
   }
@@ -137,3 +150,53 @@ for (key in memoryItems) {
 }
 console.log(memoryItems);
 memoryItem.classList.add("hidden");
+
+// OS
+const osItems = {};
+copyItems.forEach((el) => {
+  if (!osItems[el.os]) {
+    if (el.os === null) {
+      delete el.os;
+    } else {
+      osItems[el.os] = [el];
+    }
+  } else {
+    osItems[el.os].push(el);
+  }
+});
+
+let osFilter = document.getElementById("filter-os");
+let osItem = document.getElementById("filter-os-item");
+for (key in osItems) {
+  let osLines = document.createElement("div");
+  osLines.innerHTML = osItem.innerHTML;
+  osLines.className = "item-filter__checkbox-item";
+  let osName = osLines.getElementsByClassName("os");
+  osName[0].textContent = key;
+  osFilter.appendChild(osLines);
+}
+console.log(osItems);
+osItem.classList.add("hidden");
+
+// Display
+const sortArr = (a, b) => {
+  const a1 = a.toString().match("/[0-9]+/");
+  const b1 = b.toString().match("/[0-9]+/");
+  return a1 - b1;
+};
+const displayArray = ["2 - 5", "5 - 7", "7 - 12", "12 - 16", "16+"].sort(
+  sortArr
+);
+console.log(displayArray);
+let displayFilter = document.getElementById("filter-display");
+let displayItem = document.getElementById("filter-display-item");
+
+displayArray.forEach((el) => {
+  let displayLines = document.createElement("div");
+  displayLines.innerHTML = displayItem.innerHTML;
+  displayLines.className = "item-filter__checkbox-item";
+  let displayName = displayLines.getElementsByClassName("display");
+  displayName[0].textContent = el + " inch";
+  displayFilter.appendChild(displayLines);
+});
+displayItem.classList.add("hidden");
