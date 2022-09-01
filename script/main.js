@@ -1,65 +1,34 @@
+const copyItems = items;
 let cardsContainer = document.getElementById("cards__wrapper");
-// let card = document.getElementById("itemId");
-// items.map((el) => {
-//   let newElement = document.createElement("div");
-//   newElement.innerHTML = card.innerHTML;
-//   newElement.className = "card";
-//   let itemName = document.getElementById("item-name");
-//   //   itemName.innerHTML = el.name;
-//   itemName.className = "item__name";
-//   itemName = document.createTextNode(el.name);
-//   console.log(itemName);
-//   cardsContainer.appendChild(itemName);
-//   cardsContainer.appendChild(newElement);
-// });
+let card = document.getElementById("itemId");
+copyItems.map((el) => {
+  let newElement = document.createElement("div");
+  newElement.innerHTML = card.innerHTML;
+  newElement.className = "card";
+  let itemName = newElement.getElementsByClassName("item__name");
+  // itemName.className = "item__name";
+  itemName[0].textContent = el.name;
+  let itemImg = newElement.getElementsByClassName("item-img");
+  itemImg[0].src = `img/${el.imgUrl}`;
 
-items.forEach((el) => {
-  el.imgUrl = "img/".concat(el.imgUrl);
+  let itemAmount = newElement.getElementsByClassName("item__amount-in-stock");
+  itemAmount[0].textContent = el.orderInfo.inStock;
+
+  let itemPrice = newElement.getElementsByClassName("item-price");
+  itemPrice[0].textContent = el.price;
+
+  let itemReview = newElement.getElementsByClassName("footer-item__review");
+  itemReview[0].textContent = el.orderInfo.reviews;
+
+  let itemOrders = newElement.getElementsByClassName("footer-item__orders-num");
+  itemOrders[0].textContent = getRndInteger(300, 1000);
+  cardsContainer.appendChild(newElement);
 });
+card.classList.add("hidden");
+
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-items.forEach((el) => {
-  const content = `
-    <div id="itemId" class="cards__card card">
-                    <div class="card__item item">
-                      <div class="item__header">
-                        <a class="item__icon-like_empty" href="#"
-                          ><i class="icon-like_empty"></i
-                        ></a>
-                        <a class="item__img" href="#"
-                          ><img height="200px" src="${el.imgUrl}" alt=""
-                        /></a>
-                        <a id="item-name" class="item__name" href="#">${
-                          el.name
-                        }</a>
-                        <div class="item__left-in-stock">
-                          <i></i><span>${
-                            el.orderInfo.inStock
-                          }</span> left in stock
-                        </div>
-                        <div class="item__price">Price: <span>${
-                          el.price
-                        } $</span></div>
-                        <a class="item__btn btn" href="#">Add to cart</a>
-                      </div>
-                      <footer class="item__footer footer-item">
-                        <div class="footer-item__percent">
-                          <p><span>${
-                            el.orderInfo.reviews
-                          }%</span> Positive reviews</p>
-                          <p>Above avarage</p>
-                        </div>
-                        <div class="footer-item__orders">
-                          <p>${getRndInteger(300, 1000)}</p>
-                          <p>orders</p>
-                        </div>
-                      </footer>
-                    </div>
-                </div>
-    `;
-  cardsContainer.innerHTML += content;
-});
 
 // Acordion
 const item = document.getElementsByClassName("item-filter__header");
@@ -95,7 +64,6 @@ displayFliter.addEventListener("click", (event) => {
 
 // Filling filter dynamicely
 // Color
-const copyItems = items;
 const colorItems = {};
 copyItems.map((el) => {
   for (let i = 0; i < el.color.length; i++) {
@@ -200,3 +168,68 @@ displayArray.forEach((el) => {
   displayFilter.appendChild(displayLines);
 });
 displayItem.classList.add("hidden");
+
+// NO BODY SCROLL
+const body = document.querySelector("body");
+const modal = document.getElementById("modal");
+const cardItem = document.querySelectorAll(".card");
+console.log(cardItem);
+
+cardItem.forEach((el) => {
+  el.addEventListener("click", () => {
+    modal.classList.add("show-modal");
+    body.classList.add("bg-lock");
+
+    const getName = document.getElementById("getName");
+    const getColor = document.getElementById("getColor");
+    const getOs = document.getElementById("getOs");
+    const getChip = document.getElementById("getChip");
+    const getHeight = document.getElementById("js--popup-height");
+    const getWidth = document.getElementById("getWidth");
+    const getDepth = document.getElementById("getDepth");
+    const getWeight = document.getElementById("js--popup-weight");
+    const getPrice = document.getElementById("getPrice");
+    const getStock = document.getElementById("getStock");
+    const getBtn = document.getElementById("getBtn");
+
+    copyItems.find((elem) => {
+      if (+elem.id === +cardItem.id) {
+        getName.textContent = elem.name;
+        getColor.textContent = elem.color;
+        getOs.textContent = elem.os;
+        getChip.textContent = elem.chip.name;
+        getHeight.textContent = elem.size.height;
+        getWidth.textContent = elem.size.width;
+        getDepth.textContent = elem.size.depth;
+        getWeight.textContent = elem.size.weight;
+        getPrice.textContent = elem.price;
+        getStock.textContent = elem.orderInfo.inStock;
+
+        if (elem.orderInfo.inStock == 0) {
+          getBtn.setAttribute("disabled", "disabled");
+        } else {
+          getBtn.removeAttribute("disabled");
+        }
+      }
+    });
+  });
+});
+modal.addEventListener("click", (event) => {
+  if (event.target.className === modal.className) {
+    event.stopPropagation();
+    modal.classList.remove("show-modal");
+    body.classList.remove("bg-lock");
+  }
+});
+// function toggleModal() {
+//   modal.classList.toggle("show-modal");
+// }
+
+// function windowOnClick(event) {
+//   if (event.target === modal) {
+//     toggleModal();
+//   }
+// }
+
+// cardItem.addEventListener("click", toggleModal);
+// window.addEventListener("click", windowOnClick);

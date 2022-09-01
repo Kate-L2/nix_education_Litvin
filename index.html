@@ -93,7 +93,10 @@
                   </div>
                   <div class="item-filter__body">
                     <div id="filter-color" class="item-filter__checkbox-flex">
-                      <div id="filter-color-item" class="item-filter__checkbox-item">
+                      <div
+                        id="filter-color-item"
+                        class="item-filter__checkbox-item"
+                      >
                         <input
                           id="check"
                           class="item-filter__check"
@@ -113,7 +116,10 @@
                   </div>
                   <div class="item-filter__body">
                     <div id="filter-memory" class="item-filter__checkbox-flex">
-                      <div id="filter-memory-item" class="item-filter__checkbox-item">
+                      <div
+                        id="filter-memory-item"
+                        class="item-filter__checkbox-item"
+                      >
                         <input
                           id="check"
                           class="item-filter__check"
@@ -133,7 +139,10 @@
                   </div>
                   <div class="item-filter__body">
                     <div id="filter-os" class="item-filter__checkbox-flex">
-                      <div id="filter-os-item" class="item-filter__checkbox-item">
+                      <div
+                        id="filter-os-item"
+                        class="item-filter__checkbox-item"
+                      >
                         <input
                           id="check"
                           class="item-filter__check"
@@ -153,7 +162,10 @@
                   </div>
                   <div class="item-filter__body">
                     <div id="filter-display" class="item-filter__checkbox-flex">
-                      <div id="filter-display-item" class="item-filter__checkbox-item">
+                      <div
+                        id="filter-display-item"
+                        class="item-filter__checkbox-item"
+                      >
                         <input
                           id="check"
                           class="item-filter__check"
@@ -170,41 +182,95 @@
               </div>
             </div>
             <div id="cards__wrapper">
-              <!-- <div id="itemId" class="cards__card card">
-                    <div class="card__item item">
-                      <div class="item__header">
-                        <a class="item__icon-like_empty" href="#"
-                          ><i class="icon-like_empty"></i
-                        ></a>
-                        <a class="item__img" href="#"
-                          ><img width="200px" height="200px" src="" alt=""
-                        /></a>
-                        <a id="item-name" class="item__name" href="#"></a>
-                        <div class="item__left-in-stock">
-                          <i></i><span></span> left in stock
-                        </div>
-                        <div class="item__price">Price: <span></span></div>
-                        <a class="item__btn btn" href="#">Add to cart</a>
-                      </div>
-                      <footer class="item__footer footer-item">
-                        <div class="footer-item__percent">
-                          <p>77% Positive reviews</p>
-                          <p>Above avarage</p>
-                        </div>
-                        <div class="footer-item__orders">
-                          <p></p>
-                          <p>orders</p>
-                        </div>
-                      </footer>
+              <div id="itemId" class="cards__card card">
+                <div class="card__item item">
+                  <div class="item__header">
+                    <a class="item__icon-like_empty" href="#"
+                      ><i class="icon-like_empty"></i
+                    ></a>
+                    <a class="item__img" href="#"
+                      ><img
+                        class="item-img"
+                        width="200px"
+                        height="200px"
+                        src=""
+                        alt="Item"
+                    /></a>
+                    <a id="item-name" class="item__name" href="#"></a>
+                    <div class="item__left-in-stock">
+                      <span class="item__amount-in-stock"></span> left in stock
                     </div>
-                </div> -->
-                <div id="modal" class="cards__modal modal">
-                  <div class="modal__wrapper">
-                    <div class="modal__img">
-                      <img src="./img/items/airpods-max.jpg" alt="Item">
+                    <div class="item__price">
+                      Price: <span class="item-price"></span>
                     </div>
+                    <a class="item__btn btn" href="#">Add to cart</a>
+                  </div>
+                  <footer class="item__footer footer-item">
+                    <div class="footer-item__percent">
+                      <p>
+                        <span class="footer-item__review"></span> Positive
+                        reviews
+                      </p>
+                      <p>Above avarage</p>
+                    </div>
+                    <div class="footer-item__orders">
+                      <p class="footer-item__orders-num"></p>
+                      <p>orders</p>
+                    </div>
+                  </footer>
+                </div>
+              </div>
+              <div id="modal" class="cards__modal modal">
+                <div class="modal__wrapper">
+                  <div class="modal__img">
+                    <img
+                      width="200px"
+                      height="200px"
+                      src="./img/items/airpods-max.jpg"
+                      alt="Item"
+                    />
+                  </div>
+                  <div class="modal__details">
+                    <ul class="modal__list">
+                      <li class="modal__item">
+                        <h2 id="getName" class="modal__title"></h2>
+                      </li>
+                      <li class="modal__item">
+                        <footer class="modal__footer footer-item">
+                          <div class="footer-item__percent">
+                            <p>77% Positive reviews</p>
+                            <p>Above avarage</p>
+                          </div>
+                          <div class="footer-item__orders">
+                            <p></p>
+                            <p>orders</p>
+                          </div>
+                        </footer>
+                      </li>
+                      <li class="modal__item">
+                        <ul class="modal__list-details details">
+                          <li id="getColor" class="details__item"></li>
+                          <li id="getOs" class="details__item"></li>
+                          <li id="getChip" class="details__item"></li>
+                          <li id="getHeight" class="details__item"></li>
+                          <li id="getWidth" class="details__item"></li>
+                          <li id="getDepth" class="details__item"></li>
+                          <li id="getWeight" class="details__item"></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="modal__right right-side">
+                    <ul class="right-side__list">
+                      <li id="getPrice" class="right-side__price">$ 999,45</li>
+                      <li id="getStock" class="right-side__stock">Stock: 45 pcs.</li>
+                      <li id="getBtn" class="right-side__btn">
+                        <a class="btn" href="#">Add to cart</a>
+                      </li>
+                    </ul>
                   </div>
                 </div>
+              </div>
             </div>
           </div>
         </section>
