@@ -175,35 +175,37 @@ const modal = document.getElementById("modal");
 const cardItem = document.querySelectorAll(".card");
 console.log(cardItem);
 
-cardItem.forEach((el) => {
-  el.addEventListener("click", () => {
+// Modal window
+cardItem.forEach((item) => {
+  item.addEventListener("click", () => {
     modal.classList.add("show-modal");
     body.classList.add("bg-lock");
-
+    const getImg = document.getElementById("getImg");
     const getName = document.getElementById("getName");
     const getColor = document.getElementById("getColor");
     const getOs = document.getElementById("getOs");
     const getChip = document.getElementById("getChip");
-    const getHeight = document.getElementById("js--popup-height");
+    const getHeight = document.getElementById("getHeight");
     const getWidth = document.getElementById("getWidth");
     const getDepth = document.getElementById("getDepth");
-    const getWeight = document.getElementById("js--popup-weight");
+    const getWeight = document.getElementById("getWeight");
     const getPrice = document.getElementById("getPrice");
     const getStock = document.getElementById("getStock");
     const getBtn = document.getElementById("getBtn");
 
-    copyItems.find((elem) => {
-      if (+elem.id === +cardItem.id) {
-        getName.textContent = elem.name;
-        getColor.textContent = elem.color;
-        getOs.textContent = elem.os;
-        getChip.textContent = elem.chip.name;
-        getHeight.textContent = elem.size.height;
-        getWidth.textContent = elem.size.width;
-        getDepth.textContent = elem.size.depth;
-        getWeight.textContent = elem.size.weight;
-        getPrice.textContent = elem.price;
-        getStock.textContent = elem.orderInfo.inStock;
+    copyItems.find((el) => {
+      if (parseInt(el.id) === parseInt(item.id)) {
+        getImg.src = `img/${el.imgUrl}`;
+        getName.textContent = el.name;
+        getColor.textContent = el.color;
+        getOs.textContent = el.os;
+        getChip.textContent = el.chip.name;
+        getHeight.textContent = el.size.height;
+        getWidth.textContent = el.size.width;
+        getDepth.textContent = el.size.depth;
+        getWeight.textContent = el.size.weight;
+        getPrice.textContent = el.price;
+        getStock.textContent = el.orderInfo.inStock;
 
         if (elem.orderInfo.inStock == 0) {
           getBtn.setAttribute("disabled", "disabled");
