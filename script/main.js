@@ -168,10 +168,11 @@ displayArray.forEach((el) => {
 displayItem.classList.add("hidden");
 // Filter functionality
 // Price
+
 const cardItems = document.querySelectorAll(".card"); //Cards
 const fromPrice = document.getElementById("price-field-start");
 const toPrice = document.getElementById("price-field-end");
-
+const priceInputBlock = document.getElementById("item-filter__body");
 const setUpPrice = (itemsArray) => {
   let minPrice = itemsArray.map((product) => product.price);
   minPrice = Math.min(...minPrice);
@@ -179,21 +180,25 @@ const setUpPrice = (itemsArray) => {
   let maxPrice = itemsArray.map((product) => product.price);
   maxPrice = Math.max(...maxPrice);
   toPrice.value = maxPrice;
-  fromPrice.addEventListener("input", () => {
-    const value = parseInt(fromPrice.value);
-    console.log(typeof value);
-  });
-  toPrice.addEventListener("input", () => {
-    const value = parseInt(toPrice.value);
-    console.log(typeof value);
-  });
-  let sortItems = itemsArray.filter(
-    (product) => minPrice <= product <= maxPrice
-  );
-  display(sortItems, cardsContainer);
+  fromPrice.addEventListener("blur", priceSortArray);
+  toPrice.addEventListener("blur", priceSortArray);
+  function priceSortArray() {
+    if (parseInt(fromPrice.value) > parseInt(toPrice.value)) {
+      let temp;
+      temp = toPrice.value;
+      toPrice.value = fromPrice.value;
+      fromPrice.value = temp;
+    }
+    let sortItems = itemsArray.filter((product) => {
+      parseInt(fromPrice.value) <= parseInt(product.price) &&
+        parseInt(product.price) <= parseInt(toPrice.value);
+    });
+    console.log(sortItems);
+  }
+  // display(sortItems, cardsContainer);
 };
 function display(items, container) {
-  // const sortedItems = items.map(person =>)
+  const sortedItems = items.map((person) => {});
 }
 setUpPrice(copyItems);
 // console.log(fromPrice.value);
