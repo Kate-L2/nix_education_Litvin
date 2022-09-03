@@ -1,12 +1,11 @@
 const copyItems = items;
-let cardsContainer = document.getElementById("cards__wrapper");
-let card = document.getElementById("itemId");
-copyItems.map((el) => {
+const cardsContainer = document.getElementById("cards__wrapper");
+const card = document.getElementById("itemId");
+let newCardElements = copyItems.map((el) => {
   let newElement = document.createElement("div");
   newElement.innerHTML = card.innerHTML;
   newElement.className = "card";
   let itemName = newElement.getElementsByClassName("item__name");
-  // itemName.className = "item__name";
   itemName[0].textContent = el.name;
   let itemImg = newElement.getElementsByClassName("item-img");
   itemImg[0].src = `img/${el.imgUrl}`;
@@ -25,7 +24,7 @@ copyItems.map((el) => {
   cardsContainer.appendChild(newElement);
 });
 card.classList.add("hidden");
-
+console.log(newCardElements);
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -61,7 +60,6 @@ displayFliter.addEventListener("click", (event) => {
 // startPrice.addEventListener("blur", (event) => );
 // if (startPrice < endPrice) {
 // }
-
 // Filling filter dynamicely
 // Color
 const colorItems = {};
@@ -168,15 +166,45 @@ displayArray.forEach((el) => {
   displayFilter.appendChild(displayLines);
 });
 displayItem.classList.add("hidden");
+// Filter functionality
+// Price
+const cardItems = document.querySelectorAll(".card"); //Cards
+const fromPrice = document.getElementById("price-field-start");
+const toPrice = document.getElementById("price-field-end");
+
+const setUpPrice = (itemsArray) => {
+  let minPrice = itemsArray.map((product) => product.price);
+  minPrice = Math.min(...minPrice);
+  fromPrice.value = minPrice;
+  let maxPrice = itemsArray.map((product) => product.price);
+  maxPrice = Math.max(...maxPrice);
+  toPrice.value = maxPrice;
+  fromPrice.addEventListener("input", () => {
+    const value = parseInt(fromPrice.value);
+    console.log(typeof value);
+  });
+  toPrice.addEventListener("input", () => {
+    const value = parseInt(toPrice.value);
+    console.log(typeof value);
+  });
+  let sortItems = itemsArray.filter(
+    (product) => minPrice <= product <= maxPrice
+  );
+  display(sortItems, cardsContainer);
+};
+function display(items, container) {
+  // const sortedItems = items.map(person =>)
+}
+setUpPrice(copyItems);
+// console.log(fromPrice.value);
 
 // NO BODY SCROLL
 const body = document.querySelector("body");
 const modal = document.getElementById("modal");
-const cardItem = document.querySelectorAll(".card");
-console.log(cardItem);
+console.log(cardItems);
 
 // Modal window
-cardItem.forEach((item) => {
+cardItems.forEach((item) => {
   item.addEventListener("click", () => {
     modal.classList.add("show-modal");
     body.classList.add("bg-lock");
@@ -206,7 +234,7 @@ cardItem.forEach((item) => {
         getWeight.textContent = el.size.weight;
         getPrice.textContent = el.price;
         getStock.textContent = el.orderInfo.inStock;
-
+        console.log(getName);
         if (elem.orderInfo.inStock == 0) {
           getBtn.setAttribute("disabled", "disabled");
         } else {
@@ -235,3 +263,50 @@ modal.addEventListener("click", (event) => {
 
 // cardItem.addEventListener("click", toggleModal);
 // window.addEventListener("click", windowOnClick);
+
+// not exactly vanilla as there is one lodash function
+
+// var allCheckboxes = document.querySelectorAll("input[type=checkbox]");
+// var allCards = Array.from(document.querySelectorAll(".card"));//Создаем массив из обектно подобного или итерируемого обьекта
+// var checked = {};
+
+// getChecked("color");
+// getChecked("memory");
+// getChecked("os");
+
+// Array.prototype.forEach.call(allCheckboxes, function (el) {
+//   el.addEventListener("change", toggleCheckbox);
+// });
+
+// function toggleCheckbox(e) {
+//   getChecked(e.target.name);
+//   setVisibility();
+// }
+
+// function getChecked(name) {
+//   checked[name] = Array.from(
+//     document.querySelectorAll("input[name=" + name + "]:checked")
+//   ).map(function (el) {
+//     return el.value;
+//   });
+// }
+
+// function setVisibility() {
+//   allCards.map(function (el) {
+//     let color = checked.color.length
+//       ? _.intersection(Array.from(el.classList), checked.color)
+//           .length
+//       : true;
+//     let memory = checked.memory.length
+//       ? _.intersection(Array.from(el.classList), checked.memory).length
+//       : true;
+//     let os = checked.os.length
+//       ? _.intersection(Array.from(el.classList), checked.os).length
+//       : true;
+//     if (startingReserves && injured && position && nbaTeam && conference) {
+//       el.style.display = "block";
+//     } else {
+//       el.style.display = "none";
+//     }
+//   });
+// }

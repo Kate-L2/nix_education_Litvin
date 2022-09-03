@@ -70,7 +70,8 @@
                       <input
                         id="price-field-start"
                         class="item-filter__price"
-                        type="text"
+                        type="number"
+                        max="100"
                         placeholder="100"
                       />
                     </div>
@@ -81,7 +82,8 @@
                       <input
                         id="price-field-end"
                         class="item-filter__price"
-                        type="text"
+                        type="number"
+                        max="3000"
                         placeholder="1000"
                       />
                     </div>
@@ -101,8 +103,10 @@
                           id="check"
                           class="item-filter__check"
                           type="checkbox"
+                          name="color" value="reserves"
                         />
                         <label
+                          id="check-label"
                           class="item-filter__check-name"
                           for="check"
                         ></label>
