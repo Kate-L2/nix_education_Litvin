@@ -1,33 +1,38 @@
 const copyItems = items;
 const cardsContainer = document.getElementById("cards__wrapper");
 const card = document.getElementById("itemId");
-copyItems.map((el) => {
-  let newElement = document.createElement("div");
-  newElement.innerHTML = card.innerHTML;
-  newElement.className = "card";
-  let itemName = newElement.getElementsByClassName("item__name");
-  itemName[0].textContent = el.name;
-  let itemImg = newElement.getElementsByClassName("item-img");
-  itemImg[0].src = `img/${el.imgUrl}`;
+function createCards(items) {
+  items.map((el) => {
+    let newElement = document.createElement("div");
+    newElement.innerHTML = card.innerHTML;
+    newElement.className = "card";
+    let itemName = newElement.getElementsByClassName("item__name");
+    itemName[0].textContent = el.name;
+    let itemImg = newElement.getElementsByClassName("item-img");
+    itemImg[0].src = `img/${el.imgUrl}`;
 
-  let itemAmount = newElement.getElementsByClassName("item__amount-in-stock");
-  itemAmount[0].textContent = el.orderInfo.inStock;
+    let itemAmount = newElement.getElementsByClassName("item__amount-in-stock");
+    itemAmount[0].textContent = el.orderInfo.inStock;
 
-  let itemPrice = newElement.getElementsByClassName("item-price");
-  itemPrice[0].textContent = el.price;
+    let itemPrice = newElement.getElementsByClassName("item-price");
+    itemPrice[0].textContent = el.price;
 
-  let itemReview = newElement.getElementsByClassName("footer-item__review");
-  itemReview[0].textContent = el.orderInfo.reviews;
+    let itemReview = newElement.getElementsByClassName("footer-item__review");
+    itemReview[0].textContent = el.orderInfo.reviews;
 
-  let itemOrders = newElement.getElementsByClassName("footer-item__orders-num");
-  itemOrders[0].textContent = getRndInteger(300, 1000);
+    let itemOrders = newElement.getElementsByClassName(
+      "footer-item__orders-num"
+    );
+    itemOrders[0].textContent = getRndInteger(300, 1000);
 
-  newElement.addEventListener("click", (event) => {
-    showModal(el);
+    newElement.addEventListener("click", (event) => {
+      showModal(el);
+    });
+    cardsContainer.appendChild(newElement);
   });
-  cardsContainer.appendChild(newElement);
-});
-card.classList.add("hidden");
+  card.classList.add("hidden");
+}
+createCards(copyItems);
 
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -59,12 +64,7 @@ displayFliter.addEventListener("click", (event) => {
   filterCards.classList.toggle("active");
 });
 // Price
-// const startPrice = document.getElementById("price-field-start");
-// const endPrice = document.getElementById("price-field-end");
-// startPrice.addEventListener("blur", (event) => );
-// if (startPrice < endPrice) {
-// }
-// Filling filter dynamicely
+// Filling filter
 // Color
 const colorItems = {};
 copyItems.map((el) => {
@@ -170,46 +170,62 @@ displayArray.forEach((el) => {
   displayFilter.appendChild(displayLines);
 });
 displayItem.classList.add("hidden");
+
 // Filter functionality
 // Price
-const cardItems = document.querySelectorAll(".card"); //Cards
-const fromPrice = +document.getElementById("price-field-start").value;
-const toPrice = +document.getElementById("price-field-end").value;
-console.log(typeof fromPrice);
-const priceInputBlock = document.getElementById("item-filter__body");
-// const setUpPrice = (itemsArray) => {
-//   let minPrice = itemsArray.map((product) => product.price);
-//   minPrice = Math.min(...minPrice);
-//   fromPrice = minPrice;
-//   let maxPrice = itemsArray.map((product) => product.price);
-//   maxPrice = Math.max(...maxPrice);
-//   toPrice = maxPrice;
-//   fromPrice.addEventListener("blur", priceSortArray);
-//   toPrice.addEventListener("blur", priceSortArray);
-//   function priceSortArray() {
-//     if (parseInt(fromPrice.value) > parseInt(toPrice.value)) {
-//       let temp;
-//       temp = toPrice.value;
-//       toPrice.value = fromPrice.value;
-//       fromPrice.value = temp;
-//     }
-//     let sortItems = itemsArray.filter((product) => {
-//       fromPrice.value <= product.price && product.price <= toPrice.value;
-//     });
-//     console.log(sortItems);
-//   }
-//   // display(sortItems, cardsContainer);
-// };
-// function display(items, container) {
-//   const sortedItems = items.map((person) => {});
-// }
-// setUpPrice(copyItems);
 
-// NO BODY SCROLL
+const sortedByPrice = copyItems.sort(function (a, b) {
+  return a.price - b.price;
+});
+
+const cardItems = document.querySelectorAll(".card"); //Cards
+const fromPrice = document.getElementById("price-field-start");
+const toPrice = document.getElementById("price-field-end");
+const priceInputBlock = document.getElementById("item-filter__body");
+const allPrice = sortedByPrice.map((el) => el.price);
+let minPrice = Math.min(...allPrice);
+let maxPrice = Math.max(...allPrice);
+fromPrice.value = minPrice;
+toPrice.value = maxPrice;
+
+fromPrice.addEventListener("keyup", (event) => {
+  if (event.code === "Enter") {
+    if (toPrice.value.length > 1000) {
+      alert("Length of max price has to be less than 1000");
+    } else {
+      setUpPrice(sortedByPrice);
+    }
+  }
+});
+toPrice.addEventListener("keyup", (event) => {
+  if (event.code === "Enter") {
+    if (toPrice.value.length > 1000) {
+      alert("Length of max price has to be less than 1000");
+    } else {
+      setUpPrice(sortedByPrice);
+    }
+  }
+});
+
+const setUpPrice = (itemsArray) => {
+  let filteredPrice = [];
+  if (+fromPrice.value > +toPrice.value) {
+    let temp;
+    temp = toPrice.value;
+    toPrice.value = fromPrice.value;
+    fromPrice.value = temp;
+  }
+  itemsArray.filter((product) => {
+    if (+fromPrice.value <= product.price && product.price <= +toPrice.value) {
+      filteredPrice.push(product);
+      createCards(filteredPrice);
+    }
+  });
+  console.log(filteredPrice);
+};
+// Modal window
 const body = document.querySelector("body");
 const modal = document.getElementById("modal");
-
-// Modal window
 
 function showModal(element) {
   modal.classList.add("show-modal");
