@@ -2,6 +2,7 @@ const copyItems = items;
 const cardsContainer = document.getElementById("cards__wrapper");
 const card = document.getElementById("itemId");
 function createCards(items) {
+  cardsContainer.innerHTML = "";
   items.map((el) => {
     let newElement = document.createElement("div");
     newElement.innerHTML = card.innerHTML;
@@ -63,7 +64,6 @@ displayFliter.addEventListener("click", (event) => {
   filter.classList.toggle("active");
   filterCards.classList.toggle("active");
 });
-// Price
 // Filling filter
 // Color
 const colorItems = {};
@@ -188,26 +188,19 @@ let maxPrice = Math.max(...allPrice);
 fromPrice.value = minPrice;
 toPrice.value = maxPrice;
 
-fromPrice.addEventListener("keyup", (event) => {
-  if (event.code === "Enter") {
-    if (toPrice.value.length > 1000) {
-      alert("Length of max price has to be less than 1000");
-    } else {
-      setUpPrice(sortedByPrice);
-    }
-  }
-});
-toPrice.addEventListener("keyup", (event) => {
-  if (event.code === "Enter") {
-    if (toPrice.value.length > 1000) {
-      alert("Length of max price has to be less than 1000");
-    } else {
-      setUpPrice(sortedByPrice);
-    }
-  }
-});
+fromPrice.addEventListener("keyup", priceEvent);
+toPrice.addEventListener("keyup", priceEvent);
+fromPrice.addEventListener("blur", priceEvent);
+toPrice.addEventListener("blur", priceEvent);
 
-const setUpPrice = (itemsArray) => {
+function priceEvent(event) {
+  if (event.code === "Enter") {
+    filterPrice(sortedByPrice);
+  } else if (event) {
+    filterPrice(sortedByPrice);
+  }
+}
+const filterPrice = (itemsArray) => {
   let filteredPrice = [];
   if (+fromPrice.value > +toPrice.value) {
     let temp;
@@ -223,6 +216,27 @@ const setUpPrice = (itemsArray) => {
   });
   console.log(filteredPrice);
 };
+// Color
+let checkboxColor = colorFilter.querySelectorAll("input");
+
+for (let input of checkboxColor) {
+  input.addEventListener("click", (event) => {
+    filterColor(input);
+  });
+}
+
+function filterColor(el) {
+  let filteredColor = [];
+  if (el.checked) {
+    copyItems.filter((product) => {
+      if (product.color.indexOf(el.id) > -1) {
+        filteredColor.push(product);
+        createCards(filteredColor);
+      }
+      console.log(filteredColor);
+    });
+  }
+}
 // Modal window
 const body = document.querySelector("body");
 const modal = document.getElementById("modal");
