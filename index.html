@@ -213,7 +213,7 @@
                   <footer class="item__footer footer-item">
                     <div class="footer-item__percent">
                       <p>
-                        <span class="footer-item__review"></span> Positive
+                        <span class="footer-item__review"> </span>% Positive
                         reviews
                       </p>
                       <p>Above avarage</p>
@@ -244,33 +244,55 @@
                       <li class="modal__item">
                         <footer class="modal__footer footer-item">
                           <div class="footer-item__percent">
-                            <p>77% Positive reviews</p>
+                            <p>
+                              <span
+                                id="getReview"
+                                class="footer-item__review"
+                              ></span
+                              >% Positive reviews
+                            </p>
                             <p>Above avarage</p>
                           </div>
                           <div class="footer-item__orders">
-                            <p></p>
+                            <p id="getOrders"></p>
                             <p>orders</p>
                           </div>
                         </footer>
                       </li>
                       <li class="modal__item">
                         <ul class="modal__list-details details">
-                          <li id="getColor" class="details__item"></li>
-                          <li id="getOs" class="details__item"></li>
-                          <li id="getChip" class="details__item"></li>
-                          <li id="getHeight" class="details__item"></li>
-                          <li id="getWidth" class="details__item"></li>
-                          <li id="getDepth" class="details__item"></li>
-                          <li id="getWeight" class="details__item"></li>
+                          <li class="details__item">
+                            Color: <span id="getColor"></span>
+                          </li>
+                          <li class="details__item">
+                            Operating system: <span id="getOs"></span>
+                          </li>
+                          <li class="details__item">
+                            Chip: <span id="getChip"></span>
+                          </li>
+                          <li class="details__item">
+                            Height: <span id="getHeight"></span>
+                          </li>
+                          <li class="details__item">
+                            Width: <span id="getWidth"></span>
+                          </li>
+                          <li class="details__item">
+                            Depth: <span id="getDepth"></span>
+                          </li>
+                          <li class="details__item">
+                            Weight: <span id="getWeight"></span>
+                          </li>
                         </ul>
                       </li>
                     </ul>
                   </div>
                   <div class="modal__right right-side">
                     <ul class="right-side__list">
-                      <li id="getPrice" class="right-side__price">$ 999,45</li>
-                      <li id="getStock" class="right-side__stock">
-                        Stock: 45 pcs.
+                      <li class="right-side__price">
+                        $<span id="getPrice"></span>
+                      </li>
+                      <li class="right-side__stock">
+                        Stock: <span id="getStock"></span> pcs.
                       </li>
                       <li id="getBtn" class="right-side__btn">
                         <a class="btn" href="#">Add to cart</a>

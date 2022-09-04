@@ -1,7 +1,7 @@
 const copyItems = items;
 const cardsContainer = document.getElementById("cards__wrapper");
 const card = document.getElementById("itemId");
-let newCardElements = copyItems.map((el) => {
+copyItems.map((el) => {
   let newElement = document.createElement("div");
   newElement.innerHTML = card.innerHTML;
   newElement.className = "card";
@@ -21,10 +21,14 @@ let newCardElements = copyItems.map((el) => {
 
   let itemOrders = newElement.getElementsByClassName("footer-item__orders-num");
   itemOrders[0].textContent = getRndInteger(300, 1000);
+
+  newElement.addEventListener("click", (event) => {
+    showModal(el);
+  });
   cardsContainer.appendChild(newElement);
 });
 card.classList.add("hidden");
-console.log(newCardElements);
+
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -168,87 +172,83 @@ displayArray.forEach((el) => {
 displayItem.classList.add("hidden");
 // Filter functionality
 // Price
-
 const cardItems = document.querySelectorAll(".card"); //Cards
-const fromPrice = document.getElementById("price-field-start");
-const toPrice = document.getElementById("price-field-end");
+const fromPrice = +document.getElementById("price-field-start").value;
+const toPrice = +document.getElementById("price-field-end").value;
+console.log(typeof fromPrice);
 const priceInputBlock = document.getElementById("item-filter__body");
-const setUpPrice = (itemsArray) => {
-  let minPrice = itemsArray.map((product) => product.price);
-  minPrice = Math.min(...minPrice);
-  fromPrice.value = minPrice;
-  let maxPrice = itemsArray.map((product) => product.price);
-  maxPrice = Math.max(...maxPrice);
-  toPrice.value = maxPrice;
-  fromPrice.addEventListener("blur", priceSortArray);
-  toPrice.addEventListener("blur", priceSortArray);
-  function priceSortArray() {
-    if (parseInt(fromPrice.value) > parseInt(toPrice.value)) {
-      let temp;
-      temp = toPrice.value;
-      toPrice.value = fromPrice.value;
-      fromPrice.value = temp;
-    }
-    let sortItems = itemsArray.filter((product) => {
-      parseInt(fromPrice.value) <= parseInt(product.price) &&
-        parseInt(product.price) <= parseInt(toPrice.value);
-    });
-    console.log(sortItems);
-  }
-  // display(sortItems, cardsContainer);
-};
-function display(items, container) {
-  const sortedItems = items.map((person) => {});
-}
-setUpPrice(copyItems);
-// console.log(fromPrice.value);
+// const setUpPrice = (itemsArray) => {
+//   let minPrice = itemsArray.map((product) => product.price);
+//   minPrice = Math.min(...minPrice);
+//   fromPrice = minPrice;
+//   let maxPrice = itemsArray.map((product) => product.price);
+//   maxPrice = Math.max(...maxPrice);
+//   toPrice = maxPrice;
+//   fromPrice.addEventListener("blur", priceSortArray);
+//   toPrice.addEventListener("blur", priceSortArray);
+//   function priceSortArray() {
+//     if (parseInt(fromPrice.value) > parseInt(toPrice.value)) {
+//       let temp;
+//       temp = toPrice.value;
+//       toPrice.value = fromPrice.value;
+//       fromPrice.value = temp;
+//     }
+//     let sortItems = itemsArray.filter((product) => {
+//       fromPrice.value <= product.price && product.price <= toPrice.value;
+//     });
+//     console.log(sortItems);
+//   }
+//   // display(sortItems, cardsContainer);
+// };
+// function display(items, container) {
+//   const sortedItems = items.map((person) => {});
+// }
+// setUpPrice(copyItems);
 
 // NO BODY SCROLL
 const body = document.querySelector("body");
 const modal = document.getElementById("modal");
-console.log(cardItems);
 
 // Modal window
-cardItems.forEach((item) => {
-  item.addEventListener("click", () => {
-    modal.classList.add("show-modal");
-    body.classList.add("bg-lock");
-    const getImg = document.getElementById("getImg");
-    const getName = document.getElementById("getName");
-    const getColor = document.getElementById("getColor");
-    const getOs = document.getElementById("getOs");
-    const getChip = document.getElementById("getChip");
-    const getHeight = document.getElementById("getHeight");
-    const getWidth = document.getElementById("getWidth");
-    const getDepth = document.getElementById("getDepth");
-    const getWeight = document.getElementById("getWeight");
-    const getPrice = document.getElementById("getPrice");
-    const getStock = document.getElementById("getStock");
-    const getBtn = document.getElementById("getBtn");
 
-    copyItems.find((el) => {
-      if (parseInt(el.id) === parseInt(item.id)) {
-        getImg.src = `img/${el.imgUrl}`;
-        getName.textContent = el.name;
-        getColor.textContent = el.color;
-        getOs.textContent = el.os;
-        getChip.textContent = el.chip.name;
-        getHeight.textContent = el.size.height;
-        getWidth.textContent = el.size.width;
-        getDepth.textContent = el.size.depth;
-        getWeight.textContent = el.size.weight;
-        getPrice.textContent = el.price;
-        getStock.textContent = el.orderInfo.inStock;
-        console.log(getName);
-        if (elem.orderInfo.inStock == 0) {
-          getBtn.setAttribute("disabled", "disabled");
-        } else {
-          getBtn.removeAttribute("disabled");
-        }
-      }
-    });
-  });
-});
+function showModal(element) {
+  modal.classList.add("show-modal");
+  body.classList.add("bg-lock");
+  const getImg = document.getElementById("getImg");
+  const getName = document.getElementById("getName");
+  const getReview = document.getElementById("getReview");
+  const getOrders = document.getElementById("getOrders");
+  const getColor = document.getElementById("getColor");
+  const getOs = document.getElementById("getOs");
+  const getChip = document.getElementById("getChip");
+  const getHeight = document.getElementById("getHeight");
+  const getWidth = document.getElementById("getWidth");
+  const getDepth = document.getElementById("getDepth");
+  const getWeight = document.getElementById("getWeight");
+  const getPrice = document.getElementById("getPrice");
+  const getStock = document.getElementById("getStock");
+  const getBtn = document.getElementById("getBtn");
+
+  getImg.src = `img/${element.imgUrl}`;
+  getName.textContent = element.name;
+  getReview.textContent = element.orderInfo.reviews;
+  getOrders.textContent = getRndInteger(300, 1000);
+  getColor.textContent = element.color;
+  getOs.textContent = element.os;
+  getChip.textContent = element.chip.name;
+  getHeight.textContent = element.size.height;
+  getWidth.textContent = element.size.width;
+  getDepth.textContent = element.size.depth;
+  getWeight.textContent = element.size.weight;
+  getPrice.textContent = element.price;
+  getStock.textContent = element.orderInfo.inStock;
+  if (element.orderInfo.inStock === 0) {
+    getBtn.setAttribute("disabled", "disabled");
+  } else {
+    getBtn.removeAttribute("disabled");
+  }
+}
+
 modal.addEventListener("click", (event) => {
   if (event.target.className === modal.className) {
     event.stopPropagation();
@@ -256,62 +256,3 @@ modal.addEventListener("click", (event) => {
     body.classList.remove("bg-lock");
   }
 });
-// function toggleModal() {
-//   modal.classList.toggle("show-modal");
-// }
-
-// function windowOnClick(event) {
-//   if (event.target === modal) {
-//     toggleModal();
-//   }
-// }
-
-// cardItem.addEventListener("click", toggleModal);
-// window.addEventListener("click", windowOnClick);
-
-// not exactly vanilla as there is one lodash function
-
-// var allCheckboxes = document.querySelectorAll("input[type=checkbox]");
-// var allCards = Array.from(document.querySelectorAll(".card"));//Создаем массив из обектно подобного или итерируемого обьекта
-// var checked = {};
-
-// getChecked("color");
-// getChecked("memory");
-// getChecked("os");
-
-// Array.prototype.forEach.call(allCheckboxes, function (el) {
-//   el.addEventListener("change", toggleCheckbox);
-// });
-
-// function toggleCheckbox(e) {
-//   getChecked(e.target.name);
-//   setVisibility();
-// }
-
-// function getChecked(name) {
-//   checked[name] = Array.from(
-//     document.querySelectorAll("input[name=" + name + "]:checked")
-//   ).map(function (el) {
-//     return el.value;
-//   });
-// }
-
-// function setVisibility() {
-//   allCards.map(function (el) {
-//     let color = checked.color.length
-//       ? _.intersection(Array.from(el.classList), checked.color)
-//           .length
-//       : true;
-//     let memory = checked.memory.length
-//       ? _.intersection(Array.from(el.classList), checked.memory).length
-//       : true;
-//     let os = checked.os.length
-//       ? _.intersection(Array.from(el.classList), checked.os).length
-//       : true;
-//     if (startingReserves && injured && position && nbaTeam && conference) {
-//       el.style.display = "block";
-//     } else {
-//       el.style.display = "none";
-//     }
-//   });
-// }
