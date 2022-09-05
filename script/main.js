@@ -70,9 +70,7 @@ const colorItems = {};
 copyItems.map((el) => {
   for (let i = 0; i < el.color.length; i++) {
     if (!colorItems[el.color[i]]) {
-      colorItems[el.color[i]] = [el];
-    } else {
-      colorItems[el.color[i]].push(el);
+      colorItems[el.color[i]] = [];
     }
   }
 });
@@ -84,6 +82,8 @@ for (key in colorItems) {
   let colorLines = document.createElement("div");
   colorLines.innerHTML = colorItem.innerHTML;
   colorLines.className = "item-filter__checkbox-item";
+  let colorCheckbox = colorLines.getElementsByClassName("color-checkbox");
+  colorCheckbox[0].setAttribute("id", key);
   let colorName = colorLines.getElementsByClassName("item-filter__check-name");
   colorName[0].textContent = key;
   colorFilter.appendChild(colorLines);
@@ -218,9 +218,11 @@ const filterPrice = (itemsArray) => {
 };
 // Color
 let checkboxColor = colorFilter.querySelectorAll("input");
-
+let checkboxColorLabel = colorFilter.querySelectorAll("label");
+console.log(checkboxColor);
+console.log(checkboxColorLabel);
 for (let input of checkboxColor) {
-  input.addEventListener("click", (event) => {
+  input.addEventListener("change", (event) => {
     filterColor(input);
   });
 }
@@ -229,11 +231,10 @@ function filterColor(el) {
   let filteredColor = [];
   if (el.checked) {
     copyItems.filter((product) => {
-      if (product.color.indexOf(el.id) > -1) {
+      if (product.color.includes(el.id)) {
         filteredColor.push(product);
         createCards(filteredColor);
       }
-      console.log(filteredColor);
     });
   }
 }
