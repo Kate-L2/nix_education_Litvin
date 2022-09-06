@@ -65,35 +65,59 @@ displayFliter.addEventListener("click", (event) => {
   filterCards.classList.toggle("active");
 });
 // Filling filter
+
+function filterFill(arrayOrObj, container, item, nameOfClass) {
+  if (
+    typeof arrayOrObj === "object" &&
+    !Array.isArray(arrayOrObj) &&
+    arrayOrObj !== null
+  ) {
+    for (key in arrayOrObj) {
+      let element = document.createElement("div");
+      element.innerHTML = item.innerHTML;
+      element.className = "item-filter__checkbox-item";
+      let checkbox = element.getElementsByClassName(nameOfClass)[0];
+      if (nameOfClass.length) {
+        checkbox.setAttribute("id", key);
+      }
+      let name = element.getElementsByClassName("item-filter__check-name");
+      // if (name.classList.contains("memory")) {
+      //   name[0].textContent = key + " gb";
+      // }
+      name[0].textContent = key;
+      container.appendChild(element);
+    }
+  } else if (Array.isArray(arrayOrObj) && arrayOrObj !== null) {
+    arrayOrObj.forEach((el) => {
+      let element = document.createElement("div");
+      element.innerHTML = item.innerHTML;
+      element.className = "item-filter__checkbox-item";
+      let name = element.getElementsByClassName("item-filter__check-name");
+      name[0].textContent = el + " inch";
+      container.appendChild(element);
+    });
+  }
+  item.classList.add("hidden");
+}
 // Color
-const colorItems = {};
+const colorObj = {};
 copyItems.map((el) => {
   for (let i = 0; i < el.color.length; i++) {
-    if (!colorItems[el.color[i]]) {
-      colorItems[el.color[i]] = [];
+    if (!colorObj[el.color[i]]) {
+      colorObj[el.color[i]] = [];
     }
   }
 });
-console.log(colorItems);
+console.log(colorObj);
 
 let colorFilter = document.getElementById("filter-color");
 let colorItem = document.getElementById("filter-color-item");
-for (key in colorItems) {
-  let colorLines = document.createElement("div");
-  colorLines.innerHTML = colorItem.innerHTML;
-  colorLines.className = "item-filter__checkbox-item";
-  let colorCheckbox = colorLines.getElementsByClassName("color-checkbox");
-  colorCheckbox[0].setAttribute("id", key);
-  let colorName = colorLines.getElementsByClassName("item-filter__check-name");
-  colorName[0].textContent = key;
-  colorFilter.appendChild(colorLines);
-}
-colorItem.classList.add("hidden");
 
+filterFill(colorObj, colorFilter, colorItem, "color-checkbox");
 // Memory
-const memoryItems = {};
+const memoryObj = {};
 copyItems.forEach((el) => {
-  if (!memoryItems[el.storage]) {
+  if (!memoryObj[el.storage]) {
     if (
       el.storage === null ||
       Math.round(el.storage) !== el.storage ||
@@ -101,79 +125,48 @@ copyItems.forEach((el) => {
     ) {
       delete el.storage;
     } else {
-      memoryItems[el.storage] = [el];
+      memoryObj[el.storage] = [];
     }
-  } else {
-    memoryItems[el.storage].push(el);
   }
 });
 
 let memoryFilter = document.getElementById("filter-memory");
 let memoryItem = document.getElementById("filter-memory-item");
-for (key in memoryItems) {
-  let memoryLines = document.createElement("div");
-  memoryLines.innerHTML = memoryItem.innerHTML;
-  memoryLines.className = "item-filter__checkbox-item";
-  let memoryName = memoryLines.getElementsByClassName("memory");
-  memoryName[0].textContent = key;
-  memoryFilter.appendChild(memoryLines);
-}
-console.log(memoryItems);
-memoryItem.classList.add("hidden");
+
+filterFill(memoryObj, memoryFilter, memoryItem, "");
 
 // OS
-const osItems = {};
+const osObj = {};
 copyItems.forEach((el) => {
-  if (!osItems[el.os]) {
+  if (!osObj[el.os]) {
     if (el.os === null) {
       delete el.os;
     } else {
-      osItems[el.os] = [el];
+      osObj[el.os] = [];
     }
-  } else {
-    osItems[el.os].push(el);
   }
 });
 
 let osFilter = document.getElementById("filter-os");
 let osItem = document.getElementById("filter-os-item");
-for (key in osItems) {
-  let osLines = document.createElement("div");
-  osLines.innerHTML = osItem.innerHTML;
-  osLines.className = "item-filter__checkbox-item";
-  let osName = osLines.getElementsByClassName("os");
-  osName[0].textContent = key;
-  osFilter.appendChild(osLines);
-}
-console.log(osItems);
-osItem.classList.add("hidden");
+
+filterFill(osObj, osFilter, osItem, "");
 
 // Display
-const sortArr = (a, b) => {
-  const a1 = a.toString().match("/[0-9]+/");
-  const b1 = b.toString().match("/[0-9]+/");
-  return a1 - b1;
-};
-const displayArray = ["2 - 5", "5 - 7", "7 - 12", "12 - 16", "16+"].sort(
-  sortArr
-);
-console.log(displayArray);
+// const sortArr = (a, b) => {
+//   const a1 = a.toString().match("/[0-9]+/");
+//   const b1 = b.toString().match("/[0-9]+/");
+//   return a1 - b1;
+// };
+const displayArray = ["2 - 5", "5 - 7", "7 - 12", "12 - 16", "16+"];
+
 let displayFilter = document.getElementById("filter-display");
 let displayItem = document.getElementById("filter-display-item");
 
-displayArray.forEach((el) => {
-  let displayLines = document.createElement("div");
-  displayLines.innerHTML = displayItem.innerHTML;
-  displayLines.className = "item-filter__checkbox-item";
-  let displayName = displayLines.getElementsByClassName("display");
-  displayName[0].textContent = el + " inch";
-  displayFilter.appendChild(displayLines);
-});
-displayItem.classList.add("hidden");
+filterFill(displayArray, displayFilter, displayItem, "");
 
 // Filter functionality
 // Price
-
 const sortedByPrice = copyItems.sort(function (a, b) {
   return a.price - b.price;
 });
@@ -216,28 +209,53 @@ const filterPrice = (itemsArray) => {
   });
   console.log(filteredPrice);
 };
-// Color
+// Color filter
 let checkboxColor = colorFilter.querySelectorAll("input");
 let checkboxColorLabel = colorFilter.querySelectorAll("label");
 console.log(checkboxColor);
 console.log(checkboxColorLabel);
-for (let input of checkboxColor) {
-  input.addEventListener("change", (event) => {
-    filterColor(input);
+
+let checkboxValues = [];
+
+checkboxProperty.forEach((box) => {
+  box.checked = false;
+  box.addEventListener("change", () => filterColorCards());
+});
+
+checkboxProperty.forEach((box) => {
+  box.checked = false;
+  box.addEventListener("change", () => filterColorCards());
+});
+
+checkboxProperty.forEach((box) => {
+  box.checked = false;
+  box.addEventListener("change", () => filterColorCards());
+});
+
+function grabCheckboxValues(checkboxes) {
+  let checkboxValues = [];
+  checkboxes.forEach((checkbox) => {
+    if (checkbox.checked) checkboxValues.push(checkbox.id);
   });
+  return checkboxValues;
 }
 
-function filterColor(el) {
-  let filteredColor = [];
-  if (el.checked) {
-    copyItems.filter((product) => {
-      if (product.color.includes(el.id)) {
-        filteredColor.push(product);
-        createCards(filteredColor);
-      }
-    });
-  }
+function filterColorCards(property) {
+  cardsContainer.innerHTML = "";
+  let sortedCards = [];
+  checkboxValues = grabCheckboxValues(checkboxColor);
+  copyItems.forEach((item) => {
+    let property = item.property;
+    let result = (arr, target) => target.every((v) => arr.includes(v));
+    let isMatch = result(property, checkboxValues);
+    if (isMatch) {
+      sortedCards.push(item);
+      createCards(sortedCards);
+    }
+  });
+  console.log(sortedCards);
 }
+
 // Modal window
 const body = document.querySelector("body");
 const modal = document.getElementById("modal");
