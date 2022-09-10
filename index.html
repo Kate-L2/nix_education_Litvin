@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nix js</title>
     <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/null.css">
+    <link rel="stylesheet" href="css/null.css" />
     <link
       href="https://fonts.googleapis.com/css?family=Roboto:regular, 700,900"
       rel="stylesheet"
@@ -18,33 +18,32 @@
         <div class="calendar__wrap">
           <div class="calendar__time">
             <ul class="calendar__time-list">
-              <li class="calendar__time-item"><span>12 AM</span></li>
-              <li class="calendar__time-item"><span>1 AM</span></li>
-              <li class="calendar__time-item"><span>2 AM</span></li>
-              <li class="calendar__time-item"><span>3 AM</span></li>
-              <li class="calendar__time-item"><span>4 AM</span></li>
-              <li class="calendar__time-item"><span>5 AM</span></li>
-              <li class="calendar__time-item"><span>6 AM</span></li>
-              <li class="calendar__time-item"><span>7 AM</span></li>
-              <li class="calendar__time-item"><span>8 AM</span></li>
-              <li class="calendar__time-item"><span>9 AM</span></li>
-              <li class="calendar__time-item"><span>10 AM</span></li>
-              <li class="calendar__time-item"><span>11 AM</span></li>
-              <li class="calendar__time-item"><span>12 AM</span></li>
-              <li class="calendar__time-item"><span>1 PM</span></li>
-              <li class="calendar__time-item"><span>2 PM</span></li>
-              <li class="calendar__time-item"><span>3 PM</span></li>
-              <li class="calendar__time-item"><span>4 PM</span></li>
-              <li class="calendar__time-item"><span>5 PM</span></li>
-              <li class="calendar__time-item"><span>6 PM</span></li>
-              <li class="calendar__time-item"><span>7 PM</span></li>
-              <li class="calendar__time-item"><span>8 PM</span></li>
-              <li class="calendar__time-item"><span>9 PM</span></li>
-              <li class="calendar__time-item"><span>10 PM</span></li>
-              <li class="calendar__time-item"><span>11 PM</span></li>
+              <li class="calendar__time-item"><span>0</span></li>
+              <li class="calendar__time-item"><span>1</span></li>
+              <li class="calendar__time-item"><span>2</span></li>
+              <li class="calendar__time-item"><span>3</span></li>
+              <li class="calendar__time-item"><span>4</span></li>
+              <li class="calendar__time-item"><span>5</span></li>
+              <li class="calendar__time-item"><span>6</span></li>
+              <li class="calendar__time-item"><span>7</span></li>
+              <li class="calendar__time-item"><span>8</span></li>
+              <li class="calendar__time-item"><span>9</span></li>
+              <li class="calendar__time-item"><span>10</span></li>
+              <li class="calendar__time-item"><span>11</span></li>
+              <li class="calendar__time-item"><span>12</span></li>
+              <li class="calendar__time-item"><span>13</span></li>
+              <li class="calendar__time-item"><span>12</span></li>
+              <li class="calendar__time-item"><span>13</span></li>
+              <li class="calendar__time-item"><span>14</span></li>
+              <li class="calendar__time-item"><span>15</span></li>
+              <li class="calendar__time-item"><span>16</span></li>
+              <li class="calendar__time-item"><span>17</span></li>
+              <li class="calendar__time-item"><span>18</span></li>
+              <li class="calendar__time-item"><span>19</span></li>
+              <li class="calendar__time-item"><span>20</span></li>
             </ul>
           </div>
-          <div class="calendar__table">
+          <div id="container" class="calendar__table">
             <ul class="calendar__table-list">
               <li class="calendar__table-item"></li>
               <li class="calendar__table-item"></li>
@@ -71,10 +70,14 @@
               <li class="calendar__table-item"></li>
               <li class="calendar__table-item"></li>
             </ul>
+            <div id="eventEl" class="calendar__event">
+              <p class="calendar__descr"></p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <script src="script/main.js"></script>
+    <!-- <script src="script/events.js"></script> -->
+    <script type="module" src="script/main.js"></script>
   </body>
 </html>

@@ -9,13 +9,16 @@ body {
   --grey: #a7a7a7;
   --black: #000000;
   --white: #fff;
-  --light-blue: #becaeb;
+  --light-blue: #e0e6f5;
   --blue: #84a3f3;
 }
 [class*="__container"] {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 15px;
+}
+.hidden {
+  display: none;
 }
 
 /* Calendar */
@@ -49,6 +52,17 @@ body {
 }
 .calendar__table {
     flex: 0 1 90%;
+    position: relative;
+}
+.calendar__event {
+    position: absolute;
+    top: 0;
+    left: 8px;
+    width: 99.4%;
+    height: 40px;
+    padding: 5px;
+    border-radius: 5px;
+    background: var(--light-blue);
 }
 .calendar__table-list {
   position: relative;
