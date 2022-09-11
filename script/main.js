@@ -76,15 +76,21 @@ function filterFill(arrayOrObj, container, item, nameOfClass) {
       let element = document.createElement("div");
       element.innerHTML = item.innerHTML;
       element.className = "item-filter__checkbox-item";
+      console.log(element);
       let checkbox = element.getElementsByClassName(nameOfClass)[0];
-      if (nameOfClass.length) {
-        checkbox.setAttribute("id", key);
-      }
+      console.log(checkbox);
       let name = element.getElementsByClassName("item-filter__check-name");
-      // if (name.classList.contains("memory")) {
-      //   name[0].textContent = key + " gb";
-      // }
-      name[0].textContent = key;
+      //Assign an id(key value)
+      if (checkbox.classList.contains("color-checkbox")) {
+        checkbox.setAttribute("id", key);
+        name[0].textContent = key;
+      } else if (checkbox.classList.contains("memory-checkbox")) {
+        checkbox.setAttribute("id", key);
+        name[0].textContent = key + " gb";
+      } else if (checkbox.classList.contains("os-checkbox")) {
+        checkbox.setAttribute("id", key);
+        name[0].textContent = key;
+      }
       container.appendChild(element);
     }
   } else if (Array.isArray(arrayOrObj) && arrayOrObj !== null) {
@@ -93,7 +99,11 @@ function filterFill(arrayOrObj, container, item, nameOfClass) {
       element.innerHTML = item.innerHTML;
       element.className = "item-filter__checkbox-item";
       let name = element.getElementsByClassName("item-filter__check-name");
-      name[0].textContent = el + " inch";
+      let checkbox = element.getElementsByClassName(nameOfClass)[0];
+      if (checkbox.classList.contains("display-checkbox")) {
+        checkbox.setAttribute("id", el);
+        name[0].textContent = el + " inch";
+      }
       container.appendChild(element);
     });
   }
@@ -133,7 +143,7 @@ copyItems.forEach((el) => {
 let memoryFilter = document.getElementById("filter-memory");
 let memoryItem = document.getElementById("filter-memory-item");
 
-filterFill(memoryObj, memoryFilter, memoryItem, "");
+filterFill(memoryObj, memoryFilter, memoryItem, "memory-checkbox");
 
 // OS
 const osObj = {};
@@ -150,7 +160,7 @@ copyItems.forEach((el) => {
 let osFilter = document.getElementById("filter-os");
 let osItem = document.getElementById("filter-os-item");
 
-filterFill(osObj, osFilter, osItem, "");
+filterFill(osObj, osFilter, osItem, "os-checkbox");
 
 // Display
 // const sortArr = (a, b) => {
@@ -163,7 +173,7 @@ const displayArray = ["2 - 5", "5 - 7", "7 - 12", "12 - 16", "16+"];
 let displayFilter = document.getElementById("filter-display");
 let displayItem = document.getElementById("filter-display-item");
 
-filterFill(displayArray, displayFilter, displayItem, "");
+filterFill(displayArray, displayFilter, displayItem, "display-checkbox");
 
 // Filter functionality
 // Price
@@ -209,28 +219,8 @@ const filterPrice = (itemsArray) => {
   });
   console.log(filteredPrice);
 };
-// Color filter
-let checkboxColor = colorFilter.querySelectorAll("input");
-let checkboxColorLabel = colorFilter.querySelectorAll("label");
-console.log(checkboxColor);
-console.log(checkboxColorLabel);
-
+// For filtering
 let checkboxValues = [];
-
-checkboxProperty.forEach((box) => {
-  box.checked = false;
-  box.addEventListener("change", () => filterColorCards());
-});
-
-checkboxProperty.forEach((box) => {
-  box.checked = false;
-  box.addEventListener("change", () => filterColorCards());
-});
-
-checkboxProperty.forEach((box) => {
-  box.checked = false;
-  box.addEventListener("change", () => filterColorCards());
-});
 
 function grabCheckboxValues(checkboxes) {
   let checkboxValues = [];
@@ -239,15 +229,121 @@ function grabCheckboxValues(checkboxes) {
   });
   return checkboxValues;
 }
+// Color filter
+let checkboxColor = colorFilter.querySelectorAll("input");
+let checkboxColorLabel = colorFilter.querySelectorAll("label");
 
-function filterColorCards(property) {
+checkboxColor.forEach((box) => {
+  box.checked = false;
+  box.addEventListener("change", () => filterColorCards());
+});
+
+function filterColorCards() {
   cardsContainer.innerHTML = "";
   let sortedCards = [];
   checkboxValues = grabCheckboxValues(checkboxColor);
   copyItems.forEach((item) => {
-    let property = item.property;
+    let color = item.color;
+    console.log(color);
     let result = (arr, target) => target.every((v) => arr.includes(v));
-    let isMatch = result(property, checkboxValues);
+    let isMatch = result(color, checkboxValues);
+    if (isMatch) {
+      sortedCards.push(item);
+      createCards(sortedCards);
+    }
+  });
+  console.log(sortedCards);
+}
+
+// Memory filter
+let checkboxMemory = memoryFilter.querySelectorAll("input");
+let checkboxMemoryLabel = memoryFilter.querySelectorAll("label");
+console.log(checkboxMemory);
+console.log(checkboxMemoryLabel);
+
+checkboxMemory.forEach((box) => {
+  box.checked = false;
+  box.addEventListener("change", () => filterMemoryCards());
+});
+
+function filterMemoryCards() {
+  cardsContainer.innerHTML = "";
+  let sortedCards = [];
+  checkboxValues = grabCheckboxValues(checkboxMemory);
+  copyItems.forEach((item) => {
+    let memory = item.storage;
+    console.log(memory);
+    let result = (el, target) =>
+      target.every((v) => {
+        return el === parseInt(v);
+      });
+    let isMatch = result(memory, checkboxValues);
+    if (isMatch) {
+      sortedCards.push(item);
+      createCards(sortedCards);
+    }
+  });
+  console.log(sortedCards);
+}
+
+// Os filter
+let checkboxOs = osFilter.querySelectorAll("input");
+let checkboxOsLabel = osFilter.querySelectorAll("label");
+
+checkboxOs.forEach((box) => {
+  box.checked = false;
+  box.addEventListener("change", () => filterOsCards());
+});
+
+function filterOsCards() {
+  cardsContainer.innerHTML = "";
+  let sortedCards = [];
+  checkboxValues = grabCheckboxValues(checkboxOs);
+  copyItems.forEach((item) => {
+    let os = item.os;
+    let result = (el, target) =>
+      target.every((v) => {
+        return el === v;
+      });
+    let isMatch = result(os, checkboxValues);
+    if (isMatch) {
+      sortedCards.push(item);
+      createCards(sortedCards);
+    }
+  });
+  console.log(sortedCards);
+}
+
+// Display filter
+let checkboxDisplay = displayFilter.querySelectorAll("input");
+let checkboxDisplayLabel = memoryFilter.querySelectorAll("label");
+console.log(checkboxDisplay);
+
+checkboxDisplay.forEach((box) => {
+  box.checked = false;
+  box.addEventListener("change", () => filterDisplayCards());
+});
+
+function filterDisplayCards() {
+  cardsContainer.innerHTML = "";
+  let sortedCards = [];
+  checkboxValues = grabCheckboxValues(checkboxDisplay);
+  copyItems.forEach((item) => {
+    let display = Math.round(item.display);
+    console.log(display);
+    let result = (el, target) =>
+      target.every((v) => {
+        let arr = v.split("-");
+        let from = parseInt(arr[0]);
+        let to = parseInt(arr[1]);
+        if (from < +el < to) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+    let isMatch = result(display, checkboxValues);
+    console.log(isMatch);
     if (isMatch) {
       sortedCards.push(item);
       createCards(sortedCards);

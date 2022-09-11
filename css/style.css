@@ -371,7 +371,7 @@ form:focus-within {
 .item-filter__price::placeholder {
   color: var(--black);
 }
-/* -------COLOR------- */
+/* -------Checkboxes------- */
 .item-filter__checkbox-flex {
   display: grid;
   grid-template-columns: 1fr 1fr;
