@@ -336,7 +336,8 @@ function filterDisplayCards() {
         let arr = v.split("-");
         let from = parseInt(arr[0]);
         let to = parseInt(arr[1]);
-        if (from < +el < to) {
+        console.log(from, to);
+        if (from < el < to) {
           return true;
         } else {
           return false;
@@ -401,3 +402,8 @@ modal.addEventListener("click", (event) => {
     body.classList.remove("bg-lock");
   }
 });
+
+// Product cart
+let cartCounter = document.querySelector("#cart-counter");
+cartCounter.innerHTML = "1";
+console.log(cartCounter);

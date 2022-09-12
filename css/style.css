@@ -148,6 +148,22 @@ img {
   margin: 0 auto;
   padding: 0 15px;
 }
+.cart-btn {
+  position: relative;
+}
+#cart-counter{
+  position: absolute;
+  bottom: -15px;
+  left: -10px;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--blue-bg);
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
 /* -------HEADER------ */
 .header {
   background: var(--white);
@@ -586,7 +602,7 @@ form:focus-within {
   padding: 10px 15px;
   border-radius: 5px;
 }
-.modal__footer .footer-item__orders{
+.modal__footer .footer-item__orders {
   margin-left: 25px;
 }
 .modal__list-details {
