@@ -358,7 +358,7 @@ const body = document.querySelector("body");
 const modal = document.getElementById("modal");
 
 function showModal(element) {
-  modal.classList.add("show-modal");
+  modal.classList.add("show-item");
   body.classList.add("bg-lock");
   const getImg = document.getElementById("getImg");
   const getName = document.getElementById("getName");
@@ -398,7 +398,7 @@ function showModal(element) {
 modal.addEventListener("click", (event) => {
   if (event.target.className === modal.className) {
     event.stopPropagation();
-    modal.classList.remove("show-modal");
+    modal.classList.remove("show-item");
     body.classList.remove("bg-lock");
   }
 });
@@ -407,3 +407,18 @@ modal.addEventListener("click", (event) => {
 let cartCounter = document.querySelector("#cart-counter");
 cartCounter.innerHTML = "1";
 console.log(cartCounter);
+
+let cart = document.getElementById("cart");
+let cartOpenBtn = document.getElementById("cart-open-btn");
+
+cartOpenBtn.addEventListener("click", (event) => {
+  if (!cart.classList.contains("show-item")) {
+    cart.classList.add("show-item");
+    body.classList.add("bg-lock");
+  }
+   else {
+    cart.classList.remove("show-item");
+    body.classList.remove("bg-lock");
+  }
+  console.log(cart.classList);
+});
