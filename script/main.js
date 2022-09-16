@@ -1,26 +1,18 @@
 import { events } from "./events.js";
 
-let eventEl = document.getElementById("eventEl");
-let container = document.getElementById("container");
-function createEvent(plans) {
-  plans.map((el) => {
-    let newElem = document.createElement("div");
-    newElem.innerHTML = eventEl.innerHTML;
-    newElem.className = "calendar__event";
-    let descr = newElem.getElementsByClassName("calendar__descr");
-    descr[0].textContent = el.title;
-    container.appendChild(newElem);
-  });
-}
+const containerWidth = 600;
+
+let eventsContainer = document.getElementById("events");
+const createEvent = (height, top, left, units) => {
+  let newEvent = document.createElement("div");
+  newEvent.innerHTML = eventEl.innerHTML;
+  newEvent.className = "calendar__event";
+  newEvent.innerHTML = "<span class='calendar__descr'></span>";
+  newEvent.style.width = containerWidth / units + "px";
+  newEvent.style.height = height + "px";
+  newEvent.style.top = top + "px";
+  newEvent.style.left = left + "px";
+  eventsContainer.appendChild(newEvent);
+};
 createEvent(events);
 eventEl.classList.add("hidden");
-
-// let time = document.getElementsByClassName("calendar__time-item");
-// function fillingTable(plans) {
-//   [...time];
-//   for (let i = 0; i < plans.length; i++) {
-//     if (plans.start === time[i].textContent) {
-//       createEvent(plans);
-//     }
-//   }
-// }
