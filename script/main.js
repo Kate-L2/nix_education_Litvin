@@ -403,7 +403,7 @@ modal.addEventListener("click", (event) => {
   }
 });
 
-// Product cart
+// Shopping cart
 let cartCounter = document.querySelector("#cart-counter");
 cartCounter.innerHTML = "1";
 console.log(cartCounter);
@@ -411,14 +411,91 @@ console.log(cartCounter);
 let cart = document.getElementById("cart");
 let cartOpenBtn = document.getElementById("cart-open-btn");
 
+const cartItemsContainer = document.getElementById("cart__items");
+const cartItemsRow = cartItemsContainer.getElementsByClassName("item-cart");
+
 cartOpenBtn.addEventListener("click", (event) => {
   if (!cart.classList.contains("show-item")) {
     cart.classList.add("show-item");
     body.classList.add("bg-lock");
-  }
-   else {
+  } else {
     cart.classList.remove("show-item");
     body.classList.remove("bg-lock");
   }
   console.log(cart.classList);
 });
+
+const removeItemBtn = document.querySelectorAll(".remove-btn");
+for (let i = 0; i < removeItemBtn.length; i++) {
+  console.log(removeItemBtn[i]);
+  removeItemBtn[i].addEventListener("click", removeCartItem);
+}
+const addItemBtn = document.querySelectorAll(".item__btn");
+for (let i = 0; i < addItemBtn.length; i++) {
+  console.log(addItemBtn[i]);
+  addItemBtn[i].addEventListener("click", addToCardClicked);
+}
+
+function removeCartItem(event) {
+  let btnClicked = event.target;
+  btnClicked.parentElement.parentElement.remove();
+  updateCartTotal();
+}
+
+function addToCardClicked(event) {
+  let btn = event.target;
+  let shopItem = btn.parentElement.parentElement;
+  const getImg = shopItem.getElementsByClassName("item-img")[0].src;
+  const getName = shopItem.getElementsByClassName("item__name")[0].innerText;
+  const getPrice = shopItem.getElementsByClassName("item-price")[0].innerText;
+  console.log(getImg, getName, getPrice);
+  addItemToCard(getImg, getName, getPrice);
+}
+
+function addItemToCard(getImg, getName, getPrice) {
+  let newCartItem = document.createElement("div");
+  let newCartItemContent = `<li class="cart__item item-cart">
+  <div class="item-cart__img">
+    <img src="${getImg}" alt="Items img" />
+  </div>
+  <div class="item-cart__info">
+    <h5 class="item-cart__name">${getName}</h5>
+    <div class="item-cart__price">${getPrice}</div>
+  </div>
+  <div class="item-cart__arrows">
+    <a class="item-cart__arrow-left">
+      <i class="icon-arrow_left"></i>
+    </a>
+    <span class="item-cart__amount">2</span>
+    <a class="item-cart__arrow-right">
+      <i class="icon-arrow_left"></i>
+    </a>
+  </div>
+  <a class="item-cart__delete-icon remove-btn">
+    <i class="icon-close"></i>
+  </a>
+</li>`;
+  newCartItem.innerHTML = newCartItemContent;
+  cartItemsContainer.appendChild(newCartItem);
+}
+
+function updateCartTotal() {
+  let total = 0;
+  for (let i = 0; i < cartItemsRow.length; i++) {
+    let cartItem = cartItemsRow[i];
+    let priceEl = cartItem.getElementsByClassName("item-cart__price")[0];
+    let quantityEl = cartItem.getElementsByClassName("item-cart__amount")[0];
+    let price = parseFloat(priceEl.innerHTML.replace("$", ""));
+    let quantity = parseInt(quantityEl.innerText);
+    total += price * quantity;
+    console.log(price, quantity);
+  }
+  document.getElementsByClassName("footer-cart__price")[0].innerText =
+    total + "$";
+}
+
+// if (document.readyState === "loading") {
+//   document.addEventListener("DOMContentLoaded", ready);
+// } else {
+//   ready();
+// }

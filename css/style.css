@@ -623,20 +623,18 @@ form:focus-within {
   font-weight: 700;
   color: var(--blue);
 }
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   .modal__wrapper {
     padding: 30px;
     display: flex;
     flex-flow: row wrap;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     position: relative;
   }
-  .modal__wrapper > *:not(:last-child) {
-    margin-right: 220px;
-  }
 }
-@media (min-width: 980px) {
+
+@media (min-width: 1020px) {
   .modal__wrapper::before,
   .modal__wrapper::after {
     content: "";
@@ -651,6 +649,14 @@ form:focus-within {
   }
   .modal__wrapper::after {
     right: 25%;
+  }
+}
+@media (min-width: 1390px) {
+  .modal__wrapper {
+    justify-content: center;
+  }
+  .modal__wrapper > *:not(:last-child) {
+    margin-right: 220px;
   }
   .modal__list > * {
     margin-bottom: 25px;
@@ -667,6 +673,7 @@ form:focus-within {
   top: 70px;
   right: 15px;
   height: 505px;
+  width: 450px;
   background: var(--white);
   box-shadow: 1px 1px 10px var(--light-grey);
   display: none;
