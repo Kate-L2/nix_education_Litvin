@@ -1,32 +1,31 @@
 import { events } from "./events.js";
 
-const containerHeight = 720;
 const containerWidth = 800;
-const minutesinDay = 60 * 12;
 let collisions = [];
 let width = [];
 let leftOffSet = [];
+const eventsContainer = document.getElementById("events");
+const timePeriod = 20;
 
 // append one event to calendar
-var createEvent = (height, top, left, units, title) => {
+let createEvent = (height, top, left, units, title) => {
   let newEl = document.createElement("div");
   newEl.className = "calendar__event";
   newEl.innerHTML = `<span class='calendar__descr'>${title}</span>`;
-  // Customized CSS to position each event
   newEl.style.width = containerWidth / units + "px";
   newEl.style.height = height + "px";
   newEl.style.top = top + "px";
   newEl.style.left = left + "px";
 
-  document.getElementById("events").appendChild(newEl);
+  eventsContainer.appendChild(newEl);
 };
 
 function getEventAppears(events) {
   //resets storage
   collisions = [];
 
-  for (var i = 0; i < 24; i++) {
-    var time = [];
+  for (let i = 0; i < timePeriod; i++) {
+    let time = [];
     for (var j = 0; j < events.length; j++) {
       time.push(0);
     }
@@ -57,19 +56,19 @@ function getEventAppears(events) {
   });
 }
 
-function getStyleVlues(events) {
+function getAttributes(events) {
   width = [];
   leftOffSet = [];
 
-  for (var i = 0; i < events.length; i++) {
+  for (let i = 0; i < events.length; i++) {
     width.push(0);
     leftOffSet.push(0);
   }
+  // number of events in the each period
   collisions.forEach((period) => {
     let count = period.reduce((a, b) => {
       return b ? a + 1 : a;
     });
-    console.log(count);
 
     if (count > 1) {
       period.forEach((event, index) => {
@@ -86,18 +85,18 @@ function getStyleVlues(events) {
   });
 }
 
-var FillOutDay = (events) => {
-  var elements = document.getElementById("events");
-  elements.innerHTML = "";
+let FillOutDay = (events) => {
+  eventsContainer.innerHTML = "";
 
   getEventAppears(events);
-  getStyleVlues(events);
+  getAttributes(events);
+  addEvent()
 
   events.forEach((event, id) => {
-    let height = (event.duration / minutesinDay) * containerHeight;
-    let top = (event.start / minutesinDay) * containerHeight;
-    let units = width[id];
+    let height = event.duration;
+    let top = event.start;
     let title = event.title;
+    let units = width[id];
     if (!units) {
       units = 1;
     }
@@ -110,3 +109,21 @@ var FillOutDay = (events) => {
 };
 
 FillOutDay(events);
+
+// Modal
+function addEvent() {
+  const getTime = document.getElementById("container");
+  getTime.addEventListener("click", (event) => {
+    const newEvent = document.createElement("div");
+    let position = event.clientY - 20;
+    newEvent.classList.add("calendar__event");
+    newEvent.style = `
+      top:${position}px;
+      left: 10px;
+      height: 30px;
+      width:800px;
+    `;
+    console.log(newEvent);
+    eventsContainer.appendChild(newEvent);
+  });
+}

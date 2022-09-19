@@ -7,6 +7,7 @@ const events = [
   { start: 180, duration: 90, title: "Have lunch with John" },
   { start: 360, duration: 30, title: "Skype call" },
   { start: 370, duration: 45, title: "Follow up with designer" },
+  { start: 370, duration: 45, title: "Follow up with designer" },
   { start: 405, duration: 30, title: "Push up branch" },
 ];
 

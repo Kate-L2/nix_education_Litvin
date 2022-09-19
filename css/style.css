@@ -52,7 +52,6 @@ body {
 }
 .calendar__table {
   width: 800px;
-  height: 720px;
   position: relative;
 }
 .calendar__table-list {
