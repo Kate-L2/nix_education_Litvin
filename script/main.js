@@ -90,7 +90,7 @@ let FillOutDay = (events) => {
 
   getEventAppears(events);
   getAttributes(events);
-  addEvent()
+  addEvent();
 
   events.forEach((event, id) => {
     let height = event.duration;
@@ -113,6 +113,7 @@ FillOutDay(events);
 // Modal
 function addEvent() {
   const getTime = document.getElementById("container");
+  const getModal = document.getElementById("event-modal");
   getTime.addEventListener("click", (event) => {
     const newEvent = document.createElement("div");
     let position = event.clientY - 20;
@@ -124,6 +125,13 @@ function addEvent() {
       width:800px;
     `;
     console.log(newEvent);
+    newEvent.addEventListener("click", (event) => {
+      if (getModal.style.display === "block") {
+        panel.style.display = "none";
+      } else {
+        panel.style.display = "block";
+      }
+    });
     eventsContainer.appendChild(newEvent);
   });
 }

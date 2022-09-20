@@ -78,3 +78,64 @@ body {
   box-sizing: border-box;
   z-index: 10;
 }
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+/* .show-modal {
+  display: block;
+}
+.bg-lock {
+  overflow: hidden;
+} */
+.modal__wrap {
+  background-color: #fefefe;
+  margin: 10% auto;
+  padding: 40px 20px 20px 20px;
+  border: 1px solid var(--grey);
+  width: 50%;
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+}
+.modal__wrap > * {
+  margin-bottom: 30px;
+}
+.modal__title {
+  border: 1px solid var(--grey);
+  width: 80%;
+  padding: 10px;
+} 
+.time-block {
+  display: flex;
+  flex-wrap: wrap;
+}
+.time-block > * {
+  margin-right: 40px;
+}
+.time-block__descr {
+  margin-bottom: 15px;
+  flex: 0 1 100%;
+}
+.time-block__from-title {
+  margin-right: 10px;
+}
+.time-block__to-title {
+  margin-right: 10px;
+}
+input#time-from,
+input#time-to{
+  border: 1px solid var(--grey);
+  padding: 5px;
+}
+
+

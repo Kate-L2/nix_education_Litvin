@@ -63,13 +63,49 @@
               <li class="calendar__table-item"></li>
               <li class="calendar__table-item"></li>
             </ul>
-            <ul id="events" class="calendar__events">
-            </ul>
+            <ul id="events" class="calendar__events"></ul>
           </div>
         </div>
       </div>
     </div>
-    <!-- <script src="script/events.js"></script> -->
+    <div id="event-modal" class="modal">
+      <div class="modal__wrap">
+        <input
+          class="modal__title"
+          type="text"
+          placeholder="Please input a name of an event"
+          required
+          max="20"
+        />
+        <div class="modal__time-block time-block">
+          <h3 class="time-block__descr">Choose a time for an event:</h3>
+          <div class="time-block__from">
+              <label class="time-block__from-title" for="time-from"
+                >from:</label
+              >
+              <input
+                type="time"
+                id="time-from"
+                min="08:00"
+                max="17:30"
+                required
+              />
+          </div>
+          <div class="time-block__from">
+              <label class="time-block__to-title" for="time-to"
+                >to:</label
+              >
+              <input
+                type="time"
+                id="time-to"
+                min="08:00"
+                max="17:30"
+                required
+              />
+          </div>
+        </div>
+      </div>
+    </div>
     <script type="module" src="script/main.js"></script>
   </body>
 </html>
