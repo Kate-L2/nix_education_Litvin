@@ -114,6 +114,7 @@ FillOutDay(events);
 function addEvent() {
   const getTime = document.getElementById("container");
   const getModal = document.getElementById("event-modal");
+  const body = document.getElementsByTagName('body')[0];
   getTime.addEventListener("click", (event) => {
     const newEvent = document.createElement("div");
     let position = event.clientY - 20;
@@ -125,12 +126,15 @@ function addEvent() {
       width:800px;
     `;
     console.log(newEvent);
-    newEvent.addEventListener("click", (event) => {
-      if (getModal.style.display === "block") {
-        panel.style.display = "none";
-      } else {
-        panel.style.display = "block";
-      }
+    newEvent.addEventListener("click", () => {
+    if (!getModal.classList.contains("show-item")) {
+      getModal.classList.add("show-item");
+      body.classList.add("bg-lock");
+    } else {
+      getModal.classList.remove("show-item");
+      body.classList.remove("bg-lock");
+    }
+    console.log(getModal.classList);
     });
     eventsContainer.appendChild(newEvent);
   });
