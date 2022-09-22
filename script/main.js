@@ -1,11 +1,29 @@
 import { events } from "./events.js";
-
+import { LocalStorageClass } from "./localStorage.js";
+const getTime = document.getElementById("container");
+const getModal = document.getElementById("event-modal");
+const body = document.getElementsByTagName("body")[0];
 const containerWidth = 800;
 let collisions = [];
 let width = [];
 let leftOffSet = [];
 const eventsContainer = document.getElementById("events");
 const timePeriod = 20;
+let isSaveMode;
+
+// Local storage
+const LS = new LocalStorageClass();
+
+let eventsInStorage = LS.get("events")
+  ? LS.get("events")
+  : updateStorage(events);
+
+function updateStorage(events) {
+  events.sort((a, b) => {
+    a.start - b.start;
+  });
+  LS.set("events", events);
+}
 
 // append one event to calendar
 let createEvent = (height, top, left, units, title) => {
@@ -16,7 +34,9 @@ let createEvent = (height, top, left, units, title) => {
   newEl.style.height = height + "px";
   newEl.style.top = top + "px";
   newEl.style.left = left + "px";
-
+  newEl.addEventListener("click", (event) => {
+    updateEvent(event);
+  });
   eventsContainer.appendChild(newEl);
 };
 
@@ -90,9 +110,9 @@ let FillOutDay = (events) => {
 
   getEventAppears(events);
   getAttributes(events);
-  addEvent();
 
   events.forEach((event, id) => {
+    event.id = id;
     let height = event.duration;
     let top = event.start;
     let title = event.title;
@@ -104,38 +124,70 @@ let FillOutDay = (events) => {
     if (!left || left < 0) {
       left = 10;
     }
-    createEvent(height, top, left, units, title);
+    createEvent(height, top, left, units, title, id);
   });
+  console.log(events);
 };
 
-FillOutDay(events);
+FillOutDay(eventsInStorage);
 
 // Modal
-function addEvent() {
-  const getTime = document.getElementById("container");
-  const getModal = document.getElementById("event-modal");
-  const body = document.getElementsByTagName('body')[0];
-  getTime.addEventListener("click", (event) => {
-    const newEvent = document.createElement("div");
-    let position = event.clientY - 20;
-    newEvent.classList.add("calendar__event");
-    newEvent.style = `
-      top:${position}px;
-      left: 10px;
-      height: 30px;
-      width:800px;
-    `;
-    console.log(newEvent);
-    newEvent.addEventListener("click", () => {
-    if (!getModal.classList.contains("show-item")) {
-      getModal.classList.add("show-item");
-      body.classList.add("bg-lock");
-    } else {
-      getModal.classList.remove("show-item");
-      body.classList.remove("bg-lock");
-    }
-    console.log(getModal.classList);
-    });
-    eventsContainer.appendChild(newEvent);
-  });
+const submitBtn = document.getElementById("submit-btn");
+const closeBtn = document.getElementById("close-modal");
+
+closeBtn.addEventListener("click", hideModal);
+submitBtn.addEventListener("click", () => {
+  hideModal("click", true);
+});
+
+getTime.addEventListener("click", (event) => {
+  console.log(event);
+  showModal(event);
+});
+
+function showModal(event) {
+  getModal.classList.add("show-modal");
+  body.classList.add("bg-lock");
 }
+
+function hideModal(event, isSaveMode = false) {
+  if (isSaveMode) {
+    let title = document.getElementById("event-title").value;
+    let fromTime = document.getElementById("time-from").value;
+    let toTime = document.getElementById("time-to").value;
+    let eventsInStorage = LS.get("events");
+
+    let fromHH = fromTime.split(":")[0];
+    let fromMM = fromTime.split(":")[1];
+    fromTime = Number(fromHH) * 60 + Number(fromMM);
+    let toHH = toTime.split(":")[0];
+    let toMM = toTime.split(":")[1];
+    toTime = Number(toHH) * 60 + Number(toMM);
+    console.log(fromTime, toTime);
+    let newTime = fromTime - 480;
+    let newDuration = toTime - fromTime;
+    let newEvent = {
+      start: newTime,
+      duration: newDuration,
+      title: title,
+    };
+    eventsInStorage.push(newEvent);
+    updateStorage(eventsInStorage);
+    FillOutDay(eventsInStorage);
+
+    getModal.classList.remove("show-modal");
+    body.classList.remove("bg-lock");
+  }
+  getModal.classList.remove("show-modal");
+  body.classList.remove("bg-lock");
+  console.log(eventsInStorage);
+}
+
+function updateEvent(event) {
+  console.log("test");
+  event.stopPropagation();
+  showModal(event);
+}
+
+eventsInStorage.splice(10, 1);
+LS.set('questions',JSON.stringify(eventsInStorage));

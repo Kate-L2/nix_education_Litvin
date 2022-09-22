@@ -81,7 +81,7 @@ body {
 
 /* Modal */
 .modal {
-  /* display: none; */
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
@@ -109,17 +109,16 @@ body {
   flex-direction: column;
   position: relative;
 }
-.modal__wrap > * {
-  margin-bottom: 30px;
-}
 .modal__title {
   border: 1px solid var(--grey);
   width: 80%;
   padding: 10px;
+  margin-bottom: 30px;
 } 
 .time-block {
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 40px;
 }
 .time-block > * {
   margin-right: 40px;
@@ -133,6 +132,19 @@ body {
 }
 .time-block__to-title {
   margin-right: 10px;
+}
+.modal__submit-btn {
+  font-size: 0.875rem;
+  color: var(--black);
+  border: 1px solid var(--grey);
+  display: inline-flex;
+  padding: 10px 20px;
+  transition: all .5s ease-in;
+}
+.modal__submit-btn:hover {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: var(--white);
 }
 input#time-from,
 input#time-to{
