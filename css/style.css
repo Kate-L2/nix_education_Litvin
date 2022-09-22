@@ -150,6 +150,7 @@ input#time-from,
 input#time-to{
   border: 1px solid var(--grey);
   padding: 5px;
+  width: 60px;
 }
 .modal__close-btn::before,
 .modal__close-btn::after {

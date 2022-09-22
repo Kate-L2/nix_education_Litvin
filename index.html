@@ -76,16 +76,17 @@
           type="text"
           placeholder="Please input a name of an event"
           required
+          min="1"
           max="20"
         />
         <div class="modal__time-block time-block">
-          <h3 class="time-block__descr">Choose a time for an event:</h3>
+          <h3 class="time-block__descr">Choose a time for an event from 8:00 to 17:30 :</h3>
           <div class="time-block__from">
               <label class="time-block__from-title" for="time-from"
                 >from:</label
               >
               <input
-                type="time"
+                type="text"
                 id="time-from"
                 min="08:00"
                 max="17:30"
@@ -97,7 +98,7 @@
                 >to:</label
               >
               <input
-                type="time"
+                type="text"
                 id="time-to"
                 min="08:00"
                 max="17:30"

@@ -10,6 +10,9 @@ let leftOffSet = [];
 const eventsContainer = document.getElementById("events");
 const timePeriod = 20;
 let isSaveMode;
+let title = document.getElementById("event-title");
+let fromTime = document.getElementById("time-from").value;
+let toTime = document.getElementById("time-to").value;
 
 // Local storage
 const LS = new LocalStorageClass();
@@ -152,35 +155,34 @@ function showModal(event) {
 
 function hideModal(event, isSaveMode = false) {
   if (isSaveMode) {
-    let title = document.getElementById("event-title").value;
-    let fromTime = document.getElementById("time-from").value;
-    let toTime = document.getElementById("time-to").value;
     let eventsInStorage = LS.get("events");
-
-    let fromHH = fromTime.split(":")[0];
-    let fromMM = fromTime.split(":")[1];
-    fromTime = Number(fromHH) * 60 + Number(fromMM);
-    let toHH = toTime.split(":")[0];
-    let toMM = toTime.split(":")[1];
-    toTime = Number(toHH) * 60 + Number(toMM);
-    console.log(fromTime, toTime);
-    let newTime = fromTime - 480;
-    let newDuration = toTime - fromTime;
-    let newEvent = {
-      start: newTime,
-      duration: newDuration,
-      title: title,
-    };
-    eventsInStorage.push(newEvent);
-    updateStorage(eventsInStorage);
-    FillOutDay(eventsInStorage);
-
-    getModal.classList.remove("show-modal");
-    body.classList.remove("bg-lock");
+    if (checkEventName(title)) {
+      let fromHH = fromTime.split(":")[0];
+      let fromMM = fromTime.split(":")[1];
+      fromTime = Number(fromHH) * 60 + Number(fromMM);
+      let toHH = toTime.split(":")[0];
+      let toMM = toTime.split(":")[1];
+      toTime = Number(toHH) * 60 + Number(toMM);
+      console.log(fromTime, toTime);
+      let newTime = fromTime - 480;
+      let newDuration = toTime - fromTime;
+      let newEvent = {
+        start: newTime,
+        duration: newDuration,
+        title: title,
+      };
+      eventsInStorage.push(newEvent);
+      updateStorage(eventsInStorage);
+      FillOutDay(eventsInStorage);
+      console.log(eventsInStorage);
+      getModal.classList.remove("show-modal");
+      body.classList.remove("bg-lock");
+    } else {
+      console.log('Try again')
+    }
   }
   getModal.classList.remove("show-modal");
   body.classList.remove("bg-lock");
-  console.log(eventsInStorage);
 }
 
 function updateEvent(event) {
@@ -189,5 +191,12 @@ function updateEvent(event) {
   showModal(event);
 }
 
-eventsInStorage.splice(10, 1);
-LS.set('questions',JSON.stringify(eventsInStorage));
+function checkEventName(name) {
+  if (name.value.length !== 0) {
+    return true;
+  } else {
+    name.style.borderColor = "red";
+    alert("Please write a name of event");
+    return false;
+  }
+}
