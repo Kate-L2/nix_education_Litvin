@@ -18,31 +18,29 @@
         <div class="calendar__wrap">
           <div class="calendar__time">
             <ul class="calendar__time-list">
-              <li class="calendar__time-item"><span>8:00</span> am</li>
+              <li class="calendar__time-item"><span>8:00</span></li>
               <li class="calendar__time-item">8:30</li>
-              <li class="calendar__time-item"><span>9:00</span> am</li>
+              <li class="calendar__time-item"><span>9:00</span></li>
               <li class="calendar__time-item">9:30</li>
-              <li class="calendar__time-item"><span>10:00</span> am</li>
+              <li class="calendar__time-item"><span>10:00</span></li>
               <li class="calendar__time-item">10:30</li>
-              <li class="calendar__time-item"><span>11:00</span> am</li>
+              <li class="calendar__time-item"><span>11:00</span></li>
               <li class="calendar__time-item">11:30</li>
-              <li class="calendar__time-item"><span>12:00</span> pm</li>
+              <li class="calendar__time-item"><span>12:00</span></li>
               <li class="calendar__time-item">12:30</li>
-              <li class="calendar__time-item"><span>1:00</span> pm</li>
-              <li class="calendar__time-item">1:30</li>
-              <li class="calendar__time-item"><span>2:00</span> pm</li>
-              <li class="calendar__time-item">2:30</li>
-              <li class="calendar__time-item"><span>3:00</span> pm</li>
-              <li class="calendar__time-item">3:30</li>
-              <li class="calendar__time-item"><span>4:00</span> pm</li>
-              <li class="calendar__time-item">4:30</li>
-              <li class="calendar__time-item"><span>5:00</span> pm</li>
-              <li class="calendar__time-item">5:30</li>
+              <li class="calendar__time-item"><span>13:00</span></li>
+              <li class="calendar__time-item">13:30</li>
+              <li class="calendar__time-item"><span>14:00</span></li>
+              <li class="calendar__time-item">14:30</li>
+              <li class="calendar__time-item"><span>15:00</span></li>
+              <li class="calendar__time-item">15:30</li>
+              <li class="calendar__time-item"><span>16:00</span></li>
+              <li class="calendar__time-item">16:30</li>
+              <li class="calendar__time-item"><span>17:00</span></li>
             </ul>
           </div>
           <div id="container" class="calendar__table">
             <ul class="calendar__table-list">
-              <li class="calendar__table-item"></li>
               <li class="calendar__table-item"></li>
               <li class="calendar__table-item"></li>
               <li class="calendar__table-item"></li>
@@ -80,7 +78,7 @@
           max="20"
         />
         <div class="modal__time-block time-block">
-          <h3 class="time-block__descr">Choose a time for an event from 8:00 to 17:30 :</h3>
+          <h3 class="time-block__descr">Choose a time for an event from 8:00 to 17:00 :</h3>
           <div class="time-block__from">
               <label class="time-block__from-title" for="time-from"
                 >from:</label
@@ -88,8 +86,7 @@
               <input
                 type="text"
                 id="time-from"
-                min="08:00"
-                max="17:30"
+                placeholder="8:00"
                 required
               />
           </div>
@@ -100,15 +97,18 @@
               <input
                 type="text"
                 id="time-to"
-                min="08:00"
-                max="17:30"
+                placeholder="17:00"
                 required
               />
           </div>
         </div>
-        <div><a id="submit-btn" class="modal__submit-btn" href="#">Submit</a></div>
-        <a id="close-modal" class="modal__close-btn" href="#"></a>
-      </div>
+        <div class="modal__btns">
+          <div><a id="submit-btn" class="modal__submit-btn" href="#">Submit</a></div>
+          <div><a id="update-btn" class="modal__update-btn" href="#">Update</a></div>
+          <div><a id="delete-btn" class="modal__delete-btn" href="#">Delete</a></div>
+          <a id="close-modal" class="modal__close-btn" href="#"></a>
+        </div>
+        </div>
     </div>
     <script type="module" src="script/main.js"></script>
   </body>

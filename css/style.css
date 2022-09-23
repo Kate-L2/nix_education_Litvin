@@ -8,6 +8,7 @@ body {
   --white: #fff;
   --light-blue: #e0e6f5;
   --blue: #84a3f3;
+  --red: rgb(236, 25, 25);
 }
 [class*="__container"] {
   max-width: 1200px;
@@ -73,10 +74,10 @@ body {
   border-style: solid;
   border-left-width: 5px;
   border-left-color: rgb(130, 182, 255);
+  /* border-top: 1px solid var(--blue); */
   padding: 2px 0 0 5px;
   position: absolute;
-  box-sizing: border-box;
-  z-index: 10;
+  z-index: 100;
 }
 
 /* Modal */
@@ -114,7 +115,7 @@ body {
   width: 80%;
   padding: 10px;
   margin-bottom: 30px;
-} 
+}
 .time-block {
   display: flex;
   flex-wrap: wrap;
@@ -133,28 +134,38 @@ body {
 .time-block__to-title {
   margin-right: 10px;
 }
-.modal__submit-btn {
+.modal__btns {
+  display: flex;
+  justify-content: space-between;
+}
+.modal__btns > div a{
   font-size: 0.875rem;
   color: var(--black);
   border: 1px solid var(--grey);
   display: inline-flex;
   padding: 10px 20px;
-  transition: all .5s ease-in;
+  transition: all 0.3s ease-in;
 }
-.modal__submit-btn:hover {
+.modal__submit-btn:hover,
+.modal__update-btn:hover {
   border-color: var(--blue);
   background: var(--blue);
   color: var(--white);
 }
+.modal__delete-btn:hover {
+  border-color: var(--red);
+  background: var(--red);
+  color: var(--white);
+}
 input#time-from,
-input#time-to{
+input#time-to {
   border: 1px solid var(--grey);
   padding: 5px;
-  width: 60px;
+  width: 50px;
 }
 .modal__close-btn::before,
 .modal__close-btn::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 20px;
   right: 10px;
@@ -164,12 +175,10 @@ input#time-to{
   border-radius: 5px;
 }
 .modal__close-btn::before {
-  content: '';
+  content: "";
   transform: rotate(45deg);
 }
 .modal__close-btn::after {
-  content: '';
+  content: "";
   transform: rotate(-45deg);
 }
-
-

@@ -3,17 +3,28 @@ import { LocalStorageClass } from "./localStorage.js";
 const getTime = document.getElementById("container");
 const getModal = document.getElementById("event-modal");
 const body = document.getElementsByTagName("body")[0];
+const eventsContainer = document.getElementById("events");
+let title = document.getElementById("event-title");
+let fromTime = document.getElementById("time-from");
+let toTime = document.getElementById("time-to");
+
+var rootElement = document.querySelector(":root");
+
 const containerWidth = 800;
 let collisions = [];
 let width = [];
 let leftOffSet = [];
-const eventsContainer = document.getElementById("events");
 const timePeriod = 20;
 let isSaveMode;
-let title = document.getElementById("event-title");
-let fromTime = document.getElementById("time-from").value;
-let toTime = document.getElementById("time-to").value;
+// fromTime.addEventListener("blur", (event) => {
+//   console.log(typeof fromTime.value);
+// });
 
+// Color
+function getColor(color) {
+  var rootStyles = getComputedStyle(rootElement);
+  return rootStyles.getPropertyValue(color);
+}
 // Local storage
 const LS = new LocalStorageClass();
 
@@ -23,13 +34,13 @@ let eventsInStorage = LS.get("events")
 
 function updateStorage(events) {
   events.sort((a, b) => {
-    a.start - b.start;
+    return a.start - b.start;
   });
   LS.set("events", events);
 }
 
 // append one event to calendar
-let createEvent = (height, top, left, units, title) => {
+let createEvent = (height, top, left, units, title, id) => {
   let newEl = document.createElement("div");
   newEl.className = "calendar__event";
   newEl.innerHTML = `<span class='calendar__descr'>${title}</span>`;
@@ -38,7 +49,7 @@ let createEvent = (height, top, left, units, title) => {
   newEl.style.top = top + "px";
   newEl.style.left = left + "px";
   newEl.addEventListener("click", (event) => {
-    updateEvent(event);
+    setNewData(event, top, height, title, id, true, false);
   });
   eventsContainer.appendChild(newEl);
 };
@@ -136,14 +147,26 @@ FillOutDay(eventsInStorage);
 
 // Modal
 const submitBtn = document.getElementById("submit-btn");
+const updateBtn = document.getElementById("update-btn");
+const deleteBtn = document.getElementById("delete-btn");
+
 const closeBtn = document.getElementById("close-modal");
 
 closeBtn.addEventListener("click", hideModal);
-submitBtn.addEventListener("click", () => {
-  hideModal("click", true);
+updateBtn.addEventListener("click", () => {
+  hideModal("click", false, true);
 });
+submitBtn.addEventListener("click", () => {
+  hideModal("click", true, false);
+});
+// updateBtn.addEventListener("click", () => {
+//   hideModal("click", true);
+// });
 
 getTime.addEventListener("click", (event) => {
+  title.value = "";
+  fromTime.value = "";
+  toTime.value = "";
   console.log(event);
   showModal(event);
 });
@@ -153,15 +176,16 @@ function showModal(event) {
   body.classList.add("bg-lock");
 }
 
-function hideModal(event, isSaveMode = false) {
+function hideModal(event, isSaveMode = false, toUpdate = false) {
   if (isSaveMode) {
     let eventsInStorage = LS.get("events");
-    if (checkEventName(title)) {
-      let fromHH = fromTime.split(":")[0];
-      let fromMM = fromTime.split(":")[1];
+    if (checkEventName(title) && checkEventTime(fromTime, toTime)) {
+      title.style.borderColor = getColor("--grey");
+      let fromHH = fromTime.value.split(":")[0];
+      let fromMM = fromTime.value.split(":")[1];
       fromTime = Number(fromHH) * 60 + Number(fromMM);
-      let toHH = toTime.split(":")[0];
-      let toMM = toTime.split(":")[1];
+      let toHH = toTime.value.split(":")[0];
+      let toMM = toTime.value.split(":")[1];
       toTime = Number(toHH) * 60 + Number(toMM);
       console.log(fromTime, toTime);
       let newTime = fromTime - 480;
@@ -169,7 +193,7 @@ function hideModal(event, isSaveMode = false) {
       let newEvent = {
         start: newTime,
         duration: newDuration,
-        title: title,
+        title: title.value,
       };
       eventsInStorage.push(newEvent);
       updateStorage(eventsInStorage);
@@ -178,25 +202,103 @@ function hideModal(event, isSaveMode = false) {
       getModal.classList.remove("show-modal");
       body.classList.remove("bg-lock");
     } else {
-      console.log('Try again')
+      console.log("Try again");
     }
+  } else if (toUpdate) {
+    let eventsInStorage = LS.get("events");
+    let currentEvent = eventsInStorage[id];
+    console.log(currentEvent);
+    if (checkEventName(title) && checkEventTime(fromTime, toTime)) {
+      title.style.borderColor = getColor("--grey");
+      let fromHH = fromTime.value.split(":")[0];
+      let fromMM = fromTime.value.split(":")[1];
+      fromTime = Number(fromHH) * 60 + Number(fromMM);
+      let toHH = toTime.value.split(":")[0];
+      let toMM = toTime.value.split(":")[1];
+      toTime = Number(toHH) * 60 + Number(toMM);
+      console.log(fromTime, toTime);
+      let newTime = fromTime - 480;
+      let newDuration = toTime - fromTime;
+      eventsInStorage.find((el) => {
+        start = newTime;
+        duration = newDuration;
+        title = title.value;
+      });
+
+      updateStorage(eventsInStorage);
+      FillOutDay(eventsInStorage);
+      console.log(eventsInStorage);
+      getModal.classList.remove("show-modal");
+      body.classList.remove("bg-lock");
+    } else {
+      getModal.classList.remove("show-modal");
+      body.classList.remove("bg-lock");
+    }
+  } else {
+    getModal.classList.remove("show-modal");
+    body.classList.remove("bg-lock");
   }
-  getModal.classList.remove("show-modal");
-  body.classList.remove("bg-lock");
 }
 
-function updateEvent(event) {
+function setNewData(event, start, duration, eventTitle, id) {
+  console.log(event, start, duration, eventTitle, id);
+  let newTitle = eventTitle;
+  let newFromTime = start + 480;
+  let newToTime = newFromTime + duration;
+  newFromTime = fromMinToTime(newFromTime);
+  newToTime = fromMinToTime(newToTime);
+
+  title.value = newTitle;
+  fromTime.value = newFromTime;
+  toTime.value = newToTime;
+
   console.log("test");
   event.stopPropagation();
   showModal(event);
 }
 
-function checkEventName(name) {
-  if (name.value.length !== 0) {
+function checkEventName(eventName) {
+  if (eventName.value.length > 0) {
     return true;
   } else {
-    name.style.borderColor = "red";
+    eventName.style.borderColor = getColor("--red");
     alert("Please write a name of event");
     return false;
   }
+}
+function checkEventTime(fromTime, toTime) {
+  let fromHH = Number(fromTime.value.split(":")[0]);
+  let fromMM = Number(fromTime.value.split(":")[1]);
+
+  let toHH = Number(toTime.value.split(":")[0]);
+  let toMM = Number(toTime.value.split(":")[1]);
+  if (
+    fromHH >= 8 &&
+    fromHH <= 16 &&
+    toHH >= 8 &&
+    toHH <= 17 &&
+    fromTime.value.length > 0 &&
+    toTime.value.length > 0
+  ) {
+    return true;
+  } else {
+    fromTime.style.borderColor = getColor("--red");
+    toTime.style.borderColor = getColor("--red");
+    alert(
+      "Please enter correct time: \n1) From 8:00 to 17:00 \n2) Don`t leave an empty field"
+    );
+    return false;
+  }
+}
+function fromMinToTime(inputMinutes) {
+  let min_num = parseInt(inputMinutes, 10);
+  let hours = Math.floor(min_num / 60);
+  let minutes = Math.floor(min_num - hours * 60);
+
+  if (hours < 10) {
+    hours = "0" + hours;
+  } else if (minutes < 10) {
+    minutes = "0" + minutes;
+  }
+  return hours + ":" + minutes;
 }
