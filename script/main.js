@@ -229,24 +229,124 @@ function grabCheckboxValues(checkboxes) {
   });
   return checkboxValues;
 }
-// Color filter
+
+let res = 0;
+
 let checkboxColor = colorFilter.querySelectorAll("input");
 let checkboxColorLabel = colorFilter.querySelectorAll("label");
 
-checkboxColor.forEach((box) => {
+let checkboxMemory = memoryFilter.querySelectorAll("input");
+let checkboxMemoryLabel = memoryFilter.querySelectorAll("label");
+
+let checkboxOs = osFilter.querySelectorAll("input");
+let checkboxOsLabel = osFilter.querySelectorAll("label");
+
+let checkboxDisplay = displayFilter.querySelectorAll("input");
+let checkboxDisplayLabel = memoryFilter.querySelectorAll("label");
+
+let allFilterInputs = filter.querySelectorAll("input");
+
+// function filterItems() {
+//   let priceMin = fromPrice.value;
+//   let priceMax = toPrice.value;
+//   let itemColor = [...filter.querySelectorAll("#color-sort input:checked")].map(
+//     (n) => n.value
+//   );
+//   let itemMemory = [
+//     ...filter.querySelectorAll("#memory-sort input:checked"),
+//   ].map((n) => n.value);
+//   let itemOs = [...filter.querySelectorAll("#os-sort input:checked")].map(
+//     (n) => n.value
+//   );
+//   let itemDisplay = [
+//     ...filter.querySelectorAll("#display-sort input:checked"),
+//   ].map((n) => {
+//     return {
+//       id: n.value,
+//       from: n.value.split("-")[0],
+//       to: n.value.split("-")[1],
+//     };
+//   });
+// }
+
+// Color filter
+
+allFilterInputs.forEach((box) => {
   box.checked = false;
-  box.addEventListener("change", () => filterColorCards());
+  box.addEventListener("change", filterColorCards);
 });
 
+// filter.addEventListener("input", filterColorCards);
+
 function filterColorCards() {
-  cardsContainer.innerHTML = "";
+  cardsContainer.innerHTML = " ";
   let sortedCards = [];
-  checkboxValues = grabCheckboxValues(checkboxColor);
+  let itemProperties = [];
+  checkboxValues = grabCheckboxValues(allFilterInputs);
+  console.log(checkboxValues);
   copyItems.forEach((item) => {
     let color = item.color;
-    console.log(color);
-    let result = (arr, target) => target.every((v) => arr.includes(v));
-    let isMatch = result(color, checkboxValues);
+    let memory = item.storage;
+    let os = item.os;
+    let display = item.display;
+    // console.log(color);
+    // console.log(memory);
+    // console.log(os);
+    // console.log(display);
+    let sortItems = (color, memory, os, ...target) => {
+      if (
+        target.some((v) => {
+          return color.includes(v);
+        }) ||
+        target.some((v) => {
+          return memory === parseInt(v);
+        }) ||
+        target.some((v) => {
+          return os === v;
+        })
+      ) {
+        return true;
+      } else if (
+        (target.some((v) => {
+          return color.includes(v);
+        }) &&
+          target.some((v) => {
+            return memory === parseInt(v);
+          })) ||
+        target.some((v) => {
+          return os === v;
+        })
+      ) {
+        return true;
+      } else if (
+        target.some((v) => {
+          return color.includes(v);
+        }) ||
+        (target.some((v) => {
+          return memory === parseInt(v);
+        }) &&
+          target.some((v) => {
+            return os === v;
+          }))
+      ) {
+        return true;
+      } else if (
+        target.some((v) => {
+          return color.includes(v);
+        }) &&
+        target.some((v) => {
+          return memory === parseInt(v);
+        }) &&
+        target.some((v) => {
+          return os === v;
+        })
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+    let isMatch = sortItems(color, memory, os, ...checkboxValues);
     if (isMatch) {
       sortedCards.push(item);
       createCards(sortedCards);
@@ -256,102 +356,96 @@ function filterColorCards() {
 }
 
 // Memory filter
-let checkboxMemory = memoryFilter.querySelectorAll("input");
-let checkboxMemoryLabel = memoryFilter.querySelectorAll("label");
-console.log(checkboxMemory);
-console.log(checkboxMemoryLabel);
 
-checkboxMemory.forEach((box) => {
-  box.checked = false;
-  box.addEventListener("change", () => filterMemoryCards());
-});
+// console.log(checkboxMemory);
+// console.log(checkboxMemoryLabel);
 
-function filterMemoryCards() {
-  cardsContainer.innerHTML = "";
-  let sortedCards = [];
-  checkboxValues = grabCheckboxValues(checkboxMemory);
-  copyItems.forEach((item) => {
-    let memory = item.storage;
-    console.log(memory);
-    let result = (el, target) =>
-      target.every((v) => {
-        return el === parseInt(v);
-      });
-    let isMatch = result(memory, checkboxValues);
-    if (isMatch) {
-      sortedCards.push(item);
-      createCards(sortedCards);
-    }
-  });
-  console.log(sortedCards);
-}
+// checkboxMemory.forEach((box) => {
+//   box.checked = false;
+//   box.addEventListener("change", () => filterMemoryCards());
+// });
+
+// function filterMemoryCards() {
+//   cardsContainer.innerHTML = "";
+//   let sortedCards = [];
+//   checkboxValues = grabCheckboxValues(checkboxMemory);
+//   copyItems.forEach((item) => {
+//     let memory = item.storage;
+//     console.log(memory);
+//     let result = (el, target) =>
+//       target.every((v) => {
+//         return el === parseInt(v);
+//       });
+//     let isMatch = result(memory, checkboxValues);
+//     if (isMatch) {
+//       sortedCards.push(item);
+//       createCards(sortedCards);
+//     }
+//   });
+//   console.log(sortedCards);
+// }
 
 // Os filter
-let checkboxOs = osFilter.querySelectorAll("input");
-let checkboxOsLabel = osFilter.querySelectorAll("label");
+// checkboxOs.forEach((box) => {
+//   box.checked = false;
+//   box.addEventListener("change", () => filterOsCards());
+// });
 
-checkboxOs.forEach((box) => {
-  box.checked = false;
-  box.addEventListener("change", () => filterOsCards());
-});
-
-function filterOsCards() {
-  cardsContainer.innerHTML = "";
-  let sortedCards = [];
-  checkboxValues = grabCheckboxValues(checkboxOs);
-  copyItems.forEach((item) => {
-    let os = item.os;
-    let result = (el, target) =>
-      target.every((v) => {
-        return el === v;
-      });
-    let isMatch = result(os, checkboxValues);
-    if (isMatch) {
-      sortedCards.push(item);
-      createCards(sortedCards);
-    }
-  });
-  console.log(sortedCards);
-}
+// function filterOsCards() {
+//   cardsContainer.innerHTML = "";
+//   let sortedCards = [];
+//   checkboxValues = grabCheckboxValues(checkboxOs);
+//   copyItems.forEach((item) => {
+//     let os = item.os;
+//     let result = (el, target) =>
+//       target.every((v) => {
+//         return el === v;
+//       });
+//     let isMatch = result(os, checkboxValues);
+//     if (isMatch) {
+//       sortedCards.push(item);
+//       createCards(sortedCards);
+//     }
+//   });
+//   console.log(sortedCards);
+// }
 
 // Display filter
-let checkboxDisplay = displayFilter.querySelectorAll("input");
-let checkboxDisplayLabel = memoryFilter.querySelectorAll("label");
-console.log(checkboxDisplay);
+// console.log(checkboxDisplay);
 
-checkboxDisplay.forEach((box) => {
-  box.checked = false;
-  box.addEventListener("change", () => filterDisplayCards());
-});
+// checkboxDisplay.forEach((box) => {
+//   box.checked = false;
+//   box.addEventListener("change", () => filterDisplayCards());
+// });
 
-function filterDisplayCards() {
-  cardsContainer.innerHTML = "";
-  let sortedCards = [];
-  checkboxValues = grabCheckboxValues(checkboxDisplay);
-  copyItems.forEach((item) => {
-    let display = Math.round(item.display);
-    console.log(display);
-    let result = (el, target) =>
-      target.every((v) => {
-        let arr = v.split("-");
-        let from = parseInt(arr[0]);
-        let to = parseInt(arr[1]);
-        console.log(from, to);
-        if (from < el < to) {
-          return true;
-        } else {
-          return false;
-        }
-      });
-    let isMatch = result(display, checkboxValues);
-    console.log(isMatch);
-    if (isMatch) {
-      sortedCards.push(item);
-      createCards(sortedCards);
-    }
-  });
-  console.log(sortedCards);
-}
+// function filterDisplayCards() {
+//   cardsContainer.innerHTML = "";
+//   let sortedCards = [];
+//   checkboxValues = grabCheckboxValues(checkboxDisplay);
+//   copyItems.forEach((item) => {
+//     let display = Math.round(item.display);
+//     console.log(display);
+//     let result = (el, target) =>
+//       target.every((v) => {
+//         let arr = v.split("-");
+//         let from = parseInt(arr[0]);
+//         let to = parseInt(arr[1]);
+//         console.log(from, to);
+//         if (from < el < to) {
+//           return true;
+//         } else {
+//           return false;
+//         }
+//       });
+//     let isMatch = result(display, checkboxValues);
+//     console.log(isMatch);
+//     if (isMatch) {
+//       sortedCards.push(item);
+//       createCards(sortedCards);
+//     }
+//   });
+//   console.log(sortedCards);
+// }
 
 // Modal window
 const body = document.querySelector("body");
@@ -433,7 +527,11 @@ for (let i = 0; i < removeItemBtn.length; i++) {
 const addItemBtn = document.querySelectorAll(".item__btn");
 for (let i = 0; i < addItemBtn.length; i++) {
   console.log(addItemBtn[i]);
-  addItemBtn[i].addEventListener("click", addToCardClicked);
+
+  addItemBtn[i].addEventListener("click", (event) => {
+    addToCardClicked(event);
+    event.stopPropagation();
+  });
 }
 
 function removeCartItem(event) {

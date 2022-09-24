@@ -133,6 +133,7 @@ img {
   background: var(--blue-bg);
   border-radius: 5px;
   transition: all 0.5s ease-in-out;
+  cursor: pointer;
 }
 .btn:hover {
   background: var(--blue);
@@ -716,7 +717,7 @@ form:focus-within {
   padding: 14px 10px 0 0;
 }
 .item-cart::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -782,7 +783,7 @@ form:focus-within {
   background: var(--blue-price-bg);
   margin-bottom: 20px;
 }
-.footer-cart__amount, 
+.footer-cart__amount,
 .footer-cart__price {
   color: var(--black);
   font-weight: 700;
@@ -798,4 +799,3 @@ form:focus-within {
 .bg-lock {
   overflow: hidden;
 }
-
