@@ -528,6 +528,7 @@ modal.addEventListener("click", (event) => {
 });
 
 // Shopping cart
+
 let cartCounter = document.querySelector("#cart-counter");
 let insideCartCounter = document.querySelector("#footer-cart__amount");
 // let productAmountInput = document.querySelector("#product-amount-input");
