@@ -198,12 +198,12 @@ toPrice.addEventListener("blur", priceEvent);
 
 function priceEvent(event) {
   if (event.code === "Enter") {
-    filterPrice(sortedByPrice);
+    switchPrice();
   } else if (event) {
-    filterPrice(sortedByPrice);
+    switchPrice();
   }
 }
-const filterPrice = (itemsArray) => {
+const switchPrice = () => {
   let filteredPrice = [];
   if (+fromPrice.value > +toPrice.value) {
     let temp;
@@ -211,149 +211,179 @@ const filterPrice = (itemsArray) => {
     toPrice.value = fromPrice.value;
     fromPrice.value = temp;
   }
-  itemsArray.filter((product) => {
-    if (+fromPrice.value <= product.price && product.price <= +toPrice.value) {
-      filteredPrice.push(product);
-      createCards(filteredPrice);
-    }
-  });
-  console.log(filteredPrice);
+  // itemsArray.filter((product) => {
+  //   if (+fromPrice.value <= product.price && product.price <= +toPrice.value) {
+  //     filteredPrice.push(product);
+  //     createCards(filteredPrice);
+  //   }
+  // });
+  // console.log(filteredPrice);
 };
 // For filtering
-let checkboxValues = [];
+// let checkboxValues = [];
 
-function grabCheckboxValues(checkboxes) {
-  let checkboxValues = [];
-  checkboxes.forEach((checkbox) => {
-    if (checkbox.checked) checkboxValues.push(checkbox.id);
+// function grabCheckboxValues(checkboxes) {
+//   let checkboxValues = [];
+//   checkboxes.forEach((checkbox) => {
+//     if (checkbox.checked) checkboxValues.push(checkbox.id);
+//   });
+//   return checkboxValues;
+// }
+
+// let checkboxColor = colorFilter.querySelectorAll("input");
+// let checkboxColorLabel = colorFilter.querySelectorAll("label");
+
+// let checkboxMemory = memoryFilter.querySelectorAll("input");
+// let checkboxMemoryLabel = memoryFilter.querySelectorAll("label");
+
+// let checkboxOs = osFilter.querySelectorAll("input");
+// let checkboxOsLabel = osFilter.querySelectorAll("label");
+
+// let checkboxDisplay = displayFilter.querySelectorAll("input");
+// let checkboxDisplayLabel = memoryFilter.querySelectorAll("label");
+
+// let allFilterInputs = filter.querySelectorAll("input");
+
+// const filters = document.querySelector("#filters");
+
+filter.addEventListener("input", filterItems);
+
+function filterItems() {
+  const color = [...filter.querySelectorAll("#color input:checked")].map(
+      (n) => n.id
+    ),
+    memory = [...filter.querySelectorAll("#memory input:checked")].map(
+      (n) => n.id
+    ),
+    os = [...filter.querySelectorAll("#os input:checked")].map((n) => n.id),
+    display = [...filter.querySelectorAll("#filter-display input:checked")].map(
+      (n) => {
+        return {
+          id: n.id,
+          from: n.id.split("-")[0],
+          to: n.id.split("-")[1],
+        };
+      }
+    ),
+    priceMin = document.querySelector("#price-field-start").value,
+    priceMax = document.querySelector("#price-field-end").value;
+
+  console.log(color, memory, os, display);
+
+  let filteredItems = sortedByPrice.filter((n) => {
+    let isColorExist = n.color.findIndex((item) => color.includes(item));
+    let isDisplayExist = display.findIndex((item) => {
+      return item.from > n.display && item.to > n.display;
+    });
+    return (
+      (!color.length || isColorExist !== -1) &&
+      (!memory.length ||
+        memory.find((item) => {
+          return parseInt(item) === parseInt(n.storage);
+        })) &&
+      (!os.length ||
+        os.find((item) => {
+          return item === n.os;
+        })) &&
+      (!display.length || isDisplayExist !== -1) &&
+      (!priceMin || priceMin <= n.price) &&
+      (!priceMax || priceMax >= n.price)
+    );
   });
-  return checkboxValues;
+  console.log(filteredItems);
+  outputItems(filteredItems);
 }
 
-let res = 0;
-
-let checkboxColor = colorFilter.querySelectorAll("input");
-let checkboxColorLabel = colorFilter.querySelectorAll("label");
-
-let checkboxMemory = memoryFilter.querySelectorAll("input");
-let checkboxMemoryLabel = memoryFilter.querySelectorAll("label");
-
-let checkboxOs = osFilter.querySelectorAll("input");
-let checkboxOsLabel = osFilter.querySelectorAll("label");
-
-let checkboxDisplay = displayFilter.querySelectorAll("input");
-let checkboxDisplayLabel = memoryFilter.querySelectorAll("label");
-
-let allFilterInputs = filter.querySelectorAll("input");
-
-// function filterItems() {
-//   let priceMin = fromPrice.value;
-//   let priceMax = toPrice.value;
-//   let itemColor = [...filter.querySelectorAll("#color-sort input:checked")].map(
-//     (n) => n.value
-//   );
-//   let itemMemory = [
-//     ...filter.querySelectorAll("#memory-sort input:checked"),
-//   ].map((n) => n.value);
-//   let itemOs = [...filter.querySelectorAll("#os-sort input:checked")].map(
-//     (n) => n.value
-//   );
-//   let itemDisplay = [
-//     ...filter.querySelectorAll("#display-sort input:checked"),
-//   ].map((n) => {
-//     return {
-//       id: n.value,
-//       from: n.value.split("-")[0],
-//       to: n.value.split("-")[1],
-//     };
-//   });
-// }
+function outputItems(filteredItems) {
+  // cardsContainer.innerHTML = " ";
+  createCards(filteredItems);
+}
 
 // Color filter
 
-allFilterInputs.forEach((box) => {
-  box.checked = false;
-  box.addEventListener("change", filterColorCards);
-});
+// allFilterInputs.forEach((box) => {
+//   box.checked = false;
+//   box.addEventListener("change", filterColorCards);
+// });
 
 // filter.addEventListener("input", filterColorCards);
 
-function filterColorCards() {
-  cardsContainer.innerHTML = " ";
-  let sortedCards = [];
-  let itemProperties = [];
-  checkboxValues = grabCheckboxValues(allFilterInputs);
-  console.log(checkboxValues);
-  copyItems.forEach((item) => {
-    let color = item.color;
-    let memory = item.storage;
-    let os = item.os;
-    let display = item.display;
-    // console.log(color);
-    // console.log(memory);
-    // console.log(os);
-    // console.log(display);
-    let sortItems = (color, memory, os, ...target) => {
-      if (
-        target.some((v) => {
-          return color.includes(v);
-        }) ||
-        target.some((v) => {
-          return memory === parseInt(v);
-        }) ||
-        target.some((v) => {
-          return os === v;
-        })
-      ) {
-        return true;
-      } else if (
-        (target.some((v) => {
-          return color.includes(v);
-        }) &&
-          target.some((v) => {
-            return memory === parseInt(v);
-          })) ||
-        target.some((v) => {
-          return os === v;
-        })
-      ) {
-        return true;
-      } else if (
-        target.some((v) => {
-          return color.includes(v);
-        }) ||
-        (target.some((v) => {
-          return memory === parseInt(v);
-        }) &&
-          target.some((v) => {
-            return os === v;
-          }))
-      ) {
-        return true;
-      } else if (
-        target.some((v) => {
-          return color.includes(v);
-        }) &&
-        target.some((v) => {
-          return memory === parseInt(v);
-        }) &&
-        target.some((v) => {
-          return os === v;
-        })
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    };
-    let isMatch = sortItems(color, memory, os, ...checkboxValues);
-    if (isMatch) {
-      sortedCards.push(item);
-      createCards(sortedCards);
-    }
-  });
-  console.log(sortedCards);
-}
+// function filterColorCards() {
+//   cardsContainer.innerHTML = " ";
+//   let sortedCards = [];
+//   let itemProperties = [];
+//   checkboxValues = grabCheckboxValues(allFilterInputs);
+//   console.log(checkboxValues);
+//   copyItems.forEach((item) => {
+//     let color = item.color;
+//     let memory = item.storage;
+//     let os = item.os;
+//     let display = item.display;
+//     // console.log(color);
+//     // console.log(memory);
+//     // console.log(os);
+//     // console.log(display);
+//     let sortItems = (color, memory, os, ...target) => {
+//       if (
+//         target.some((v) => {
+//           return color.includes(v);
+//         }) ||
+//         target.some((v) => {
+//           return memory === parseInt(v);
+//         }) ||
+//         target.some((v) => {
+//           return os === v;
+//         })
+//       ) {
+//         return true;
+//       } else if (
+//         (target.some((v) => {
+//           return color.includes(v);
+//         }) &&
+//           target.some((v) => {
+//             return memory === parseInt(v);
+//           })) ||
+//         target.some((v) => {
+//           return os === v;
+//         })
+//       ) {
+//         return true;
+//       } else if (
+//         target.some((v) => {
+//           return color.includes(v);
+//         }) ||
+//         (target.some((v) => {
+//           return memory === parseInt(v);
+//         }) &&
+//           target.some((v) => {
+//             return os === v;
+//           }))
+//       ) {
+//         return true;
+//       } else if (
+//         target.some((v) => {
+//           return color.includes(v);
+//         }) &&
+//         target.some((v) => {
+//           return memory === parseInt(v);
+//         }) &&
+//         target.some((v) => {
+//           return os === v;
+//         })
+//       ) {
+//         return true;
+//       } else {
+//         return false;
+//       }
+//     };
+//     let isMatch = sortItems(color, memory, os, ...checkboxValues);
+//     if (isMatch) {
+//       sortedCards.push(item);
+//       createCards(sortedCards);
+//     }
+//   });
+//   console.log(sortedCards);
+// }
 
 // Memory filter
 
