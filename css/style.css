@@ -714,7 +714,7 @@ form:focus-within {
   align-items: center;
   justify-content: space-between;
   position: relative;
-  padding: 14px 10px 0 0;
+  padding: 14px 10px 14px 0;
 }
 .item-cart::before {
   content: "";
@@ -732,9 +732,10 @@ form:focus-within {
 }
 .item-cart__img img {
   width: 100%;
+  height: 100%;
 }
 .item-cart__info {
-  margin-right: 46px;
+  flex: 0 1 30%;
 }
 .item-cart__name {
   color: var(--black);
