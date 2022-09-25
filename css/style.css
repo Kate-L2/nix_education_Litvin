@@ -751,7 +751,17 @@ form:focus-within {
   font-size: 0.857rem;
   font-weight: 700;
 }
-.item-cart__arrows {
+.item-cart__amount {
+  width: 50px;
+  height: 30px;
+  border: 1px solid var(--blue);
+  text-align: center;
+}
+.item-cart__amount::placeholder {
+  text-align: center;
+  color: var(--black);
+}
+/* .item-cart__arrows {
   margin-right: 25px;
   display: flex;
   align-items: center;
@@ -770,7 +780,7 @@ form:focus-within {
 .icon-arrow_left {
   display: block;
   color: var(--white);
-}
+} */
 .item-cart__delete-icon .icon-close {
   color: var(--red);
 }

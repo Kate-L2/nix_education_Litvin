@@ -529,8 +529,9 @@ modal.addEventListener("click", (event) => {
 
 // Shopping cart
 let cartCounter = document.querySelector("#cart-counter");
-cartCounter.innerHTML = "1";
-console.log(cartCounter);
+let itemsAmount = document.querySelector("#footer-cart__amount");
+// let productAmountInput = document.querySelector("#product-amount-input");
+cartCounter.innerHTML = "0";
 
 let cart = document.getElementById("cart");
 let cartOpenBtn = document.getElementById("cart-open-btn");
@@ -541,10 +542,8 @@ const cartItemsRow = cartItemsContainer.getElementsByClassName("item-cart");
 cartOpenBtn.addEventListener("click", (event) => {
   if (!cart.classList.contains("show-item")) {
     cart.classList.add("show-item");
-    body.classList.add("bg-lock");
   } else {
     cart.classList.remove("show-item");
-    body.classList.remove("bg-lock");
   }
   console.log(cart.classList);
 });
@@ -552,12 +551,20 @@ cartOpenBtn.addEventListener("click", (event) => {
 const removeItemBtn = document.querySelectorAll(".remove-btn");
 for (let i = 0; i < removeItemBtn.length; i++) {
   console.log(removeItemBtn[i]);
-  removeItemBtn[i].addEventListener("click", removeCartItem);
+  removeItemBtn[i].addEventListener("click", (event) => {
+    removeCartItem(event);
+  });
 }
+const quantytiInputs = document.querySelectorAll(".item-cart__amount");
+for (let i = 0; i < quantytiInputs.length; i++) {
+  quantytiInputs[i].addEventListener("change", (event) => {
+    return quantityChanged(event);
+  });
+}
+
 const addItemBtn = document.querySelectorAll(".item__btn");
 for (let i = 0; i < addItemBtn.length; i++) {
   console.log(addItemBtn[i]);
-
   addItemBtn[i].addEventListener("click", (event) => {
     addToCardClicked(event);
     event.stopPropagation();
@@ -567,6 +574,16 @@ for (let i = 0; i < addItemBtn.length; i++) {
 function removeCartItem(event) {
   let btnClicked = event.target;
   btnClicked.parentElement.parentElement.remove();
+  console.log(btnClicked.parentElement.parentElement);
+  updateCartTotal();
+}
+
+function quantityChanged(event) {
+  let input = event.target;
+  if (isNaN(input.value) || input.value <= 0) {
+    input.value = 1;
+  }
+  console.log(event.target);
   updateCartTotal();
 }
 
@@ -578,10 +595,18 @@ function addToCardClicked(event) {
   const getPrice = shopItem.getElementsByClassName("item-price")[0].innerText;
   console.log(getImg, getName, getPrice);
   addItemToCard(getImg, getName, getPrice);
+  updateCartTotal();
 }
 
 function addItemToCard(getImg, getName, getPrice) {
   let newCartItem = document.createElement("div");
+  let cartItemsNames = cartItemsContainer.querySelectorAll(".item-cart__name");
+  for (let i = 0; i < cartItemsNames.length; i++) {
+    if (cartItemsNames[i].innerText === getName) {
+      alert("This item is already in the cart");
+      return;
+    }
+  }
   let newCartItemContent = `<li class="cart__item item-cart">
   <div class="item-cart__img">
     <img src="${getImg}" alt="Items img" />
@@ -590,21 +615,20 @@ function addItemToCard(getImg, getName, getPrice) {
     <h5 class="item-cart__name">${getName}</h5>
     <div class="item-cart__price">${getPrice}</div>
   </div>
-  <div class="item-cart__arrows">
-    <a class="item-cart__arrow-left">
-      <i class="icon-arrow_left"></i>
-    </a>
-    <span class="item-cart__amount">2</span>
-    <a class="item-cart__arrow-right">
-      <i class="icon-arrow_left"></i>
-    </a>
+  <div>
+    <input placeholder="1"
+        value = '1'
+        class="item-cart__amount"
+        type="text"/>
   </div>
   <a class="item-cart__delete-icon remove-btn">
     <i class="icon-close"></i>
   </a>
 </li>`;
+  cartCounter.innerHTML++;
   newCartItem.innerHTML = newCartItemContent;
   cartItemsContainer.appendChild(newCartItem);
+  // newCartItem.getElementsByClassName(".remove-btn")[0];
 }
 
 function updateCartTotal() {
@@ -614,16 +638,10 @@ function updateCartTotal() {
     let priceEl = cartItem.getElementsByClassName("item-cart__price")[0];
     let quantityEl = cartItem.getElementsByClassName("item-cart__amount")[0];
     let price = parseFloat(priceEl.innerHTML.replace("$", ""));
-    let quantity = parseInt(quantityEl.innerText);
+    let quantity = parseInt(quantityEl.value);
     total += price * quantity;
     console.log(price, quantity);
   }
   document.getElementsByClassName("footer-cart__price")[0].innerText =
     total + "$";
 }
-
-// if (document.readyState === "loading") {
-//   document.addEventListener("DOMContentLoaded", ready);
-// } else {
-//   ready();
-// }
