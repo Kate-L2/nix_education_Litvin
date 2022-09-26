@@ -147,17 +147,15 @@ FillOutDay(eventsInStorage);
 
 // Modal
 const submitBtn = document.getElementById("submit-btn");
-const updateBtn = document.getElementById("update-btn");
 const deleteBtn = document.getElementById("delete-btn");
 
 const closeBtn = document.getElementById("close-modal");
 
 closeBtn.addEventListener("click", hideModal);
-updateBtn.addEventListener("click", () => {
-  hideModal("click", false, true);
-});
+deleteBtn.addEventListener("click", hideModal);
+
 submitBtn.addEventListener("click", () => {
-  hideModal("click", true, false);
+  hideModal("click", true);
 });
 // updateBtn.addEventListener("click", () => {
 //   hideModal("click", true);
@@ -176,7 +174,7 @@ function showModal(event) {
   body.classList.add("bg-lock");
 }
 
-function hideModal(event, isSaveMode = false, toUpdate = false) {
+function hideModal(event, isSaveMode = false) {
   if (isSaveMode) {
     let eventsInStorage = LS.get("events");
     if (checkEventName(title) && checkEventTime(fromTime, toTime)) {
@@ -204,36 +202,6 @@ function hideModal(event, isSaveMode = false, toUpdate = false) {
     } else {
       console.log("Try again");
     }
-  } else if (toUpdate) {
-    let eventsInStorage = LS.get("events");
-    let currentEvent = eventsInStorage[id];
-    console.log(currentEvent);
-    if (checkEventName(title) && checkEventTime(fromTime, toTime)) {
-      title.style.borderColor = getColor("--grey");
-      let fromHH = fromTime.value.split(":")[0];
-      let fromMM = fromTime.value.split(":")[1];
-      fromTime = Number(fromHH) * 60 + Number(fromMM);
-      let toHH = toTime.value.split(":")[0];
-      let toMM = toTime.value.split(":")[1];
-      toTime = Number(toHH) * 60 + Number(toMM);
-      console.log(fromTime, toTime);
-      let newTime = fromTime - 480;
-      let newDuration = toTime - fromTime;
-      eventsInStorage.find((el) => {
-        start = newTime;
-        duration = newDuration;
-        title = title.value;
-      });
-
-      updateStorage(eventsInStorage);
-      FillOutDay(eventsInStorage);
-      console.log(eventsInStorage);
-      getModal.classList.remove("show-modal");
-      body.classList.remove("bg-lock");
-    } else {
-      getModal.classList.remove("show-modal");
-      body.classList.remove("bg-lock");
-    }
   } else {
     getModal.classList.remove("show-modal");
     body.classList.remove("bg-lock");
@@ -253,8 +221,53 @@ function setNewData(event, start, duration, eventTitle, id) {
   toTime.value = newToTime;
 
   console.log("test");
+  console.log(title, fromTime, toTime);
   event.stopPropagation();
   showModal(event);
+  submitBtn.addEventListener(
+    "click",
+    updateEvent(fromTime, toTime, title, id)
+  );
+  deleteBtn.addEventListener("click", deleteEvent(id));
+}
+
+function updateEvent(start, end, title, id) {
+  let newTime, newDuration;
+  if (checkEventName(title) && checkEventTime(fromTime, toTime)) {
+    title.style.borderColor = getColor("--grey");
+    let fromHH = fromTime.value.split(":")[0] || start.split(":")[0];
+    let fromMM = fromTime.value.split(":")[1] || start.split(":")[1];
+    fromTime = Number(fromHH) * 60 + Number(fromMM);
+    let toHH = toTime.value.split(":")[0] || end.split(":")[0];
+    let toMM = toTime.value.split(":")[1] || end.split(":")[1];
+    toTime = Number(toHH) * 60 + Number(toMM);
+    console.log(fromTime, toTime);
+    newTime = fromTime - 480;
+    newDuration = toTime - fromTime;
+    console.log(eventsInStorage);
+  } else {
+    console.log("Try again");
+  }
+  eventsInStorage.find((el) => {
+    if (el.id === id) {
+      el.start = newTime;
+      el.duration = newDuration;
+      el.title = title;
+    }
+  });
+  LS.set("events", eventsInStorage);
+  updateStorage(eventsInStorage);
+  FillOutDay(eventsInStorage);
+}
+
+function deleteEvent(id) {
+  for (let i in events) {
+    if (events[i].id == id) {
+      events.splice(i, 1);
+    }
+  }
+  updateStorage(eventsInStorage);
+  FillOutDay(eventsInStorage);
 }
 
 function checkEventName(eventName) {
