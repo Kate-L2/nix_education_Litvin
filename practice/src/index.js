@@ -1,12 +1,24 @@
-// import readline from "readline";
+module.exports.square = function(num) {
+	return num ** 2;
+}
 
-console.log("Hello");
+module.exports.cube = function (num) {
+	return num ** 3;
+}
 
-const readline = require("readline").createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-readline.question("Who are you?", (name) => {
-  console.log(`Hey there ${name}!`);
-  readline.close();
-});
+module.exports.avg = function (arr) {
+	return sum(arr, 1) / arr.length;
+}
+
+module.exports.digitsSum = function(num) {
+	return sum(String(num).split(''));
+}
+
+// допоміжних функція
+function sum(arr) {
+	let res = 0;
+	for (let elem of arr) {
+		res += +elem;
+	}
+	return res;
+}
