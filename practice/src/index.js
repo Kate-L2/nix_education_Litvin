@@ -18,7 +18,7 @@ const requestListener = function (req, res) {
       case "/users/createWithArray":
         userController(req, res);
         break;
-      case "/users/:userName":
+      case "/users/{userName}":
         userController(req, res);
         break;
       case "/":
@@ -52,6 +52,7 @@ function userController(req, res) {
       res.end(JSON.stringify(users));
       break;
     case "PUT":
+      putFunc(req);
       res.setHeader("Content-Type", "application/json");
       res.writeHead(200);
       res.end(JSON.stringify(users));
@@ -64,7 +65,6 @@ function userController(req, res) {
         res.writeHead(400);
         res.end("There is no user with such name");
       }
-
       break;
     default:
       res.setHeader("Content-Type", "application/json");
@@ -99,6 +99,20 @@ function deleteFunc(req) {
   }
 }
 
+function putFunc(req) {
+  const userName = req.params.userName;
+  if (data.length > 0) {
+    const user = data.find((u) => u.userName === userName);
+    if (typeof user === "undefined") {
+      res.status(404).send({
+        error: "User not found",
+      });
+    } else {
+      res.status(200).send(user);
+    }
+  }
+}
+
 const server = http.createServer(requestListener);
 
 readFile(process.cwd() + "/src/resource/index.html", "utf8", (err, data) => {
@@ -112,4 +126,3 @@ readFile(process.cwd() + "/src/resource/index.html", "utf8", (err, data) => {
     console.log(`Server is running on http://${host}:${port}`);
   });
 });
-
