@@ -13,6 +13,7 @@
   "author": "Kateryna Litvin",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.18.1",
     "webpack": "^5.74.0"
   },
   "devDependencies": {
