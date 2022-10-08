@@ -7,27 +7,28 @@ const port = 8000;
 let indexFile;
 let body;
 
-const users = [];
+const users = [
+  {
+    id: 0,
+    username: "litvinka",
+    firstName: "Kate",
+  },
+  {
+    id: 1,
+    username: "max",
+    firstName: "Kate",
+  },
+];
 
 const requestListener = function (req, res) {
   try {
-    switch (req.url) {
-      case "/users":
-        userController(req, res);
-        break;
-      case "/users/createWithArray":
-        userController(req, res);
-        break;
-      case "/users/{userName}":
-        userController(req, res);
-        break;
-      case "/":
-        res.end(indexFile);
-        break;
-      default:
-        res.setHeader("Content-Type", "application/json");
-        res.writeHead(404);
-        res.end(`{code: 404, message: "Resource not found"}`);
+    let url = req.url;
+    if (url.toString().search("users")) {
+      userController(req, res);
+    } else {
+      res.setHeader("Content-Type", "application/json");
+      res.writeHead(404);
+      res.end("code: 404\n message: 'Resource not found'");
     }
   } catch (e) {
     res.setHeader("Content-Type", "application/json");
@@ -37,44 +38,81 @@ const requestListener = function (req, res) {
 };
 
 function userController(req, res) {
-  switch (req.method) {
-    case "POST":
-      postFunc(req, (body) => {
-        users.push(body);
+  const url = req.url;
+  const userControllerPath = url.split("/");
+  let path = "";
+  if ([userControllerPath].length === 3) {
+    console.log(userControllerPath.length);
+    path = userControllerPath.pop();
+    if (path === "createWithArray") {
+      readData(req, (body) => {
+        const parseDataObj = JSON.parse(body);
+        users = [...users, ...parseDataObj];
       });
+      console.log("test");
       res.setHeader("Content-Type", "application/json");
       res.writeHead(200);
       res.end("Message: saved");
-      break;
-    case "GET":
-      res.setHeader("Content-Type", "application/json");
-      res.writeHead(200);
-      res.end(JSON.stringify(users));
-      break;
-    case "PUT":
-      putFunc(req);
-      res.setHeader("Content-Type", "application/json");
-      res.writeHead(200);
-      res.end(JSON.stringify(users));
-      break;
-    case "DELETE":
-      if (deleteFunc(req)) {
-        res.writeHead(200);
-        res.end("User was deleted");
-      } else {
-        res.writeHead(400);
-        res.end("There is no user with such name");
+      return;
+    }
+    if (path) {
+      switch (req.method) {
+        case "GET":
+          res.setHeader("Content-Type", "application/json");
+          res.writeHead(200);
+          res.end(JSON.stringify(users));
+          break;
+        case "PUT":
+          readData(req, (body) => {
+            const parseDataObj = JSON.parse(body);
+            const indexUser = users.findIndex((user) => user.username === path);
+            users[indexUser] = parseDataObj;
+          });
+          res.setHeader("Content-Type", "application/json");
+          res.writeHead(200);
+          res.end(JSON.stringify(users));
+          break;
+        case "DELETE":
+          const filtered = users.filter((user) => user.username !== path);
+          users = [...filtered];
+          res.setHeader("Content-Type", "application/json");
+          res.writeHead(200);
+          res.end(JSON.stringify(users));
+          res.end("User was deleted");
+          break;
+        default:
+          res.setHeader("Content-Type", "application/json");
+          res.writeHead(200);
+          res.end("Error");
+          break;
       }
-      break;
-    default:
-      res.setHeader("Content-Type", "application/json");
-      res.writeHead(200);
-      res.end("Error");
-      break;
+      return;
+    }
+  } else {
+    switch (req.method) {
+      case "POST":
+        readData(req, (body) => {
+          users.push(JSON.parse(body));
+        });
+        res.setHeader("Content-Type", "application/json");
+        res.writeHead(200);
+        res.end("Message: saved");
+        break;
+      case "GET":
+        res.setHeader("Content-Type", "application/json");
+        res.writeHead(200);
+        res.end(JSON.stringify(users));
+        break;
+      default:
+        res.setHeader("Content-Type", "application/json");
+        res.writeHead(400);
+        res.end("Error");
+        break;
+    }
   }
 }
 
-function postFunc(req, func) {
+function readData(req, func) {
   body = [];
   req
     .on("data", (chunk) => {
@@ -85,32 +123,6 @@ function postFunc(req, func) {
       console.log(body);
       func(body);
     });
-}
-
-function deleteFunc(req) {
-  const { name } = req.param;
-  const deleted = users.find((user) => user.name === name);
-
-  if (deleted) {
-    users = users.filter((el) => el.name !== param);
-    return users;
-  } else {
-    return false;
-  }
-}
-
-function putFunc(req) {
-  const userName = req.params.userName;
-  if (data.length > 0) {
-    const user = data.find((u) => u.userName === userName);
-    if (typeof user === "undefined") {
-      res.status(404).send({
-        error: "User not found",
-      });
-    } else {
-      res.status(200).send(user);
-    }
-  }
 }
 
 const server = http.createServer(requestListener);
