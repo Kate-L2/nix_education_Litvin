@@ -7,7 +7,7 @@ const port = 8000;
 let indexFile;
 let body;
 
-const users = [
+let users = [
   {
     id: 0,
     username: "litvinka",
@@ -41,15 +41,13 @@ function userController(req, res) {
   const url = req.url;
   const userControllerPath = url.split("/");
   let path = "";
-  if ([userControllerPath].length === 3) {
-    console.log(userControllerPath.length);
+  if (userControllerPath.length === 3) {
     path = userControllerPath.pop();
     if (path === "createWithArray") {
       readData(req, (body) => {
         const parseDataObj = JSON.parse(body);
         users = [...users, ...parseDataObj];
       });
-      console.log("test");
       res.setHeader("Content-Type", "application/json");
       res.writeHead(200);
       res.end("Message: saved");
@@ -58,9 +56,10 @@ function userController(req, res) {
     if (path) {
       switch (req.method) {
         case "GET":
+          const getUser = users.find((user) => user.username === path);
           res.setHeader("Content-Type", "application/json");
           res.writeHead(200);
-          res.end(JSON.stringify(users));
+          res.end(JSON.stringify(getUser));
           break;
         case "PUT":
           readData(req, (body) => {
@@ -74,11 +73,10 @@ function userController(req, res) {
           break;
         case "DELETE":
           const filtered = users.filter((user) => user.username !== path);
-          users = [...filtered];
+          users = filtered;
           res.setHeader("Content-Type", "application/json");
           res.writeHead(200);
           res.end(JSON.stringify(users));
-          res.end("User was deleted");
           break;
         default:
           res.setHeader("Content-Type", "application/json");
