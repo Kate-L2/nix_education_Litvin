@@ -1,0 +1,21 @@
+{
+  "type": "module",
+  "name": "practice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node /src/scripts/index.js",
+    "test1": "mocha index.test.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Litvin",
+  "license": "ISC",
+  "dependencies": {
+    "webpack": "^5.74.0"
+  },
+  "devDependencies": {
+    "mocha": "^10.0.0",
+    "request": "^2.88.2"
+  }
+}
