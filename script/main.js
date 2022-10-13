@@ -1,4 +1,15 @@
 const copyItems = items;
+
+// let copyItems;
+// const URL = "http://localhost:8000";
+
+// fetch(URL)
+//   .then((response) => response.json())
+//   .then((json) => {
+//     console.log(json);
+//     copyItems = json;
+//   });
+
 const cardsContainer = document.getElementById("cards__wrapper");
 const card = document.getElementById("itemId");
 function createCards(items) {
