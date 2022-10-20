@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { Calculator } from "./index.js";
+import { Calculator } from "../src/scripts/index.js";
 import { describe } from "mocha";
 
 describe("Test of calculation method", function () {

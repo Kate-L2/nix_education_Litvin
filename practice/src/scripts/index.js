@@ -1,20 +1,15 @@
 export class Calculator {
-  result;
   constructor() {}
   calculation(num1, num2, op) {
     switch (op) {
       case "+":
-        this.result = num1 + num2;
-        break;
+        return num1 + num2;
       case "-":
-        this.result = num1 + num2;
-        break;
+        return num1 - num2;
       case "*":
-        this.result = num1 + num2;
-        break;
+        return num1 * num2;
       case "/":
-        this.result = num1 + num2;
-        break;
+        return num1 / num2;
       default:
         console.log("Unknown symbol. Input: +-*/");
         break;
@@ -22,4 +17,3 @@ export class Calculator {
     return result;
   }
 }
-
