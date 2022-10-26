@@ -1,12 +1,13 @@
 {
-  "type": "module",
+  "type": "commonjs",
   "name": "test",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/connect/MongoDB.js"
+    "start": "node ./src/connect/MongoDB.js",
+    "start1": "node ./src/connect/MongoTest"
   },
   "author": "Litvin",
   "license": "ISC",
@@ -15,7 +16,7 @@
     "request": "^2.88.2"
   },
   "dependencies": {
-    "mogoose": "^0.0.1-security",
-    "mongodb": "^4.11.0"
+    "mongodb": "^4.11.0",
+    "mongoose": "^6.7.0"
   }
 }

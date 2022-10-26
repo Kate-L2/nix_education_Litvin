@@ -1,28 +1,25 @@
 const mongoose = require("mongoose");
-const username = encodeURIComponent("Kyrylo");
-const password = encodeURIComponent("Ed2XzDCJZ5HzW2R0ELVm");
-const cluster = "cluster0.aut047l.mongodb.net";
-let mongoDB = `mongodb+srv://${username}:${password}@${cluster}/?retryWrites=true&w=majority`;
-// Import the mongoose module
 
 // Set up default mongoose connection
-// const mongoDB = "mongodb://127.0.0.1/my_database";
-
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
-
-// Get the default connection
-const db = mongoose.connection;
-
-// Bind connection to error event (to get notification of connection errors)
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
-
-// Require Mongoose
-const mongoose = require("mongoose");
-
-// Define a schema
-const Schema = mongoose.Schema;
-
-const SomeModelSchema = new Schema({
-  a_string: String,
-  a_date: Date,
-});
+const { MongoClient } = require("mongodb");
+const username = encodeURIComponent("Litvinka ");
+const password = encodeURIComponent("HB2002hb");
+const cluster = "cluster0.vwex8ht.mongodb.net";
+​
+let uri =
+    `mongodb+srv://Litvinka:<password>@cluster0.vwex8ht.mongodb.net/?retryWrites=true&w=majority`;
+const client = new MongoClient(uri);
+async function testMongoConnection() {
+    try {
+        await client.connect();
+        const database = client.db("LessonNodeDB");
+        const ratings = database.collection("Collection0");
+        const cursor = ratings.find();
+        console.log(ratings)
+        await cursor.forEach(doc => console.log(doc));
+​
+    } finally {
+        await client.close();
+    }
+}
+module.exports = testMongoConnection;
