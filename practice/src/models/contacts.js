@@ -1,9 +1,6 @@
-import contacts from "./contacts.json" assert { type: "json" };
-
 // Set up mongoose connection
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
 
 const ContactsSchema = new Schema({
   id: {

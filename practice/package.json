@@ -1,15 +1,15 @@
 {
-  "type": "module",
+  "type": "commonjs",
   "name": "practice",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "express.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/seeds/seed.js",
+    "start": "node ./src/services/mongoConnect.js",
     "start1": "node ./src/services/express.js"
   },
-  "author": "Litvin Kateryna",
+  "author": "Kateryna Litvin",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
