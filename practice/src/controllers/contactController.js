@@ -2,33 +2,36 @@
 const Contacts = require("../models/contacts.js");
 
 const listContacts = function (req, res) {
-  let contacts = Contacts.find({}, function (err, contacts) {
-    if (err) {
-      console.log(err);
-    } else {
-      res.status(200);
-      res.json(contacts);
-    }
-  });
-  return contacts;
+  Contacts.find({})
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.status(404).json({ error: "Could not find a collection" });
+    });
 };
 
 const getById = function (req, res) {
   let id = req.params.id;
-  let foundContact = Contacts.findOne({ id: id }, function (err, contact) {
-    if (contact) {
-      res.status(200).json(contact);
-    } else {
-      res.status(404).json({ message: "Not found" });
-    }
-  });
-  return foundContact;
+  Contacts.findOne({ id: id })
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.status(404).json({ error: "Could not find a contact with this id" });
+    });
 };
 
 const addContact = function (req, res) {
+  let id = req.body.id;
   let name = req.body.name;
   let email = req.body.email;
   let phone = req.body.phone;
+  if (!id) {
+    res.status(400).send({
+      message: "Missing required id",
+    });
+  }
   if (!name) {
     res.status(400).send({
       message: "Missing required name",
@@ -42,64 +45,56 @@ const addContact = function (req, res) {
       message: "Missing required phone",
     });
   } else {
-    
-    let newContact = {
-      id: Math.floor(Math.random() * 100),
+    let newContact = new Contacts({
+      id: id,
       name: name,
       email: email,
       phone: phone,
-    };
-    
-    res.status(201);
+    });
+    newContact.save().then(() => console.log("New contact created"));
+    res.status(201).send(newContact);
   }
 };
 
-// router.delete("/:id", function (req, res) {
-//   let id = req.params.id;
-//   let contact = removeContact(id);
-//   if (contact) {
-//     res.status(200).json({ message: "Contact deleted" });
-//   } else {
-//     res.status(404).json({ message: "Contact not found" });
-//   }
-// });
+const removeContact = function (req, res) {
+  let id = req.params.id;
+  Contacts.deleteOne({ id: id })
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.status(404).json({ error: "Could not delete a contact" });
+    });
+};
 
-// router.put("/:id", function (req, res) {
-//   let id = req.params.id;
-//   let body = req.body;
-//   if (!body) {
-//     res.status(400).json({ message: "Missing fields" });
-//   } else {
-//     if (updateContact(id, body)) {
-//       res.status(200);
-//     } else {
-//       res.status(400).json({ message: "Contact not found" });
-//     }
-//   }
-// });
-
-// function addContact(obj) {
-//   return contactsArr.push(obj);
-// }
-
-// function removeContact(id) {
-//   let foundContact = contactsArr.findIndex((item) => id === String(item.id));
-//   if (foundContact < 0) return null;
-//   const newContactsArr = contactsArr.splice(foundContact, 1);
-//   return newContactsArr;
-// }
-
-// function updateContact(id, body) {
-//   let foundContact = contactsArr.findIndex((item) => id === String(item.id));
-//   if (foundContact < 0) return null;
-//   contactsArr[foundContact] = { body };
-//   return contactsArr[foundContact];
-// }
+const updateContact = function (req, res) {
+  let id = req.body.id;
+  let name = req.body.name;
+  let email = req.body.email;
+  let phone = req.body.phone;
+  Contacts.updateOne(
+    { id: id },
+    {
+      $set: {
+        id: id,
+        name: name,
+        email: email,
+        phone: phone,
+      },
+    }
+  )
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.status(404).json({ error: "Could not update a contact" });
+    });
+};
 
 module.exports = {
   listContacts,
   getById,
   addContact,
-  //   removeContact,
-  //   updateContact,
+  removeContact,
+  updateContact,
 };

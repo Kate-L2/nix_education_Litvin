@@ -13,7 +13,6 @@ const ContactsSchema = new Schema({
     type: String,
     required: [true, "Contact must have name"],
     trim: true,
-    unique: true,
   },
   email: {
     type: String,
