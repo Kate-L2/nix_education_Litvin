@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <link href="/frontend/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="/frontend/css/null.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="login-form">
+      <form action="/login" method="post">
+        <dir class="login-form__cross"></dir>
+        <h1 class="login-form__title">Login</h1>
+        <ul class="login-form__filds">
+          <li class="login-form__item">
+            <label for="userName">User name</label>
+            <input
+              id="userName"
+              name="userName"
+              class="login-form__name"
+              type="text"
+            />
+          </li>
+          <li class="login-form__item">
+            <label for="userPass">Password</label>
+            <input
+              id="userPass"
+              name="userPass"
+              class="login-form__pass"
+              type="password"
+            />
+          </li>
+          <li class="login-form__item">
+            <input
+              name="loginBtn"
+              class="login-form__btn"
+              type="button"
+              value="Login"
+            />
+          </li>
+          <li class="login-form__item">
+            <a href="./register" class="login-form__btn-reg"> Sign up </a>
+          </li>
+        </ul>
+      </form>
+    </div>
+  </body>
+</html>

@@ -810,3 +810,23 @@ form:focus-within {
 .bg-lock {
   overflow: hidden;
 }
+
+/* ///////////////////Login form//////////////////// */
+.login-form {
+}
+.login-form__cross {
+}
+.login-form__title {
+}
+.login-form__filds {
+}
+.login-form__item {
+}
+.login-form__name {
+}
+.login-form__pass {
+}
+.login-form__btn {
+}
+.login-form__btn-reg {
+}
