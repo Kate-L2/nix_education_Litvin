@@ -1,9 +1,10 @@
 const User = require("../models/user");
+const bcrypt = require("bcrypt");
 
-const addUser = function (req, res) {
-  let name = req.body.name;
-  let email = req.body.email;
-  let phone = req.body.phone;
+function addUser (req, res) {
+  let name = req.body.userName;
+  let email = req.body.userEmail;
+  let pass = req.body.userPass;
   if (!name) {
     res.status(400).send({
       message: "Missing required name",
@@ -12,21 +13,33 @@ const addUser = function (req, res) {
     res.status(400).send({
       message: "Missing required email",
     });
-  } else if (!phone) {
+  } else if (!pass) {
     res.status(400).send({
-      message: "Missing required phone",
+      message: "Missing required pass",
     });
   } else {
     let newUser = new User({
       name: name,
       email: email,
-      phone: phone,
+      password: pass,
     });
     newUser.save().then(() => console.log("New user created"));
-    res.status(201).send(newUser);
+    // res.status(201).send(newUser);
   }
 };
 
+// function findByName () {
+//   let name = req.body.userName;
+//   User.findOne({ name: name})
+//     .then((result) => {
+//       res.status(200).json(result);
+//     })
+//     .catch((err) => {
+//       res.status(404).json({ error: "Could not find a user with this name" });
+//     });
+// };
+
 module.exports = {
   addUser,
+  // findByName
 };
