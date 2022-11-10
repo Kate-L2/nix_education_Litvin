@@ -3,11 +3,14 @@ const bcrypt = require("bcrypt");
 
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
-  name: { type: String, require: true },
-  email: { type: String, require: true },
-  password: { type: String, require: true },
-});
+const UserSchema = new Schema(
+  {
+    name: { type: String, require: true },
+    email: { type: String, require: true },
+    password: { type: String, require: true },
+  },
+  { collation: "users" }
+);
 
 UserSchema.pre("save", function (next) {
   const user = this;
