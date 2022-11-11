@@ -1,25 +1,19 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const SECRET_JWT_CODE = "ndskjJJJKS8883mKJnggv";
 
 function addUser(req, res) {
   let name = req.body.userName;
   let email = req.body.userEmail;
   let pass = req.body.userPass;
-  if (!name) {
+  if (!name || !email || !pass) {
     res.status(400).send({
-      message: "Missing required name",
-    });
-  } else if (!email) {
-    res.status(400).send({
-      message: "Missing required email",
-    });
-  } else if (!pass) {
-    res.status(400).send({
-      message: "Missing required pass",
+      message: "Please fill out all fileds",
     });
   } else if (pass.length < 8) {
     res.status(400).send({
-      message: "Password is too short",
+      message: "Password has to be more than 8 symbols",
     });
   } else {
     let newUser = new User({
@@ -28,24 +22,31 @@ function addUser(req, res) {
       password: pass,
     });
     newUser.save().then(() => console.log("New user created"));
-    // res.status(201).send(newUser);
+    res.status(201).send(newUser);
   }
 }
 
 function findByName(req, res) {
   let name = req.body.userName;
   let pass = req.body.userPass;
+
   User.findOne({ name: name }).then((user) => {
-    res.status(200).json(user);
-    bcrypt.compare(pass, user.password, function (err, isValid) {
-      if (isValid) {
-        request.server.log("info", "user authentication successful");
-        const token = user.generateAuthToken();
-        res.send(token);
-        res.redirect("/");
-      } else if (err) {
-        res.status(404).json({ error: "Could not find a user" });
-      }
+    if (!user || !user.comparePassword(pass)) {
+      return res
+        .status(401)
+        .then((er) => console.log("Authentication failed. Invalid name or password."));
+        // .json({ message: "Authentication failed. Invalid name or password." });
+    }
+    return res.status(201).json({
+      token: jwt.sign(
+        {
+          name: user.name,
+          email: user.email,
+          password: user.password,
+          _id: user._id,
+        },
+        SECRET_JWT_CODE
+      ),
     });
   });
 }
