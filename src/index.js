@@ -20,6 +20,10 @@ app.get("/messages", (req, res) => {
   res.send(JSON.stringify(messages));
 });
 
+app.get("/test", (req, res) => {
+  res.send(`<h1>My first deploy</h1>`);
+});
+
 server.listen(process.env.PORT || 3001, function () {
   console.log("Listening on http://localhost:3001");
 });
