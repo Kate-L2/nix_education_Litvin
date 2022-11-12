@@ -14,34 +14,36 @@ function addUser(req, res) {
   });
   newUser.save().then(() => console.log("New user created"));
   // res.status(201).send(newUser);
-  }
-
+}
 
 function findByName(req, res) {
   let name = req.body.userName;
   let pass = req.body.userPass;
 
-  User.findOne({ name: name }).then((user) => {
-    if (!user || !user.comparePassword(pass)) {
-      return res
-        .status(401)
-        .then((er) =>
-          console.log("Authentication failed. Invalid name or password.")
-        );
-      // .json({ message: "Authentication failed. Invalid name or password." });
-    }
-    return res.status(201).json({
-      token: jwt.sign(
-        {
-          name: user.name,
-          email: user.email,
-          password: user.password,
-          _id: user._id,
-        },
-        SECRET_JWT_CODE
-      ),
-    });
-  });
+  const foundUser = User.findOne({ name: name });
+  if (
+    foundUser &&
+    bcrypt.compare(pass, foundUser.password, function (err, res) {
+      if (err) {
+        console.log("Comparison error: ", err);
+      }
+      return res.json({
+        token: jwt.sign(
+          {
+            name: foundUser.name,
+            email: foundUser.email,
+            password: foundUser.password,
+            _id: foundUser._id,
+          },
+          SECRET_JWT_CODE,
+          {
+            expiresIn: "2h",
+          }
+        ),
+      });
+    })
+  )
+    res.status(400).send("Authentication failed. Invalid name or password.");
 }
 
 module.exports = {

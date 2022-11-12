@@ -16,7 +16,9 @@ const signUpCheck = () => {
       .isEmpty()
       .withMessage("This filed is required")
       .isEmail()
-      .withMessage("Please enter a valid email like this ====> jdlakmd@gmail.com"),
+      .withMessage(
+        "Please enter a valid email like this ====> jdlakmd@gmail.com"
+      ),
     check("userPass")
       .trim()
       .not()
@@ -27,6 +29,22 @@ const signUpCheck = () => {
   ];
 };
 
+const loginCheck = () => {
+  return [
+    check("userName")
+      .trim()
+      .not()
+      .isEmpty()
+      .withMessage("This filed is required"),
+    check("userPass")
+      .trim()
+      .not()
+      .isEmpty()
+      .withMessage("This filed is required"),
+  ];
+};
+
 module.exports = {
   signUpCheck,
+  loginCheck,
 };
