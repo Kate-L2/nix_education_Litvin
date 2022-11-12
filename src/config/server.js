@@ -15,10 +15,9 @@ app.set("views", process.cwd() + "/src/views");
 
 app.use(express.static("frontend"));
 app.use(express.urlencoded({ extended: true }));
-app.use(expressValidator());
 app.use(cookieParser());
 app.use(session({ secret: "krunal", saveUninitialized: false, resave: false }));
-
+app.use(expressValidator());
 app.use("/", router);
 
 app.listen(port, () => {

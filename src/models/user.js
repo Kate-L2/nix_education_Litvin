@@ -5,9 +5,17 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema(
   {
-    name: { type: String, require: true },
+    name: {
+      type: String,
+      maxLength: [30, "Please enter less than 30 symbols"],
+      require: true,
+    },
     email: { type: String, require: true },
-    password: { type: String, require: true },
+    password: {
+      type: String,
+      minLength: [8, "Please enter more than 8 symbols"],
+      require: true,
+    },
   },
   { collation: "users" }
 );

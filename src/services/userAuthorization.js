@@ -6,25 +6,16 @@ const SECRET_JWT_CODE = "ndskjJJJKS8883mKJnggv";
 function addUser(req, res) {
   let name = req.body.userName;
   let email = req.body.userEmail;
-  let pass = req.body.userPass;
-  if (!name || !email || !pass) {
-    res.status(400).send({
-      message: "Please fill out all fileds",
-    });
-  } else if (pass.length < 8) {
-    res.status(400).send({
-      message: "Password has to be more than 8 symbols",
-    });
-  } else {
-    let newUser = new User({
-      name: name,
-      email: email,
-      password: pass,
-    });
-    newUser.save().then(() => console.log("New user created"));
-    res.status(201).send(newUser);
+  let password = req.body.userPass;
+  let newUser = new User({
+    name: name,
+    email: email,
+    password: password,
+  });
+  newUser.save().then(() => console.log("New user created"));
+  // res.status(201).send(newUser);
   }
-}
+
 
 function findByName(req, res) {
   let name = req.body.userName;
@@ -34,8 +25,10 @@ function findByName(req, res) {
     if (!user || !user.comparePassword(pass)) {
       return res
         .status(401)
-        .then((er) => console.log("Authentication failed. Invalid name or password."));
-        // .json({ message: "Authentication failed. Invalid name or password." });
+        .then((er) =>
+          console.log("Authentication failed. Invalid name or password.")
+        );
+      // .json({ message: "Authentication failed. Invalid name or password." });
     }
     return res.status(201).json({
       token: jwt.sign(
