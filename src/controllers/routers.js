@@ -1,7 +1,7 @@
 const express = require("express");
 const { validationResult } = require("express-validator/check");
 const router = express.Router();
-const { findByName, addUser } = require("../services/userAuthorization");
+const { findByEmail, addUser } = require("../services/userAuthorization");
 const mainPage = process.cwd() + "/frontend/index.html";
 const { signUpCheck, loginCheck } = require("../services/validation");
 
@@ -17,8 +17,8 @@ router.post("/login", loginCheck(), (req, res) => {
   let errors = validationResult(req);
   if (errors.isEmpty()) {
     try {
-      findByName(req, res);
-      res.redirect("/");
+      findByEmail(req, res);
+      // res.redirect("/");
     } catch (er) {
       console.log(er);
     }

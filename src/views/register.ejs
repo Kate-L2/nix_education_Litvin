@@ -5,45 +5,46 @@
   </head>
   <body>
     <div class="register-form">
-      <form action="/register" method="post">
-        <dir class="register-form__cross"></dir>
-        <h1 class="register-form__title">Registration</h1>
-        <ul class="register-form__filds">
-          <li class="register-form__item">
-            <label for="userName">User name</label>
-            <input
-              id="userName"
-              name="userName"
-              class="register-form__name"
-              type="text"
-            />
-          </li>
-          <li class="register-form__item">
-            <label for="userEmail">Email</label>
-            <input
-              id="userEmail"
-              name="userEmail"
-              class="register-form__email"
-              type="email"
-            />
-          </li>
-          <li class="register-form__item">
-            <label for="userPass">Password</label>
-            <input
-              id="userPass"
-              name="userPass"
-              class="register-form__pass"
-              type="password"
-            />
-          </li>
-          <li class="register-form__item">
-            <button class="register-form__btn" type="submit">Register</button>
-          </li>
-          <li class="register-form__item">
-            <a href="./login" class="register-form__btn-reg"> Login </a>
-          </li>
-        </ul>
-      </form>
+      <div class="register-form__wrapper">
+        <h1 class="register-form__title title">Registration</h1>
+        <form class="login-form__inside-box" action="/register" method="post">
+          <ul class="register-form__filds">
+            <li class="register-form__item">
+              <label for="userName">User name</label>
+              <input
+                id="userName"
+                name="userName"
+                class="register-form__name"
+                type="text"
+              />
+            </li>
+            <li class="register-form__item">
+              <label for="userEmail">Email</label>
+              <input
+                id="userEmail"
+                name="userEmail"
+                class="register-form__email"
+                type="email"
+              />
+            </li>
+            <li class="register-form__item">
+              <label for="userPass">Password</label>
+              <input
+                id="userPass"
+                name="userPass"
+                class="register-form__pass"
+                type="password"
+              />
+            </li>
+            <li class="register-form__item">
+              <button class="register-form__btn btn" type="submit">Register</button>
+            </li>
+            <li class="register-form__item">
+              <a href="./login" class="register-form__btn-log"> Login </a>
+            </li>
+          </ul>
+        </form>
+      </div>
     </div>
   </body>
 </html>

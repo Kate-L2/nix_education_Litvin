@@ -12,41 +12,46 @@ function addUser(req, res) {
     email: email,
     password: password,
   });
-  newUser.save().then(() => console.log("New user created"));
+  newUser
+    .save(function (err, user) {
+      if (err) {
+        return res.status(400).send({
+          message: err,
+        });
+      } else {
+        user.hash_password = undefined;
+        return res.json(user);
+      }
+    })
+    .then(() => console.log("New user created"));
   // res.status(201).send(newUser);
 }
 
-function findByName(req, res) {
-  let name = req.body.userName;
+function findByEmail (req, res) {
+  let email = req.body.userEmail;
   let pass = req.body.userPass;
+  // console.log(email, pass);
+  User.findOne({ email: email }, function (err, user) {
+    if (err) throw err;
+    if (!user || !user.comparePassword(pass)) {
+      return res
+        .status(401)
+        .json({ message: "Authentication failed. Invalid user or password." });
+    }
+    return res.json({
+      token: jwt.sign(
+        { name: user.name, email: user.email, _id: user._id },
+        SECRET_JWT_CODE
+      ),
+    });
+  });
+};
 
-  const foundUser = User.findOne({ name: name });
-  if (
-    foundUser &&
-    bcrypt.compare(pass, foundUser.password, function (err, res) {
-      if (err) {
-        console.log("Comparison error: ", err);
-      }
-      return res.json({
-        token: jwt.sign(
-          {
-            name: foundUser.name,
-            email: foundUser.email,
-            password: foundUser.password,
-            _id: foundUser._id,
-          },
-          SECRET_JWT_CODE,
-          {
-            expiresIn: "2h",
-          }
-        ),
-      });
-    })
-  )
-    res.status(400).send("Authentication failed. Invalid name or password.");
-}
+let email = "jdlakmd@gmail.com";
+let result = User.findOne({ email: email });
+console.log(result.name);
 
 module.exports = {
   addUser,
-  findByName,
+  findByEmail,
 };

@@ -17,7 +17,8 @@ const UserSchema = new Schema(
       require: true,
     },
   },
-  { collation: "users" }
+  { collection: "users" },
+  { collation: { locale: "en_US", strength: 1 } }
 );
 
 UserSchema.pre("save", function (next) {
@@ -42,6 +43,10 @@ UserSchema.pre("save", function (next) {
     return next();
   }
 });
+
+UserSchema.methods.comparePassword = function (password) {
+  return bcrypt.compareSync(password, this.hash_password);
+};
 
 const User = mongoose.model("User", UserSchema);
 module.exports = User;

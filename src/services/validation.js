@@ -31,7 +31,7 @@ const signUpCheck = () => {
 
 const loginCheck = () => {
   return [
-    check("userName")
+    check("userEmail")
       .trim()
       .not()
       .isEmpty()
