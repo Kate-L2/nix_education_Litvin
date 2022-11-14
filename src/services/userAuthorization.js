@@ -3,6 +3,14 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const SECRET_JWT_CODE = "ndskjJJJKS8883mKJnggv";
 
+const maxAge = 1000 * 60 * 60 * 24;
+
+const createToken = (id) => {
+  return jwt.sign({ id }, SECRET_JWT_CODE, {
+    expiresIn: maxAge,
+  });
+};
+
 const registerUser = async (req, res) => {
   const { username, email, password } = req.body;
   // console.log(username);
@@ -23,12 +31,14 @@ const registerUser = async (req, res) => {
   const passwordHashed = await bcrypt.hash(password, 10);
 
   try {
-    const response = await User.create({
+    const user = await User.create({
       name: username,
       email: email,
       password: passwordHashed,
     });
-    console.log("User created successfully: ", response);
+    const token = createToken(user._id);
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    console.log("User created successfully: ", user);
   } catch (error) {
     return res.json({ status: "error" });
   }
@@ -45,13 +55,8 @@ const findByEmail = async (req, res) => {
   }
 
   if (await bcrypt.compare(password, user.password)) {
-    const token = jwt.sign(
-      {
-        id: user._id,
-        name: user.name,
-      },
-      SECRET_JWT_CODE
-    );
+    const token = createToken(user._id);
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
 
     return res.json({ status: "ok", data: token });
   }
@@ -59,7 +64,27 @@ const findByEmail = async (req, res) => {
   res.json({ status: "error", error: "Invalid email/password" });
 };
 
+const requireAuth = (req, res, next) => {
+  const token = req.cookies.jwt;
+
+  if (token) {
+    jwt.verify(token, SECRET_JWT_CODE, (err, decodedToken) => {
+      if (err) {
+        console.log(err.message);
+        res.redirect("/login");
+      } else {
+        console.log(decodedToken);
+        next();
+      }
+    });
+  } else {
+    res.redirect("/login");
+  }
+};
+
+
 module.exports = {
   registerUser,
   findByEmail,
+  requireAuth,
 };
