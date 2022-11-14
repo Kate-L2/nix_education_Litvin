@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./css/style.css" rel="stylesheet" type="text/css" />
+    <link href="./css/null.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="register-form">
+      <div class="register-form__wrapper">
+        <h1 class="register-form__title title">Registration</h1>
+        <form
+          id="reg-form"
+          class="reg-form__inside-box"
+          action="/register"
+          method="post"
+        >
+          <ul class="register-form__filds">
+            <li class="register-form__item">
+              <label for="userName">User name</label>
+              <input
+                id="userName"
+                name="userName"
+                class="register-form__name"
+                type="text"
+              />
+            </li>
+            <li class="register-form__item">
+              <label for="userEmail">Email</label>
+              <input
+                id="userEmail"
+                name="userEmail"
+                class="register-form__email"
+                type="email"
+              />
+            </li>
+            <li class="register-form__item">
+              <label for="userPass">Password</label>
+              <input
+                id="userPass"
+                name="userPass"
+                class="register-form__pass"
+                type="password"
+              />
+            </li>
+            <li class="register-form__item">
+              <button class="register-form__btn btn" type="submit">
+                Register
+              </button>
+            </li>
+            <li class="register-form__item">
+              <a href="./login" class="register-form__btn-log"> Login </a>
+            </li>
+          </ul>
+        </form>
+      </div>
+    </div>
+    <script>
+      const formRegister = document.getElementById("reg-form");
+      if (formRegister) {
+        formRegister.addEventListener("submit", registerUser);
+        console.log("success");
+      }
+      async function registerUser(event) {
+        event.preventDefault();
+        const userName = document.getElementById("userName");
+        const userEmail = document.getElementById("userEmail");
+        const userPass = document.getElementById("userPass");
+
+        const baseUrl = "http://localhost:3000/register";
+
+        const result = await fetch(baseUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: userName.value,
+            email: userEmail.value,
+            password: userPass.value,
+          }),
+        }).then((res) => res.json());
+
+        if (result.status === "ok") {
+          //   alert("Success");
+          window.location.replace("http://localhost:3000/login");
+        } else {
+          alert(result.error);
+        }
+      }
+    </script>
+    <script async src="./script/items.js"></script>
+  </body>
+</html>

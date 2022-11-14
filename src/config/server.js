@@ -3,22 +3,32 @@ const app = express();
 const router = require("../controllers/routers");
 const connectionDB = require("../repository/DBconnection");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
 const expressValidator = require("express-validator");
-const SECRET_JWT_CODE = "ndskjJJJKS8883mKJnggv";
 
 connectionDB();
 
 const port = 3000;
 
-app.set("view engine", "ejs");
-app.set("views", process.cwd() + "/src/views");
+// app.set("view engine", "ejs");
+// app.set("views", process.cwd() + "/src/views");
 
-app.use("/frontend", express.static("frontend"));
-app.use(express.urlencoded({ extended: true }));
+// app.use(passport.initialize());
+// app.use(passport.session());
+// passport.use(new LocalStrategy(User.authenticate()));
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
+
+app.use(express.static("frontend"));
+// app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(session({ secret: "krunal", saveUninitialized: false, resave: false }));
 app.use(expressValidator());
+app.use(
+  require("express-session")({
+    secret: "node js mongodb",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 // app.use(function (req, res, next) {
 //   if (

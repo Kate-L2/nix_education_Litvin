@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
 
 const Schema = mongoose.Schema;
 
@@ -20,33 +19,6 @@ const UserSchema = new Schema(
   { collection: "users" },
   { collation: { locale: "en_US", strength: 1 } }
 );
-
-UserSchema.pre("save", function (next) {
-  const user = this;
-
-  if (this.isModified("password") || this.isNew) {
-    bcrypt.genSalt(10, function (saltError, salt) {
-      if (saltError) {
-        return next(saltError);
-      } else {
-        bcrypt.hash(user.password, salt, function (hashError, hash) {
-          if (hashError) {
-            return next(hashError);
-          }
-
-          user.password = hash;
-          next();
-        });
-      }
-    });
-  } else {
-    return next();
-  }
-});
-
-UserSchema.methods.comparePassword = function (password) {
-  return bcrypt.compareSync(password, this.hash_password);
-};
 
 const User = mongoose.model("User", UserSchema);
 module.exports = User;

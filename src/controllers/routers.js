@@ -1,48 +1,26 @@
 const express = require("express");
-const { validationResult } = require("express-validator/check");
 const router = express.Router();
-const { findByEmail, addUser } = require("../services/userAuthorization");
-const mainPage = process.cwd() + "/frontend/index.html";
 const { signUpCheck, loginCheck } = require("../services/validation");
+const { isLogged } = require("../services/checkUser");
+const userAuthorization = require("../services/userAuthorization");
+
+const mainPage = process.cwd() + "/frontend/index.html";
+const login = process.cwd() + "/frontend/login.html";
+const register = process.cwd() + "/frontend/register.html";
 
 router.use(express.json());
+router.use(express.static("frontend"));
 
-router.get("/", (req, res) => {
+router.get("/home", isLogged, (req, res) => {
   res.sendFile(mainPage);
 });
 router.get("/login", (req, res) => {
-  res.render("login.ejs");
-});
-router.post("/login", loginCheck(), (req, res) => {
-  let errors = validationResult(req);
-  if (errors.isEmpty()) {
-    try {
-      findByEmail(req, res);
-      // res.redirect("/");
-    } catch (er) {
-      console.log(er);
-    }
-  } else {
-    console.log(errors.array());
-    return res.json({ errors: errors.array() });
-  }
+  res.sendFile(login);
 });
 router.get("/register", (req, res) => {
-  res.render("register.ejs");
+  res.sendFile(register);
 });
-router.post("/register", signUpCheck(), (req, res) => {
-  let errors = validationResult(req);
-  if (errors.isEmpty()) {
-    try {
-      addUser(req, res);
-      res.redirect("/login");
-    } catch (er) {
-      res.redirect("/register");
-    }
-  } else {
-    console.log(errors.array());
-    return res.json({ errors: errors.array() });
-  }
-});
+router.post("/login", userAuthorization.findByEmail);
+router.post("/register", userAuthorization.registerUser);
 
 module.exports = router;

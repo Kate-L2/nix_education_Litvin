@@ -1,6 +1,8 @@
 const copyItems = items;
 const cardsContainer = document.getElementById("cards__wrapper");
 const card = document.getElementById("itemId");
+let form = document.getElementById("form");
+
 function createCards(items) {
   cardsContainer.innerHTML = "";
   items.map((el) => {
@@ -656,3 +658,34 @@ function updateCartTotal() {
   document.getElementsByClassName("footer-cart__price")[0].innerText =
     total + "$";
 }
+
+
+
+// const formLogin = document.getElementById("login");
+// formLogin.addEventListener("submit", login);
+
+// async function login(event) {
+//   event.preventDefault();
+//   const email = document.getElementById("userEmail").value;
+//   const password = document.getElementById("userPass").value;
+
+//   const result = await fetch("/login", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       email,
+//       password,
+//     }),
+//   }).then((res) => res.json());
+
+//   if (result.status === "ok") {
+//     // everythign went fine
+//     console.log("Got the token: ", result.data);
+//     localStorage.setItem("token", result.data);
+//     alert("Success");
+//   } else {
+//     alert(result.error);
+//   }
+// }

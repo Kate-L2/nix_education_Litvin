@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./css/style.css" rel="stylesheet" type="text/css" />
+    <link href="./css/null.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="login-form">
+      <div class="login-form__wrapper">
+        <h1 class="login-form__title title">Login</h1>
+        <form
+          id="log-form"
+          class="login-form__inside-box"
+          action="/login"
+          method="post"
+        >
+          <ul class="login-form__filds">
+            <li class="login-form__item userName-item">
+              <label for="userEmail">User email</label>
+              <input
+                id="userEmail"
+                name="userEmail"
+                class="login-form__name"
+                type="text"
+              />
+            </li>
+            <li class="login-form__item userPass-item">
+              <label for="userPass">Password</label>
+              <input
+                id="userPass"
+                name="userPass"
+                class="login-form__pass"
+                type="password"
+              />
+            </li>
+            <li class="login-form__item">
+              <button class="login-form__btn btn" type="submit">Login</button>
+            </li>
+            <li class="login-form__item">
+              <a href="./register" class="login-form__btn-reg"> Sign up </a>
+            </li>
+          </ul>
+        </form>
+      </div>
+    </div>
+    <script>
+      const formLogin = document.getElementById("log-form");
+      if (formLogin) {
+        formLogin.addEventListener("submit", logUser);
+        console.log("success");
+      }
+      async function logUser(event) {
+        event.preventDefault();
+        const userEmail = document.getElementById("userEmail");
+        const userPass = document.getElementById("userPass");
+
+        const baseUrl = "http://localhost:3000/login";
+
+        const result = await fetch(baseUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: userEmail.value,
+            password: userPass.value,
+          }),
+        }).then((res) => res.json());
+
+        if (result.status === "ok") {
+            // alert("Success");
+          window.location.replace("http://localhost:3000/home");
+        } else {
+          alert(result.error);
+        }
+      }
+    </script>
+    <script async src="./script/items.js"></script>
+  </body>
+</html>
