@@ -165,11 +165,6 @@ let osItem = document.getElementById("filter-os-item");
 filterFill(osObj, osFilter, osItem, "os-checkbox");
 
 // Display
-// const sortArr = (a, b) => {
-//   const a1 = a.toString().match("/[0-9]+/");
-//   const b1 = b.toString().match("/[0-9]+/");
-//   return a1 - b1;
-// };
 const displayArray = ["2 - 5", "5 - 7", "7 - 12", "12 - 16", "16+"];
 
 let displayFilter = document.getElementById("filter-display");
@@ -178,12 +173,18 @@ let displayItem = document.getElementById("filter-display-item");
 filterFill(displayArray, displayFilter, displayItem, "display-checkbox");
 
 // Filter functionality
-// Price
+
 const sortedByPrice = copyItems.sort(function (a, b) {
   return a.price - b.price;
 });
-
 const cardItems = document.querySelectorAll(".card"); //Cards
+
+// Search bar
+const nameSearch = document.getElementById("search-bar__input");
+const nameSearchValue = nameSearch.value.toUpperCase();
+
+
+// Price
 const fromPrice = document.getElementById("price-field-start");
 const toPrice = document.getElementById("price-field-end");
 const priceInputBlock = document.getElementById("item-filter__body");
@@ -213,40 +214,7 @@ const switchPrice = () => {
     toPrice.value = fromPrice.value;
     fromPrice.value = temp;
   }
-  // itemsArray.filter((product) => {
-  //   if (+fromPrice.value <= product.price && product.price <= +toPrice.value) {
-  //     filteredPrice.push(product);
-  //     createCards(filteredPrice);
-  //   }
-  // });
-  // console.log(filteredPrice);
 };
-// For filtering
-// let checkboxValues = [];
-
-// function grabCheckboxValues(checkboxes) {
-//   let checkboxValues = [];
-//   checkboxes.forEach((checkbox) => {
-//     if (checkbox.checked) checkboxValues.push(checkbox.id);
-//   });
-//   return checkboxValues;
-// }
-
-// let checkboxColor = colorFilter.querySelectorAll("input");
-// let checkboxColorLabel = colorFilter.querySelectorAll("label");
-
-// let checkboxMemory = memoryFilter.querySelectorAll("input");
-// let checkboxMemoryLabel = memoryFilter.querySelectorAll("label");
-
-// let checkboxOs = osFilter.querySelectorAll("input");
-// let checkboxOsLabel = osFilter.querySelectorAll("label");
-
-// let checkboxDisplay = displayFilter.querySelectorAll("input");
-// let checkboxDisplayLabel = memoryFilter.querySelectorAll("label");
-
-// let allFilterInputs = filter.querySelectorAll("input");
-
-// const filters = document.querySelector("#filters");
 
 filter.addEventListener("input", filterItems);
 
@@ -300,184 +268,6 @@ function outputItems(filteredItems) {
   // cardsContainer.innerHTML = " ";
   createCards(filteredItems);
 }
-
-// Color filter
-
-// allFilterInputs.forEach((box) => {
-//   box.checked = false;
-//   box.addEventListener("change", filterColorCards);
-// });
-
-// filter.addEventListener("input", filterColorCards);
-
-// function filterColorCards() {
-//   cardsContainer.innerHTML = " ";
-//   let sortedCards = [];
-//   let itemProperties = [];
-//   checkboxValues = grabCheckboxValues(allFilterInputs);
-//   console.log(checkboxValues);
-//   copyItems.forEach((item) => {
-//     let color = item.color;
-//     let memory = item.storage;
-//     let os = item.os;
-//     let display = item.display;
-//     // console.log(color);
-//     // console.log(memory);
-//     // console.log(os);
-//     // console.log(display);
-//     let sortItems = (color, memory, os, ...target) => {
-//       if (
-//         target.some((v) => {
-//           return color.includes(v);
-//         }) ||
-//         target.some((v) => {
-//           return memory === parseInt(v);
-//         }) ||
-//         target.some((v) => {
-//           return os === v;
-//         })
-//       ) {
-//         return true;
-//       } else if (
-//         (target.some((v) => {
-//           return color.includes(v);
-//         }) &&
-//           target.some((v) => {
-//             return memory === parseInt(v);
-//           })) ||
-//         target.some((v) => {
-//           return os === v;
-//         })
-//       ) {
-//         return true;
-//       } else if (
-//         target.some((v) => {
-//           return color.includes(v);
-//         }) ||
-//         (target.some((v) => {
-//           return memory === parseInt(v);
-//         }) &&
-//           target.some((v) => {
-//             return os === v;
-//           }))
-//       ) {
-//         return true;
-//       } else if (
-//         target.some((v) => {
-//           return color.includes(v);
-//         }) &&
-//         target.some((v) => {
-//           return memory === parseInt(v);
-//         }) &&
-//         target.some((v) => {
-//           return os === v;
-//         })
-//       ) {
-//         return true;
-//       } else {
-//         return false;
-//       }
-//     };
-//     let isMatch = sortItems(color, memory, os, ...checkboxValues);
-//     if (isMatch) {
-//       sortedCards.push(item);
-//       createCards(sortedCards);
-//     }
-//   });
-//   console.log(sortedCards);
-// }
-
-// Memory filter
-
-// console.log(checkboxMemory);
-// console.log(checkboxMemoryLabel);
-
-// checkboxMemory.forEach((box) => {
-//   box.checked = false;
-//   box.addEventListener("change", () => filterMemoryCards());
-// });
-
-// function filterMemoryCards() {
-//   cardsContainer.innerHTML = "";
-//   let sortedCards = [];
-//   checkboxValues = grabCheckboxValues(checkboxMemory);
-//   copyItems.forEach((item) => {
-//     let memory = item.storage;
-//     console.log(memory);
-//     let result = (el, target) =>
-//       target.every((v) => {
-//         return el === parseInt(v);
-//       });
-//     let isMatch = result(memory, checkboxValues);
-//     if (isMatch) {
-//       sortedCards.push(item);
-//       createCards(sortedCards);
-//     }
-//   });
-//   console.log(sortedCards);
-// }
-
-// Os filter
-// checkboxOs.forEach((box) => {
-//   box.checked = false;
-//   box.addEventListener("change", () => filterOsCards());
-// });
-
-// function filterOsCards() {
-//   cardsContainer.innerHTML = "";
-//   let sortedCards = [];
-//   checkboxValues = grabCheckboxValues(checkboxOs);
-//   copyItems.forEach((item) => {
-//     let os = item.os;
-//     let result = (el, target) =>
-//       target.every((v) => {
-//         return el === v;
-//       });
-//     let isMatch = result(os, checkboxValues);
-//     if (isMatch) {
-//       sortedCards.push(item);
-//       createCards(sortedCards);
-//     }
-//   });
-//   console.log(sortedCards);
-// }
-
-// Display filter
-// console.log(checkboxDisplay);
-
-// checkboxDisplay.forEach((box) => {
-//   box.checked = false;
-//   box.addEventListener("change", () => filterDisplayCards());
-// });
-
-// function filterDisplayCards() {
-//   cardsContainer.innerHTML = "";
-//   let sortedCards = [];
-//   checkboxValues = grabCheckboxValues(checkboxDisplay);
-//   copyItems.forEach((item) => {
-//     let display = Math.round(item.display);
-//     console.log(display);
-//     let result = (el, target) =>
-//       target.every((v) => {
-//         let arr = v.split("-");
-//         let from = parseInt(arr[0]);
-//         let to = parseInt(arr[1]);
-//         console.log(from, to);
-//         if (from < el < to) {
-//           return true;
-//         } else {
-//           return false;
-//         }
-//       });
-//     let isMatch = result(display, checkboxValues);
-//     console.log(isMatch);
-//     if (isMatch) {
-//       sortedCards.push(item);
-//       createCards(sortedCards);
-//     }
-//   });
-//   console.log(sortedCards);
-// }
 
 // Modal window
 const body = document.querySelector("body");
@@ -658,8 +448,6 @@ function updateCartTotal() {
   document.getElementsByClassName("footer-cart__price")[0].innerText =
     total + "$";
 }
-
-
 
 // const formLogin = document.getElementById("login");
 // formLogin.addEventListener("submit", login);
