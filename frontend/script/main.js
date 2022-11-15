@@ -182,7 +182,13 @@ const cardItems = document.querySelectorAll(".card"); //Cards
 // Search bar
 const nameSearch = document.getElementById("search-bar__input");
 const nameSearchValue = nameSearch.value.toUpperCase();
-
+nameSearch.addEventListener("keyup", (e) => {
+  const searchString = e.target.value.toLowerCase();
+  const filteredByName = sortedByPrice.filter((item) => {
+    return item.name.toLowerCase().includes(searchString);
+  });
+  outputItems(filteredByName);
+});
 
 // Price
 const fromPrice = document.getElementById("price-field-start");
