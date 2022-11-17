@@ -13,48 +13,55 @@ const createToken = (id) => {
 
 const registerUser = async (req, res) => {
   const { username, email, password } = req.body;
-  // console.log(username);
-  if (username == "" && email == "" && password == "") {
-    return res.status(400).send({ status: "Please fill out all strings" });
-  }
-  if (!username || typeof username !== "string") {
+  const oldUser = await User.findOne({ email }).lean();
+  if (!(username && email && password)) {
+    return res.json({
+      status: "error",
+      error: "All input is required",
+    });
+  } else if (!username || typeof username !== "string") {
     return res.json({ status: "error", error: "Invalid username" });
-  }
-
-  if (password.length < 8) {
+  } else if (password.length < 8) {
     return res.json({
       status: "error",
       error: "Password too small. Should be atleast 8 characters",
     });
-  }
-
-  const passwordHashed = await bcrypt.hash(password, 10);
-
-  try {
-    const user = await User.create({
-      name: username,
-      email: email,
-      password: passwordHashed,
+  } else if (oldUser) {
+    return res.json({
+      status: "error",
+      error: "User Already Exist. Please Login",
     });
-    const token = createToken(user._id);
-    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
-    console.log("User created successfully: ", user);
-  } catch (error) {
-    return res.json({ status: "error" });
+  } else {
+    const passwordHashed = await bcrypt.hash(password, 10);
+
+    try {
+      const user = await User.create({
+        name: username,
+        email: email,
+        password: passwordHashed,
+      });
+      const token = createToken(user._id);
+      res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+      console.log("User created successfully: ", user);
+    } catch (error) {
+      return res.json({ status: "error" });
+    }
+    res.json({ status: "ok" });
   }
-  res.json({ status: "ok" });
 };
 
 const findByEmail = async (req, res) => {
   const { email, password } = req.body;
-  // console.log(email, password);
   const user = await User.findOne({ email }).lean();
-  // console.log(user.password);
-  if (!user) {
-    return res.json({ status: "error", error: "Invalid email/password" });
-  }
 
-  if (await bcrypt.compare(password, user.password)) {
+  if (!(email && password)) {
+    return res.json({
+      status: "error",
+      error: "All input is required",
+    });
+  } else if (!user) {
+    return res.json({ status: "error", error: "Invalid email/password" });
+  } else if (await bcrypt.compare(password, user.password)) {
     const token = createToken(user._id);
     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
 
@@ -81,7 +88,6 @@ const requireAuth = (req, res, next) => {
     res.redirect("/login");
   }
 };
-
 
 module.exports = {
   registerUser,

@@ -8,6 +8,7 @@ const UserSchema = new Schema(
       type: String,
       maxLength: [30, "Please enter less than 30 symbols"],
       require: true,
+      unique: true
     },
     email: { type: String, require: true },
     password: {

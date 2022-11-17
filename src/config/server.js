@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const router = require("../controllers/routers");
-const connectionDB = require("../repository/DBconnection");
+const connectionDB = require("./DBconnection");
 
 connectionDB();
 

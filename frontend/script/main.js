@@ -3,6 +3,7 @@ const cardsContainer = document.getElementById("cards__wrapper");
 const card = document.getElementById("itemId");
 let form = document.getElementById("form");
 
+
 function createCards(items) {
   cardsContainer.innerHTML = "";
   items.map((el) => {
@@ -33,6 +34,7 @@ function createCards(items) {
     });
     cardsContainer.appendChild(newElement);
   });
+  addToCartLoop();
   card.classList.add("hidden");
 }
 createCards(copyItems);
@@ -310,11 +312,6 @@ function showModal(element) {
   getWeight.textContent = element.size.weight;
   getPrice.textContent = element.price;
   getStock.textContent = element.orderInfo.inStock;
-  // if (element.orderInfo.inStock === 0) {
-  //   getBtn.setAttribute("disabled", "disabled");
-  // } else {
-  //   getBtn.removeAttribute("disabled");
-  // }
 }
 
 modal.addEventListener("click", (event) => {
@@ -329,7 +326,7 @@ modal.addEventListener("click", (event) => {
 
 let cartCounter = document.querySelector("#cart-counter");
 let insideCartCounter = document.querySelector("#footer-cart__amount");
-// let productAmountInput = document.querySelector("#product-amount-input");
+
 cartCounter.innerHTML = "0";
 
 let cart = document.getElementById("cart");
@@ -359,17 +356,19 @@ for (let i = 0; i < quantytiInputs.length; i++) {
   input.addEventListener("change", quantityChanged);
 }
 
-const addItemBtn = document.getElementsByClassName("item__btn");
-for (let i = 0; i < addItemBtn.length; i++) {
-  let button = addItemBtn[i];
-  button.addEventListener("click", (event) => {
-    addToCartClicked(event);
-    event.stopPropagation();
-  });
+function addToCartLoop() {
+  const addItemBtn = document.getElementsByClassName("item__btn");
+  for (let i = 0; i < addItemBtn.length; i++) {
+    let button = addItemBtn[i];
+    button.addEventListener("click", (event) => {
+      addToCartClicked(event);
+      event.stopPropagation();
+    });
+  }
+  document
+    .getElementsByClassName("footer-cart__btn")[0]
+    .addEventListener("click", purchaseClicked);
 }
-document
-  .getElementsByClassName("footer-cart__btn")[0]
-  .addEventListener("click", purchaseClicked);
 
 function purchaseClicked() {
   alert("Thank you for your purchase");
@@ -454,32 +453,3 @@ function updateCartTotal() {
   document.getElementsByClassName("footer-cart__price")[0].innerText =
     total + "$";
 }
-
-// const formLogin = document.getElementById("login");
-// formLogin.addEventListener("submit", login);
-
-// async function login(event) {
-//   event.preventDefault();
-//   const email = document.getElementById("userEmail").value;
-//   const password = document.getElementById("userPass").value;
-
-//   const result = await fetch("/login", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({
-//       email,
-//       password,
-//     }),
-//   }).then((res) => res.json());
-
-//   if (result.status === "ok") {
-//     // everythign went fine
-//     console.log("Got the token: ", result.data);
-//     localStorage.setItem("token", result.data);
-//     alert("Success");
-//   } else {
-//     alert(result.error);
-//   }
-// }
