@@ -822,6 +822,7 @@ form:focus-within {
   height: 45px;
   border: 1px solid var(--black);
   border-radius: 10px;
+  padding: 10px;
 }
 .login-form__item {
   display: flex;
@@ -884,6 +885,7 @@ form:focus-within {
   height: 45px;
   border: 1px solid var(--black);
   border-radius: 10px;
+  padding: 10px;
 }
 .register-form__item > label {
   font-size: 0.85714285714rem;
@@ -903,4 +905,10 @@ form:focus-within {
   margin-bottom: 15px;
 }
 .register-form__btn-log {
+}
+#log-form {
+  border: none;
+}
+#reg-form {
+  border: none;
 }
