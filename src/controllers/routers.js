@@ -30,6 +30,8 @@ router.get("/login", (req, res) => {
 router.get("/register", (req, res) => {
   res.sendFile(register);
 });
+router.get("/products", userAuthorization.getProducts);
+
 router.post("/login", userAuthorization.findByEmail);
 router.post("/register", userAuthorization.registerUser);
 router.post("/add", async (req, res) => {
@@ -37,7 +39,7 @@ router.post("/add", async (req, res) => {
   csvtojson()
     .fromFile(itemFilePath)
     .then((csvData) => {
-      console.log(csvData);
+      // console.log(csvData);
       Product.insertMany(csvData)
         .then(function () {
           console.log("data inserted");

@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const Product = require("../models/product");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const SECRET_JWT_CODE = "ndskjJJJKS8883mKJnggv";
@@ -88,9 +89,20 @@ const requireAuth = (req, res, next) => {
     res.redirect("/login");
   }
 };
+const getProducts = (req, res) => {
+  Product.find({})
+    .lean()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
 
 module.exports = {
   registerUser,
   findByEmail,
   requireAuth,
+  getProducts,
 };
