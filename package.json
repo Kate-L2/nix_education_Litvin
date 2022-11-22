@@ -4,6 +4,21 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/config/server.js",
+    "start1": "nodemon ./src/config/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kate-L2/nix_education_Litvin.git"
+  },
+  "author": "Litvin Kateryna",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kate-L2/nix_education_Litvin/issues"
+  },
+  "homepage": "https://github.com/Kate-L2/nix_education_Litvin#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
@@ -28,19 +43,5 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon ./src/config/server.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Kate-L2/nix_education_Litvin.git"
-  },
-  "author": "Litvin Kateryna",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Kate-L2/nix_education_Litvin/issues"
-  },
-  "homepage": "https://github.com/Kate-L2/nix_education_Litvin#readme"
+  }
 }
