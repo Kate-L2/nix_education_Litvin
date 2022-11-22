@@ -5,7 +5,7 @@ const connectionDB = require("./DBconnection");
 
 connectionDB();
 
-const port = 3000;
+var port = process.env.PORT || 8080;
 
 app.use("/", router);
 
