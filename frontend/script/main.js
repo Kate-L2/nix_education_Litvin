@@ -3,6 +3,29 @@ const cardsContainer = document.getElementById("cards__wrapper");
 const card = document.getElementById("itemId");
 let form = document.getElementById("form");
 
+const baseUrl = "http://localhost:3000/products";
+
+let productsFromDB = [];
+
+async function fetchDemo() {
+  return fetch(baseUrl)
+    .then((res) => {
+      return res.json();
+    })
+    .then((json) => {
+      return json;
+    });
+}
+fetchDemo().then((result) => {
+  console.log(result);
+  result.forEach((product) => {
+    productsFromDB.push(product);
+  });
+  createCards(productsFromDB);
+});
+
+console.log(productsFromDB);
+// let copyItems = productsFromDB;
 
 function createCards(items) {
   cardsContainer.innerHTML = "";
@@ -37,7 +60,6 @@ function createCards(items) {
   addToCartLoop();
   card.classList.add("hidden");
 }
-createCards(copyItems);
 
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -80,9 +102,7 @@ function filterFill(arrayOrObj, container, item, nameOfClass) {
       let element = document.createElement("div");
       element.innerHTML = item.innerHTML;
       element.className = "item-filter__checkbox-item";
-      console.log(element);
       let checkbox = element.getElementsByClassName(nameOfClass)[0];
-      console.log(checkbox);
       let name = element.getElementsByClassName("item-filter__check-name");
       //Assign an id(key value)
       if (checkbox.classList.contains("color-checkbox")) {
@@ -122,7 +142,6 @@ copyItems.map((el) => {
     }
   }
 });
-console.log(colorObj);
 
 let colorFilter = document.getElementById("filter-color");
 let colorItem = document.getElementById("filter-color-item");

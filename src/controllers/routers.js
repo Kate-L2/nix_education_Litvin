@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { signUpCheck, loginCheck } = require("../services/validation");
 const userAuthorization = require("../services/userAuthorization");
 const cookieParser = require("cookie-parser");
 const expressValidator = require("express-validator");
 const csvtojson = require("csvtojson");
-const Product = require("../models/product");
+const cors = require("cors");
 
 const mainPage = process.cwd() + "/frontend/index.html";
 const login = process.cwd() + "/frontend/login.html";
@@ -20,8 +19,11 @@ router.use("/fonts", express.static(process.cwd() + "/frontend/fonts"));
 
 router.use(cookieParser());
 router.use(expressValidator());
+router.use(cors());
 
-router.get("/home", userAuthorization.requireAuth, (req, res) => {
+router.get("/home", (req, res) => {
+  userAuthorization.getProducts;
+  userAuthorization.requireAuth
   res.sendFile(mainPage);
 });
 router.get("/login", (req, res) => {
@@ -34,21 +36,10 @@ router.get("/products", userAuthorization.getProducts);
 
 router.post("/login", userAuthorization.findByEmail);
 router.post("/register", userAuthorization.registerUser);
-router.post("/add", async (req, res) => {
-  console.log("test");
-  csvtojson()
-    .fromFile(itemFilePath)
-    .then((csvData) => {
-      // console.log(csvData);
-      Product.insertMany(csvData)
-        .then(function () {
-          console.log("data inserted");
-          res.json({ success: "success" });
-        })
-        .catch(function (err) {
-          console.log(err);
-        });
-    });
-});
+router.post("/add", userAuthorization.sendProductsToDB);
+// csvtojson()
+//   .fromFile(itemFilePath)
+//   .then((csvData) => {
+//     console.log(csvData);
 
 module.exports = router;

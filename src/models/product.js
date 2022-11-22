@@ -8,19 +8,31 @@ const ProductSchema = new Schema(
     imgUrl: { type: String, required: true },
     name: { type: String, required: true },
     display: { type: Number, multipleOf: 0.01 },
-    color: [String],
+    color: [
+      {
+        type: String,
+      },
+    ],
     price: { type: Number },
     chip: { type: Object },
     ram: { type: Number },
     storage: { type: Number },
     touchId: { type: Boolean },
     faceId: { type: Boolean },
-    wireless: [String],
+    wireless: [
+      {
+        type: String,
+      },
+    ],
     camera: { type: Object },
     audio: { type: Object },
     size: { type: Object },
     os: { type: String },
-    InTheBox: [String],
+    InTheBox: [
+      {
+        type: String,
+      },
+    ],
     orderInfo: { type: Object },
   },
   { collection: "products" }

@@ -3,6 +3,7 @@ const Product = require("../models/product");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const SECRET_JWT_CODE = "ndskjJJJKS8883mKJnggv";
+const products = require("../config/products");
 
 const maxAge = 1000 * 60 * 60 * 24;
 
@@ -89,6 +90,16 @@ const requireAuth = (req, res, next) => {
     res.redirect("/login");
   }
 };
+const sendProductsToDB = (req, res) => {
+  Product.insertMany(products)
+    .then(function () {
+      console.log("data inserted");
+      res.json({ success: "success" });
+    })
+    .catch(function (err) {
+      console.log(err);
+    });
+};
 const getProducts = (req, res) => {
   Product.find({})
     .lean()
@@ -105,4 +116,5 @@ module.exports = {
   findByEmail,
   requireAuth,
   getProducts,
+  sendProductsToDB,
 };
