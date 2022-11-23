@@ -5,26 +5,26 @@ let form = document.getElementById("form");
 
 const baseUrl = "https://mac-outlet-store.herokuapp.com/products";
 
-// let productsFromDB = [];
+let productsFromDB = [];
 
-// async function fetchDemo() {
-//   return fetch(baseUrl)
-//     .then((res) => {
-//       return res.json();
-//     })
-//     .then((json) => {
-//       return json;
-//     });
-// }
-// fetchDemo().then((result) => {
-//   console.log(result);
-//   result.forEach((product) => {
-//     productsFromDB.push(product);
-//   });
-//   createCards(productsFromDB);
-// });
+async function fetchDemo() {
+  return fetch(baseUrl)
+    .then((res) => {
+      return res.json();
+    })
+    .then((json) => {
+      return json;
+    });
+}
+fetchDemo().then((result) => {
+  console.log(result);
+  result.forEach((product) => {
+    productsFromDB.push(product);
+  });
+  createCards(productsFromDB);
+});
 
-// console.log(productsFromDB);
+console.log(productsFromDB);
 // let copyItems = productsFromDB;
 
 function createCards(items) {
@@ -60,7 +60,7 @@ function createCards(items) {
   addToCartLoop();
   card.classList.add("hidden");
 }
-createCards(copyItems);
+// createCards(copyItems);
 
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;

@@ -43,7 +43,7 @@ const registerUser = async (req, res) => {
         password: passwordHashed,
       });
       const token = createToken(user._id);
-      res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+      res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge });
       console.log("User created successfully: ", user);
     } catch (error) {
       return res.json({ status: "error" });
@@ -65,7 +65,7 @@ const findByEmail = async (req, res) => {
     return res.json({ status: "error", error: "Invalid email/password" });
   } else if (await bcrypt.compare(password, user.password)) {
     const token = createToken(user._id);
-    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge });
 
     return res.json({ status: "ok", data: token });
   }
