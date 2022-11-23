@@ -3,7 +3,7 @@ const cardsContainer = document.getElementById("cards__wrapper");
 const card = document.getElementById("itemId");
 let form = document.getElementById("form");
 
-const baseUrl = "http://localhost:3000/products";
+const baseUrl = "https://mac-outlet-store.herokuapp.com/products";
 
 let productsFromDB = [];
 
