@@ -57,7 +57,7 @@
         const userEmail = document.getElementById("userEmail");
         const userPass = document.getElementById("userPass");
 
-        const baseUrl = "http://localhost:3000/login";
+        const baseUrl = "https://mac-outlet-store.herokuapp.com/login";
 
         const result = await fetch(baseUrl, {
           method: "POST",
@@ -72,7 +72,9 @@
 
         if (result.status === "ok") {
           alert("Success");
-          window.location.replace("https://mac-outlet-store.herokuapp.com/home");
+          window.location.replace(
+            "https://mac-outlet-store.herokuapp.com/home"
+          );
         } else {
           alert(result.error);
         }
