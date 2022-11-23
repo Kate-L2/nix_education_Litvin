@@ -437,7 +437,7 @@ function addToCartClicked(event) {
 }
 function addToCartFromModal(event) {
   let btn = event.target;
-  let shopItem = btn.parentElement.parentElement.parentElement.parentElement;
+  let shopItem = btn.parentElement.parentElement.parentElement;
   const getImg = shopItem.getElementsByClassName("item-img")[0].src;
   const getName = shopItem.getElementsByClassName("item__name")[0].innerText;
   const getPrice = shopItem.getElementsByClassName("item-price")[0].innerText;
