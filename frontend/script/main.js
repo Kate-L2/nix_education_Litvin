@@ -332,6 +332,7 @@ function showModal(element) {
   getWeight.textContent = element.size.weight;
   getPrice.textContent = element.price;
   getStock.textContent = element.orderInfo.inStock;
+  addToCartLoopForModal();
 }
 
 modal.addEventListener("click", (event) => {
@@ -385,11 +386,22 @@ function addToCartLoop() {
       event.stopPropagation();
     });
   }
-  document
-    .getElementsByClassName("footer-cart__btn")[0]
-    .addEventListener("click", purchaseClicked);
+}
+function addToCartLoopForModal() {
+  const addItemBtn = document.getElementsByClassName("item__btn");
+  for (let i = 0; i < addItemBtn.length; i++) {
+    let button = addItemBtn[i];
+    button.addEventListener("click", (event) => {
+      addToCartFromModal(event);
+      event.stopPropagation();
+    });
+  }
 }
 
+document
+  .getElementsByClassName("footer-cart__btn")[0]
+  .addEventListener("click", purchaseClicked);
+  
 function purchaseClicked() {
   alert("Thank you for your purchase");
   while (cartItemsContainer.hasChildNodes()) {
@@ -416,6 +428,16 @@ function quantityChanged(event) {
 function addToCartClicked(event) {
   let btn = event.target;
   let shopItem = btn.parentElement.parentElement;
+  const getImg = shopItem.getElementsByClassName("item-img")[0].src;
+  const getName = shopItem.getElementsByClassName("item__name")[0].innerText;
+  const getPrice = shopItem.getElementsByClassName("item-price")[0].innerText;
+  console.log(getImg, getName, getPrice);
+  addItemToCart(getImg, getName, getPrice);
+  updateCartTotal();
+}
+function addToCartFromModal(event) {
+  let btn = event.target;
+  let shopItem = btn.parentElement.parentElement.parentElement.parentElement;
   const getImg = shopItem.getElementsByClassName("item-img")[0].src;
   const getName = shopItem.getElementsByClassName("item__name")[0].innerText;
   const getPrice = shopItem.getElementsByClassName("item-price")[0].innerText;
