@@ -21,9 +21,8 @@ router.use(cookieParser());
 router.use(expressValidator());
 router.use(cors());
 
-router.get("/home", (req, res) => {
-  userAuthorization.getProducts;
-  userAuthorization.requireAuth
+router.get("/home", userAuthorization.requireAuth, (req, res) => {
+  // userAuthorization.getProducts;
   res.sendFile(mainPage);
 });
 router.get("/login", (req, res) => {
@@ -37,9 +36,5 @@ router.get("/products", userAuthorization.getProducts);
 router.post("/login", userAuthorization.findByEmail);
 router.post("/register", userAuthorization.registerUser);
 router.post("/add", userAuthorization.sendProductsToDB);
-// csvtojson()
-//   .fromFile(itemFilePath)
-//   .then((csvData) => {
-//     console.log(csvData);
 
 module.exports = router;

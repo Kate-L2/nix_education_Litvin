@@ -75,19 +75,19 @@ const findByEmail = async (req, res) => {
 
 const requireAuth = (req, res, next) => {
   const token = req.cookies.jwt;
-
+  console.log("test");
   if (token) {
     jwt.verify(token, SECRET_JWT_CODE, (err, decodedToken) => {
       if (err) {
         console.log(err.message);
-        res.redirect("/login");
+        res.redirect("https://mac-outlet-store.herokuapp.com/login");
       } else {
         console.log(decodedToken);
         next();
       }
     });
   } else {
-    res.redirect("/login");
+    res.redirect("https://mac-outlet-store.herokuapp.com/login");
   }
 };
 const sendProductsToDB = (req, res) => {
